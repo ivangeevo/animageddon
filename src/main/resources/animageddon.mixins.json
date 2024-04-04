@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.animageddon.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "AnimalEntityMixin",
+    "CowEntityMixin",
+    "EntityMixin",
+    "ItemMixin",
+    "PigEntityMixin",
+    "SheepEntityMixin",
+    "SpiderEntityMixin",
+    "SquidEntityMixin",
+    "ZombieAttackGoalMixin",
+    "ZombieEntityMixin"
+  ],
+  "client": [
+    "CowEntityModelMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
