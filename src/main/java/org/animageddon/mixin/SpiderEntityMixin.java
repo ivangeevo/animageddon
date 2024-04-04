@@ -53,17 +53,17 @@ public abstract class SpiderEntityMixin extends HostileEntity implements SpiderE
     }
 
     @Inject(method = "initGoals", at = @At("HEAD"), cancellable = true)
-    private void injectedInitGoals(CallbackInfo ci) {
+    private void injectedInitGoals(CallbackInfo ci)
+    {
+        // Main goals
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(3, new PounceAtTargetGoal(this, 0.4f));
-
         this.goalSelector.add(4, new AttackGoal((SpiderEntity)(Object)this));
         this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8));
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
         this.goalSelector.add(6, new LookAroundGoal(this));
 
-        //this.goalSelector.add(8, new ShootCobwebGoal((SpiderEntity) (Object) this)); // Added ShootCobwebGoal with priority 8
-
+        // Target goals
         this.targetSelector.add(1, new RevengeGoal(this));
         this.targetSelector.add(2, new SpiderEntity.TargetGoal<PlayerEntity>((SpiderEntity)(Object)this, PlayerEntity.class));
         this.targetSelector.add(3, new SpiderEntity.TargetGoal<IronGolemEntity>((SpiderEntity)(Object)this, IronGolemEntity.class));

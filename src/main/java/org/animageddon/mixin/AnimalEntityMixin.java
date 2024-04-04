@@ -183,9 +183,7 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
 
     public void setWearingBreedingHarness( boolean bWearingHarness )
     {
-        if ( bWearingHarness ) {
-            dataTracker.set(WEARING_BREEDING_HARNESS, true);
-        }
+        if ( bWearingHarness ) { dataTracker.set(WEARING_BREEDING_HARNESS, true); }
     }
 
 
