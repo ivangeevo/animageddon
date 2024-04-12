@@ -17,6 +17,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import org.animageddon.entity.ai.goal.CustomWanderAroundGoal;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -51,6 +52,8 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
     private void injectedInitGoals(CallbackInfo ci) {
         this.goalSelector.add(0, new SwimGoal(this));
         this.goalSelector.add(1, new EscapeDangerGoal(this, 2.0));
+        //Added goal (CustomWangerGoal) to run additionally and faster when stratled.
+        this.goalSelector.add(2, new CustomWanderAroundGoal(this, 1.4));
         this.goalSelector.add(2, new AnimalMateGoal(this, 1.0));
         this.goalSelector.add(3, new TemptGoal(this, 1.0, Ingredient.fromTag(ModTags.Items.CHICKEN_TEMPT_ITEMS), false));
         this.goalSelector.add(4, new FollowParentGoal(this, 1.1));

@@ -6,7 +6,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageSources;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,6 +26,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import org.animageddon.entity.ai.goal.CustomWanderAroundGoal;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,7 +39,6 @@ import org.animageddon.networking.packet.EntityEventPacketHandler;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
 @Mixin(CowEntity.class)
@@ -70,16 +69,20 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
     public void setKickAttackLegUsed(int value) {kickAttackLegUsed = value;}
 
     @Inject(method = "initGoals", at = @At("HEAD"), cancellable = true)
-    private void injectedInitGoals(CallbackInfo ci) {
+    private void injectedInitGoals(CallbackInfo ci)
+    {
 
         this.goalSelector.add(0, new SwimGoal(this));
         this.goalSelector.add(1, new EscapeDangerGoal(this, 2.0));
+        //Added goal (CustomWangerGoal) to run additionally and faster when stratled.
+        this.goalSelector.add(2, new CustomWanderAroundGoal(this, 1.4));
         this.goalSelector.add(2, new AnimalMateGoal(this, 1.0));
         this.goalSelector.add(3, new TemptGoal(this, 1.25, Ingredient.ofItems(Items.WHEAT, Items.GRASS), false));
         this.goalSelector.add(4, new FollowParentGoal(this, 1.25));
         this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0));
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.add(7, new LookAroundGoal(this));
+
         ci.cancel();
 
     }
@@ -182,7 +185,7 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
                 kickAttackInProgressCounter = -1;
             }
         }
-        else if ( !getWorld().isClient ) // attacks are only launched on the server
+        else if ( !this.getWorld().isClient ) // attacks are only launched on the server
         {
             kickAttackCooldownTimer--;
 
@@ -211,15 +214,11 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
 
                     Vec3d lineOfSightOrigin = new Vec3d( getX(), getY() + ( getHeight() / 2F ), getZ() );
 
-                    Iterator collisionIterator = potentialCollisionList.iterator();
+                    for (Entity entity : potentialCollisionList) {
+                        LivingEntity tempEntity = (LivingEntity) entity;
 
-                    while ( collisionIterator.hasNext() )
-                    {
-                        LivingEntity tempEntity = (LivingEntity)collisionIterator.next();
-
-                        if (!( tempEntity instanceof CowEntity) && tempEntity.isAlive() && tempEntity.getVehicle() != this &&
-                                canEntityBeSeenForAttackToCenterOfMass(tempEntity, lineOfSightOrigin) )
-                        {
+                        if (!(tempEntity instanceof CowEntity) && tempEntity.isAlive() && tempEntity.getVehicle() != this &&
+                                canEntityBeSeenForAttackToCenterOfMass(tempEntity, lineOfSightOrigin)) {
                             bAttackLaunched = true;
 
                             kickAttackHitTarget(tempEntity);

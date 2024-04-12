@@ -4,8 +4,8 @@ import net.minecraft.entity.ai.goal.WanderAroundGoal;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.util.math.Vec3d;
 
-public class CustomWanderGoal extends WanderAroundGoal {
-    public CustomWanderGoal(PathAwareEntity mob, double speed) {
+public class CustomWanderAroundGoal extends WanderAroundGoal {
+    public CustomWanderAroundGoal(PathAwareEntity mob, double speed) {
         super(mob, speed);
     }
 

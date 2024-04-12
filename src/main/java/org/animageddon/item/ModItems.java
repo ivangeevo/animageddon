@@ -13,6 +13,7 @@ import org.animageddon.AnimageddonMod;
 
 public class ModItems
 {
+    public static final Item GROUP_ANIMAGEDDON = registerItem( "group_animaggedon", new Item(new FabricItemSettings()));
 
     public static final Item CHICKEN_FEED = registerItem("chicken_feed", new Item(new FabricItemSettings().food(FoodComponents.ROTTEN_FLESH)));
 
@@ -24,9 +25,17 @@ public class ModItems
                     new FoodComponent.Builder().hunger(1).saturationModifier(0.0035f)
                             .build())));
 
+    public static final Item DUNG = registerItem( "dung", new Item(new FabricItemSettings()));
+    public static final Item DUNG_GOLDEN = registerItem( "dung_golden", new Item(new FabricItemSettings()));
+
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, new Identifier(AnimageddonMod.MOD_ID, name), item);
+    }
+
+    public static void registerModItems() {
+        AnimageddonMod.LOGGER.info("Registering Mod Items for " + AnimageddonMod.MOD_ID);
+
     }
 
 }

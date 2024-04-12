@@ -1,6 +1,7 @@
 package org.animageddon;
 
 import net.fabricmc.api.ModInitializer;
+import org.animageddon.item.ModItems;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +15,11 @@ public class AnimageddonMod implements ModInitializer
 
 
     @Override
-    public void onInitialize() {
+    public void onInitialize()
+    {
+        AnimaggedonModItemGroup.registerItemGroups();
+        //ModBlock.registerModBlocks();
+        ModItems.registerModItems();
 
     }
 }
