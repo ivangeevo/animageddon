@@ -12,6 +12,7 @@
     "SheepEntityMixin",
     "SpiderEntityMixin",
     "SquidEntityMixin",
+    "WolfEntityMixin",
     "ZombieAttackGoalMixin",
     "ZombieEntityMixin"
   ],
