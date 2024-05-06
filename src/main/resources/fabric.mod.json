@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "animageddon",
   "version": "${version}",
-  "name": "animageddon",
+  "name": "Animageddon",
   "description": "",
   "authors": [],
   "contact": {
@@ -13,13 +13,13 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "org.animageddon.client.AnimageddonModClient"
+      "org.ivangeevo.animageddon.client.AnimageddonModClient"
     ],
     "main": [
-      "org.animageddon.AnimageddonMod"
+      "org.ivangeevo.animageddon.AnimageddonMod"
     ],
     "fabric-datagen": [
-      "org.animageddon.AnimageddonDataGenerator"
+      "org.ivangeevo.animageddon.AnimageddonDataGenerator"
     ]
   },
   "mixins": [
@@ -33,17 +33,16 @@
 
   "accessWidener" : "animageddon.accesswidener",
 
-
   "custom":
   {
     "loom:injected_interfaces":
     {
-      "net/minecraft/class_1792": ["org/animageddon/item/interfaces/ItemAdded"],
+      "net/minecraft/class_1792": ["org/ivangeevo/animageddon/item/interfaces/ItemAdded"],
 
-      "net/minecraft/class_1297": ["org/animageddon/entity/interfaces/EntityAdded"],
-      "net/minecraft/class_1477": ["org/animageddon/entity/interfaces/SquidEntityAdded"],
-      "net/minecraft/class_1429": ["org/animageddon/entity/interfaces/AnimalEntityAdded"],
-      "net/minecraft/class_1430": ["org/animageddon/entity/interfaces/CowEntityAdded"]
+      "net/minecraft/class_1297": ["org/ivangeevo/animageddon/entity/interfaces/EntityAdded"],
+      "net/minecraft/class_1477": ["org/ivangeevo/animageddon/entity/interfaces/SquidEntityAdded"],
+      "net/minecraft/class_1429": ["org/ivangeevo/animageddon/entity/interfaces/AnimalEntityAdded"],
+      "net/minecraft/class_1430": ["org/ivangeevo/animageddon/entity/interfaces/CowEntityAdded"]
 
     }
   }
