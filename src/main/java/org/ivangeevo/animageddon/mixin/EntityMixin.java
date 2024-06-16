@@ -14,24 +14,13 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(Entity.class)
 public abstract class EntityMixin implements EntityAdded
 {
-
     @Shadow public abstract @Nullable Entity getVehicle();
-
     @Shadow public abstract boolean startRiding(Entity entity);
-
     @Shadow private Vec3d velocity;
-
     @Shadow public abstract double getX();
-
     @Shadow public abstract double getZ();
-
-    @Shadow
-    private boolean onGround;
-
+    @Shadow private boolean onGround;
     @Shadow @Final protected Random random;
-
-    @Shadow public abstract Vec3d getVelocity();
-
     @Shadow public abstract void setVelocity(Vec3d velocity);
 
     @Override
@@ -43,7 +32,6 @@ public abstract class EntityMixin implements EntityAdded
     {
         return 1D;
     }
-
 
     public void flingAwayFromEntity(Entity repulsingEntity, double dForceMultiplier) {
         if (getVehicle() != null) {

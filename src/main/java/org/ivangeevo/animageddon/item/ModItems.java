@@ -17,13 +17,6 @@ public class ModItems
 
     public static final Item CHICKEN_FEED = registerItem("chicken_feed", new Item(new FabricItemSettings().food(FoodComponents.ROTTEN_FLESH)));
 
-    public static final Item EGG_RAW = registerItem("egg_raw", new Item (new FabricItemSettings().food(
-                    new FoodComponent.Builder().hunger(1).meat().saturationModifier(0.002f)
-                            .statusEffect( new StatusEffectInstance(StatusEffects.HUNGER, 850,2), 0.35f)
-                            .build())));
-    public static final Item EGG_FRIED = registerItem("egg_fried", new Item(new  FabricItemSettings().food(
-                    new FoodComponent.Builder().hunger(1).saturationModifier(0.0035f)
-                            .build())));
 
     public static final Item DUNG = registerItem( "dung", new Item(new FabricItemSettings()));
     public static final Item DUNG_GOLDEN = registerItem( "dung_golden", new Item(new FabricItemSettings()));

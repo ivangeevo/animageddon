@@ -11,6 +11,7 @@ import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
 import org.ivangeevo.animageddon.item.ModItems;
+import org.ivangeevo.animageddon.tag.BTWRConventionalTags;
 import org.ivangeevo.animageddon.tag.ModTags;
 
 import java.util.concurrent.CompletableFuture;
@@ -27,6 +28,8 @@ public class ModRecipeProvider extends FabricRecipeProvider
     @Override
     public void generate(Consumer<RecipeJsonProvider> exporter)
     {
-        ShapelessRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.CHICKEN_FEED).input(ModTags.Items.SEED_ITEMS).input(Items.BONE_MEAL).criterion("has_bone_meal", RecipeProvider.conditionsFromItem(Items.BONE_MEAL)).offerTo(exporter);
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.CHICKEN_FEED).input(ModTags.Items.SEEDS_FOR_CHICKEN).input(Items.BONE_MEAL).criterion("has_bone_meal", RecipeProvider.conditionsFromItem(Items.BONE_MEAL)).offerTo(exporter);
+
+
     }
 }

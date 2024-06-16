@@ -23,8 +23,10 @@ public abstract class EggItemMixin extends Item {
         super(settings);
     }
 
+    /**
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
-    public void use(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
+    public void use(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir)
+    {
         ItemStack itemStack = user.getStackInHand(hand);
         world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_EGG_THROW,
                 SoundCategory.PLAYERS, 0.5f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f));
@@ -35,9 +37,9 @@ public abstract class EggItemMixin extends Item {
             eggEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 1.5f, 1.0f);
 
 
-                if (world.random.nextFloat() < 0.25f) // 25% (1/4) chance
+                if ( !(world.random.nextFloat() < 0.25f) ) // 25% (1/4) chance
                 {
-                    // 1/4 chance to drop raw_egg after eggEntity lands
+                    // 1/4 chance to not drop raw_egg after eggEntity lands
                     eggEntity.dropItem(ModItems.EGG_RAW);
                 }
                 else
@@ -56,4 +58,5 @@ public abstract class EggItemMixin extends Item {
 
         cir.setReturnValue(TypedActionResult.success(itemStack, world.isClient()));
     }
+    **/
 }

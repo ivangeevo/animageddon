@@ -27,9 +27,6 @@ public class AnimaggedonModItemGroup
 
                         entries.add(ModItems.CHICKEN_FEED);
 
-                        entries.add(ModItems.EGG_RAW);
-                        entries.add(ModItems.EGG_FRIED);
-
                         /** BLOCKS **/
 
 

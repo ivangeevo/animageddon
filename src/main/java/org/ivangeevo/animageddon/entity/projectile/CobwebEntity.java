@@ -38,7 +38,8 @@ public class CobwebEntity extends ProjectileEntity implements FlyingItemEntity
             {
                 BlockPos blockPos = ((BlockHitResult) hitResult).getBlockPos().offset(((BlockHitResult) hitResult).getSide());
                 this.placeCobweb(blockPos);
-            } else if (hitResult.getType() == HitResult.Type.ENTITY)
+            }
+            else if (hitResult.getType() == HitResult.Type.ENTITY)
             {
                 Entity entity = ((EntityHitResult) hitResult).getEntity();
                 entity.damage(entity.getDamageSources().thrown(this, this.getOwner()), 0.0F);

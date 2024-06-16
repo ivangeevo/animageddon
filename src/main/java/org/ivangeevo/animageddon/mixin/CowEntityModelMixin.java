@@ -20,7 +20,7 @@ public abstract class CowEntityModelMixin<T extends Entity> extends QuadrupedEnt
         super(root, headScaled, childHeadYOffset, childHeadZOffset, invertedChildHeadScale, invertedChildBodyScale, childBodyYOffset);
     }
 
-    @Inject(method = "getTexturedModelData", at = @At("HEAD"), cancellable = true)
+    //@Inject(method = "getTexturedModelData", at = @At("HEAD"), cancellable = true)
     private static void injectedGetTexturedModelData(CallbackInfoReturnable<TexturedModelData> cir)
     {
 

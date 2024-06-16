@@ -75,8 +75,6 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
 
         this.goalSelector.add(0, new SwimGoal(this));
         this.goalSelector.add(1, new EscapeDangerGoal(this, 2.0));
-        //Added goal (CustomWangerGoal) to run additionally and faster when stratled.
-        this.goalSelector.add(2, new CustomWanderAroundGoal(this, 1.4));
         this.goalSelector.add(2, new AnimalMateGoal(this, 1.0));
         this.goalSelector.add(3, new TemptGoal(this, 1.25, Ingredient.ofItems(Items.WHEAT, Items.GRASS), false));
         this.goalSelector.add(4, new FollowParentGoal(this, 1.25));

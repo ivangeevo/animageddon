@@ -15,7 +15,7 @@ public class ModTags
 
         public static final TagKey<Item> CHICKEN_TEMPT_ITEMS = createTag("chicken_tempt_items");
         public static final TagKey<Item> PIG_BREEDING_ITEMS = createTag("pig_breeding_items");
-        public static final TagKey<Item> SEED_ITEMS = createTag("seed_items");
+        public static final TagKey<Item> SEEDS_FOR_CHICKEN = createTag("seeds_for_chicken");
 
         private static TagKey<Item> createTag (String name) {
             return TagKey.of(RegistryKeys.ITEM, new Identifier(AnimageddonMod.MOD_ID, name));

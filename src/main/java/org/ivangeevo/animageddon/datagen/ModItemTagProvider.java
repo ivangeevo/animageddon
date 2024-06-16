@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.ItemTags;
 import org.ivangeevo.animageddon.item.ModItems;
 import org.ivangeevo.animageddon.tag.BTWRConventionalTags;
 import org.ivangeevo.animageddon.tag.ModTags;
@@ -24,18 +25,17 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
     private void addToModTags()
     {
-        getOrCreateTagBuilder(ModTags.Items.SEED_ITEMS)
+        getOrCreateTagBuilder(ModTags.Items.SEEDS_FOR_CHICKEN)
                 .add(Items.WHEAT_SEEDS)
                 .add(Items.MELON_SEEDS)
                 .add(Items.PUMPKIN_SEEDS)
-                .add(Items.BEETROOT_SEEDS)
-                .add(Items.TORCHFLOWER_SEEDS);
+                .add(Items.BEETROOT_SEEDS);
 
     }
     private void addToConventionalTags()
     {
         getOrCreateTagBuilder(BTWRConventionalTags.Items.CHICKEN_TEMPT_ITEMS)
-                .add(ModItems.CHICKEN_FEED);
+                .addTag(ModTags.Items.SEEDS_FOR_CHICKEN);
 
     }
 

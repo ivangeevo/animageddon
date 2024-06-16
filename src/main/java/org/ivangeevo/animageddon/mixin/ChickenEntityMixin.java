@@ -2,8 +2,12 @@ package org.ivangeevo.animageddon.mixin;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -35,12 +39,16 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
     @Shadow public float prevMaxWingDeviation;
     @Shadow public float maxWingDeviation;
     @Shadow public float flapSpeed;
+    @Shadow public abstract boolean hasJockey();
 
     @Unique private boolean hasBeenFed = false;
     @Unique private long lastFedTime = -1;
     @Unique private static final String TIME_TO_LAY_EGG_TAG = "TimeToLayEgg";
     @Unique private long timeToLayEgg = 0;
     @Unique private long lastWorldTime = -1;
+
+    private static final TrackedData<Long> TIME_TO_LAY_EGG = DataTracker.registerData(ChickenEntity.class, TrackedDataHandlerRegistry.LONG);
+
 
     protected ChickenEntityMixin(EntityType<? extends AnimalEntity> entityType, World world)
     {
@@ -52,11 +60,8 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
     {
         this.goalSelector.add(0, new SwimGoal(this));
         this.goalSelector.add(1, new EscapeDangerGoal(this, 2.0));
-        
-        // Added: Goal (CustomWanderGoal) to run additionally and faster when startled.
-        this.goalSelector.add(2, new CustomWanderAroundGoal(this, 1.4));
         this.goalSelector.add(2, new AnimalMateGoal(this, 1.0));
-        this.goalSelector.add(3, new TemptGoal(this, 1.0, Ingredient.fromTag(BTWRConventionalTags.Items.CHICKEN_TEMPT_ITEMS), false));
+        this.goalSelector.add(3, new TemptGoal((ChickenEntity)(Object)this, 1.0, Ingredient.fromTag(BTWRConventionalTags.Items.CHICKEN_TEMPT_ITEMS), false));
         this.goalSelector.add(4, new FollowParentGoal(this, 1.1));
         this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0));
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
@@ -72,19 +77,18 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
         this.prevMaxWingDeviation = this.maxWingDeviation;
         this.maxWingDeviation += (this.isOnGround() ? -1.0f : 4.0f) * 0.3f;
         this.maxWingDeviation = MathHelper.clamp(this.maxWingDeviation, 0.0f, 1.0f);
-
-        if (!this.isOnGround() && this.flapSpeed < 1.0f)
-        {
+        if (!this.isOnGround() && this.flapSpeed < 1.0f) {
             this.flapSpeed = 1.0f;
         }
 
         this.flapSpeed *= 0.9f;
         Vec3d vec3d = this.getVelocity();
-
-        if (!this.isOnGround() && vec3d.y < 0.0)
-        {
+        if (!this.isOnGround() && vec3d.y < 0.0) {
             this.setVelocity(vec3d.multiply(1.0, 0.6, 1.0));
         }
+
+        this.flapProgress += this.flapSpeed * 2.0F;
+
 
         long worldTime = getWorld().getTimeOfDay() % 24000;
 
@@ -92,7 +96,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
         if (worldTime < lastWorldTime)
         {
 
-            if (hasBeenFed)
+            if (hasBeenFed && !this.getWorld().isClient() && this.isAlive() && !this.isBaby() && !this.hasJockey())
             {
                 // The chicken has been fed, lay an egg
                 this.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
@@ -119,10 +123,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
             if (heldItem.getItem() == ModItems.CHICKEN_FEED)
             {
 
-                if (!player.isCreative())
-                {
-                    heldItem.decrement(1);
-                }
+                this.eat(player, player.getActiveHand(), heldItem);
 
                 hasBeenFed = true;
                 player.swingHand(hand);
@@ -139,6 +140,11 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
         }
 
         return super.interactMob(player, hand);
+    }
+
+    @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return stack.isOf(ModItems.CHICKEN_FEED);
     }
 
     @Override
