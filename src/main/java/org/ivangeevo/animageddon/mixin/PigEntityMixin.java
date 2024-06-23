@@ -18,9 +18,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.ivangeevo.animageddon.tag.ModTags;
 
 @Mixin(PigEntity.class)
-public abstract class PigEntityMixin extends AnimalEntity {
-
-
+public abstract class PigEntityMixin extends AnimalEntity
+{
     protected PigEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -31,13 +30,15 @@ public abstract class PigEntityMixin extends AnimalEntity {
 
 
     @Inject(method = "initGoals", at = @At("HEAD"), cancellable = true)
-    private void injectedInitGoals(CallbackInfo ci) {
+    private void injectedInitGoals(CallbackInfo ci)
+    {
         this.goalSelector.add(0, new SwimGoal(this));
         this.goalSelector.add(1, new EscapeDangerGoal(this, 2.0));
         this.goalSelector.add(3, new AnimalMateGoal(this, 1.0));
-        this.goalSelector.add(4, new TemptGoal(this, 1.3, BREEDING_INGREDIENT, false));
+
         this.goalSelector.add(4, new TemptGoal(this, 1.1, TEMPT_ITEMS, true));
         this.goalSelector.add(4, new TemptGoal(this, 1.2, Ingredient.ofItems(Items.CARROT_ON_A_STICK), false));
+        this.goalSelector.add(4, new TemptGoal(this, 1.4, BREEDING_INGREDIENT, false));
         this.goalSelector.add(5, new FollowParentGoal(this, 1.1));
         this.goalSelector.add(6, new WanderAroundFarGoal(this, 1.0));
         this.goalSelector.add(7, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
@@ -45,9 +46,9 @@ public abstract class PigEntityMixin extends AnimalEntity {
         ci.cancel();
     }
 
-
     @Inject(method = "isBreedingItem", at = @At("HEAD"), cancellable = true)
-    private void injectedIsBreedingItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+    private void injectedIsBreedingItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir)
+    {
         cir.setReturnValue(BREEDING_INGREDIENT.test(stack));
     }
 

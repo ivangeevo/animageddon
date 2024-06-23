@@ -61,6 +61,7 @@ public class BTWRConventionalTags
         public static final TagKey<Item> SHEARS = createTag("shears");
 
         public static final TagKey<Item> CHICKEN_TEMPT_ITEMS = createTag("chicken_tempt_items");
+        public static final TagKey<Item> PIG_BREEDING_ITEMS = createTag("pig_breeding_items");
 
 
 

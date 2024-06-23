@@ -36,7 +36,6 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
     {
         getOrCreateTagBuilder(BTWRConventionalTags.Items.CHICKEN_TEMPT_ITEMS)
                 .addTag(ModTags.Items.SEEDS_FOR_CHICKEN);
-
     }
 
 }
