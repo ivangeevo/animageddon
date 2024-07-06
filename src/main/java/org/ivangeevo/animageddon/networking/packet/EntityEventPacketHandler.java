@@ -59,8 +59,7 @@ public class EntityEventPacketHandler implements CustomPacketHandler {
             int iEventType = buf.readByte();
 
             if (iEventType == SET_ATTACK_TARGET_EVENT_ID) {
-                if (entity instanceof MobEntity) {
-                    MobEntity attackingCreature = (MobEntity) entity;
+                if (entity instanceof MobEntity attackingCreature) {
 
                     int iTargetEntityID = buf.readInt();
 

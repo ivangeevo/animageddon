@@ -55,6 +55,13 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
         super(entityType, world);
     }
 
+    // Temporary logic for no use of Chicken feed
+    // just make then unbreadable and temptable with the seed items.
+    @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return false;
+    }
+
     @Inject(method = "initGoals", at = @At("HEAD"), cancellable = true)
     private void injectedInitGoals(CallbackInfo ci)
     {
@@ -71,7 +78,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
         ci.cancel();
     }
 
-    @Inject(method = "tickMovement", at = @At("HEAD"), cancellable = true)
+    //@Inject(method = "tickMovement", at = @At("HEAD"), cancellable = true)
     private void injectedTickMovement(CallbackInfo ci)
     {
         super.tickMovement();
@@ -114,7 +121,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
     }
 
 
-
+/**
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand)
     {
@@ -144,10 +151,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
         return super.interactMob(player, hand);
     }
 
-    @Override
-    public boolean isBreedingItem(ItemStack stack) {
-        return stack.isOf(ModItems.CHICKEN_FEED);
-    }
+
 
     @Override
     public NbtCompound writeNbt(NbtCompound tag)
@@ -177,4 +181,5 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
         }
 
     }
+    **/
 }

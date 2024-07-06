@@ -46,6 +46,12 @@ import java.util.List;
 public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAdded
 {
 
+    // Added variables
+    private int kickAttackInProgressCounter = 0;
+    private int kickAttackCooldownTimer = KICK_ATTACK_TICKS_TO_COOLDOWN;
+    private int milkAccumulationCount = 0;
+    private int kickAttackLegUsed = 0;
+
     @Shadow public abstract ActionResult interactMob(PlayerEntity player, Hand hand);
 
     protected CowEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
@@ -53,21 +59,10 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
     }
 
 
-    // Added variables
-
-    private int kickAttackInProgressCounter = 0;
-    private int kickAttackCooldownTimer = KICK_ATTACK_TICKS_TO_COOLDOWN;
-    private int milkAccumulationCount = 0;
-
-
-
-    public int kickAttackInProgressCounter() {return kickAttackInProgressCounter;}
-    @Override
-    public void setKickAttackInProgressCounter(int value) {kickAttackInProgressCounter = value;}
-    private int kickAttackLegUsed = 0;
-    public int kickAttackLegUsed() {return kickAttackLegUsed;}
-    @Override
-    public void setKickAttackLegUsed(int value) {kickAttackLegUsed = value;}
+    @Override public int kickAttackInProgressCounter() { return kickAttackInProgressCounter; }
+    @Override public void setKickAttackInProgressCounter(int value) { kickAttackInProgressCounter = value; }
+    @Override public int kickAttackLegUsed() { return kickAttackLegUsed; }
+    @Override public void setKickAttackLegUsed(int value) { kickAttackLegUsed = value; }
 
     @Inject(method = "initGoals", at = @At("HEAD"), cancellable = true)
     private void injectedInitGoals(CallbackInfo ci)
