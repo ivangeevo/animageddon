@@ -22,7 +22,7 @@ public class BTWRConventionalTags
         public static final TagKey<Block> FARMLAND_BLOCKS = createTag("farmland_blocks");
 
         private static TagKey<Block> createTag(String name) {
-            return TagKey.of(RegistryKeys.BLOCK, new Identifier("c", name));
+            return TagKey.of(RegistryKeys.BLOCK, Identifier.of("c", name));
         }
     }
 
@@ -72,7 +72,7 @@ public class BTWRConventionalTags
 
 
         private static TagKey<Item> createTag(String name) {
-            return TagKey.of(RegistryKeys.ITEM, new Identifier("c", name));
+            return TagKey.of(RegistryKeys.ITEM, Identifier.of("c", name));
         }
     }
 }

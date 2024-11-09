@@ -92,7 +92,7 @@ public class EntityEventPacketHandler implements CustomPacketHandler {
     public static void sendCustomPacketToClients(ServerWorld world, Entity entity, PacketByteBuf buf) {
         // Use Fabric's networking API to send the packet to all players tracking the entity
         world.getPlayers(player -> player.canSee(entity)).forEach(player -> {
-            ServerPlayNetworking.send(player, new Identifier("btwr", "entity_event"), buf);
+            //ServerPlayNetworking.send(player, Identifier.of("btwr", "entity_event"), buf);
         });
     }
 

@@ -4,6 +4,7 @@ package org.ivangeevo.animageddon.mixin;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -35,11 +36,12 @@ public abstract class FishingBobberEntityMixin extends ProjectileEntity {
 
     @Shadow private float fishAngle;
 
-    @Shadow @Final private int lureLevel;
 
     @Shadow @Final private static TrackedData<Integer> HOOK_ENTITY_ID;
 
     @Shadow public abstract void readCustomDataFromNbt(NbtCompound nbt);
+
+    @Shadow @Final private int waitTimeReductionTicks;
 
     public FishingBobberEntityMixin(EntityType<? extends ProjectileEntity> entityType, World world) {
         super(entityType, world);
@@ -170,16 +172,15 @@ public abstract class FishingBobberEntityMixin extends ProjectileEntity {
             else
             {
                 this.waitCountdown = MathHelper.nextInt(this.random, 100, 600);
-                this.waitCountdown -= this.lureLevel * 20 * 5;
+                this.waitCountdown -= this.waitTimeReductionTicks;
             }
             ci.cancel();
     }
 
-
     @Override
-    public void initDataTracker()
-    {
-        this.getDataTracker().startTracking(HOOK_ENTITY_ID, 0);
-        this.getDataTracker().startTracking(CAUGHT_FISH, false);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        builder.add(HOOK_ENTITY_ID, 0);
+        builder.add(CAUGHT_FISH, false);
     }
+
 }

@@ -55,11 +55,13 @@ public class ShootFireballGoal extends Goal
                     double f = livingEntity.getX() - (this.spider.getX() + vec3d.x * 4.0);
                     double g = livingEntity.getBodyY(0.5) - (0.5 + this.spider.getBodyY(0.5));
                     double h = livingEntity.getZ() - (this.spider.getZ() + vec3d.z * 4.0);
+                    Vec3d vec3d2 = new Vec3d(f, g, h);
+
                     if (!this.spider.isSilent()) {
-                        world.syncWorldEvent((PlayerEntity)null, 1016, this.spider.getBlockPos(), 0);
+                        world.syncWorldEvent(null, 1016, this.spider.getBlockPos(), 0);
                     }
 
-                    FireballEntity fireballEntity = new FireballEntity(world, this.spider, f, g, h, 1);
+                    FireballEntity fireballEntity = new FireballEntity(world, this.spider, vec3d2, 1);
                     fireballEntity.setPosition(this.spider.getX() + vec3d.x * 4.0, this.spider.getBodyY(0.5) + 0.5, fireballEntity.getZ() + vec3d.z * 4.0);
                     world.spawnEntity(fireballEntity);
                     this.cooldown = -40;

@@ -2,6 +2,7 @@ package org.ivangeevo.animageddon;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.MooshroomEntity;
 import net.minecraft.item.ItemStack;
@@ -43,7 +44,7 @@ public class AnimageddonMod implements ModInitializer
                     shroomCow.sheared(SoundCategory.PLAYERS);
                     shroomCow.emitGameEvent(GameEvent.SHEAR, player);
                     if (!shroomCow.getWorld().isClient) {
-                        itemStack.damage(1, player, playerx -> playerx.sendToolBreakStatus(hand));
+                        itemStack.damage(1, player, EquipmentSlot.MAINHAND);
                     }
                     return ActionResult.success(shroomCow.getWorld().isClient);
                 }

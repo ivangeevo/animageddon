@@ -14,7 +14,7 @@ public class AnimaggedonModItemGroup
 {
 
     public static final ItemGroup GROUP_ANIMAGEDDON = Registry.register(Registries.ITEM_GROUP,
-            new Identifier(AnimageddonMod.MOD_ID, "group_animageddon"),
+            Identifier.of(AnimageddonMod.MOD_ID, "group_animageddon"),
             FabricItemGroup.builder().displayName(Text.translatable("itemgroup.group_animageddon"))
                     .icon(() -> new ItemStack(ModItems.GROUP_ANIMAGEDDON))
                     .entries((displayContext, entries) ->

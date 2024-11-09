@@ -2,14 +2,10 @@ package org.ivangeevo.animageddon.entity.ai.goal;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.mob.GhastEntity;
 import net.minecraft.entity.mob.SpiderEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.ivangeevo.animageddon.entity.interfaces.SpiderEntityAdded;
-import org.ivangeevo.animageddon.entity.projectile.CobwebEntity;
 
 public class ShootCobwebGoal extends Goal
 {

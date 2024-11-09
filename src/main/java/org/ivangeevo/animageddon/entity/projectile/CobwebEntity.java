@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.FlyingItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
@@ -67,8 +68,7 @@ public class CobwebEntity extends ProjectileEntity implements FlyingItemEntity
     public ItemStack getStack() {return Items.COBWEB.getDefaultStack();}
 
     @Override
-    protected void initDataTracker() {}
-
+    protected void initDataTracker(DataTracker.Builder builder) {}
 
     @Override
     public void onKickedByCow(CowEntity cow) {

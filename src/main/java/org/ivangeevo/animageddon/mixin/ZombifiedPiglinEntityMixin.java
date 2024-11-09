@@ -37,6 +37,7 @@ public abstract class ZombifiedPiglinEntityMixin extends ZombieEntity
         {
             this.equipStack(EquipmentSlot.MAINHAND, goldSword);
         }
+
         ci.cancel();
 
     }

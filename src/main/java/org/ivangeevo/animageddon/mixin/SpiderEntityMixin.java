@@ -71,9 +71,9 @@ public abstract class SpiderEntityMixin extends HostileEntity implements SpiderE
     }
 
     @Inject(method = "initDataTracker", at = @At("RETURN"))
-    private void initDataTracker(CallbackInfo ci) {
-        this.dataTracker.startTracking(SHOOTING, false);
-        this.dataTracker.startTracking(TIME_TO_NEXT_WEB, 0);
+    private void initDataTracker(DataTracker.Builder builder, CallbackInfo ci) {
+        builder.add(SHOOTING, false);
+        builder.add(TIME_TO_NEXT_WEB, 0);
     }
 
     @Override
