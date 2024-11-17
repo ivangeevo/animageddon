@@ -8,7 +8,6 @@
     "CreeperEntityMixin",
     "EntityMixin",
     "ItemMixin",
-    "PassiveEntityMixin",
     "PigEntityMixin",
     "SheepEntityMixin",
     "SpiderEntityMixin",

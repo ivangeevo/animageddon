@@ -54,10 +54,9 @@ public abstract class FishingBobberEntityMixin extends ProjectileEntity {
     private void injectedTickFishingLogic(BlockPos pos, CallbackInfo ci)
     {
 
-            ServerWorld serverWorld = (ServerWorld)this.getWorld();
-            float i;
-            long timeOfDay = serverWorld.getTimeOfDay() % 24000;
-
+        ServerWorld serverWorld = (ServerWorld)this.getWorld();
+        float i;
+        long timeOfDay = serverWorld.getTimeOfDay() % 24000;
 
         // Check if it's a full moon and night time
         if ((serverWorld.getMoonPhase() == 0) && (timeOfDay >= 12700 && timeOfDay <= 22500))

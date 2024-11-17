@@ -8,11 +8,8 @@ import org.ivangeevo.animageddon.util.MiscUtils;
 
 public interface CowEntityAdded {
 
-
-    TrackedData<Boolean> GOT_MILK = DataTracker.registerData(CowEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     TrackedData<Byte> HUNGER_LEVEL = DataTracker.registerData(CowEntity.class, TrackedDataHandlerRegistry.BYTE);
     TrackedData<Boolean> IN_LOVE = DataTracker.registerData(CowEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    TrackedData<Boolean> WEARING_BREEDING_HARNESS = DataTracker.registerData(CowEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     int KICK_ATTACK_DURATION = 20;
     int KICK_ATTACK_TICKS_TO_COOLDOWN = 40;

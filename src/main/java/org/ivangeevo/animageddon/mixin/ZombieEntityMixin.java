@@ -15,14 +15,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ZombieEntity.class)
-public abstract class ZombieEntityMixin extends HostileEntity {
-    @Shadow private boolean canBreakDoors;
-    @Shadow public abstract boolean canBreakDoors();
+public abstract class ZombieEntityMixin extends HostileEntity
+{
 
-
-    protected ZombieEntityMixin(EntityType<? extends HostileEntity> entityType, World world, boolean canBreakDoors) {
+    protected ZombieEntityMixin(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
-        this.canBreakDoors = canBreakDoors;
     }
 
     @Inject(method = "initGoals", at = @At("TAIL"))
