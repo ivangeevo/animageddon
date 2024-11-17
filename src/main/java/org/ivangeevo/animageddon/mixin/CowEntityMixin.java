@@ -6,7 +6,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,6 +14,7 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -27,14 +27,15 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-import org.ivangeevo.animageddon.entity.ai.goal.CustomWanderAroundGoal;
 import org.ivangeevo.animageddon.entity.interfaces.CowEntityAdded;
 import org.ivangeevo.animageddon.entity.interfaces.EntityAdded;
 import org.ivangeevo.animageddon.networking.packet.EntityEventPacketHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -50,8 +51,9 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
     // Added variables
     private int kickAttackInProgressCounter = 0;
     private int kickAttackCooldownTimer = KICK_ATTACK_TICKS_TO_COOLDOWN;
-    private int milkAccumulationCount = 0;
     private int kickAttackLegUsed = 0;
+
+    @Unique private int milkAccumulationCount = 0;
 
     @Shadow public abstract ActionResult interactMob(PlayerEntity player, Hand hand);
 
@@ -65,22 +67,10 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
     @Override public int kickAttackLegUsed() { return kickAttackLegUsed; }
     @Override public void setKickAttackLegUsed(int value) { kickAttackLegUsed = value; }
 
-    @Inject(method = "initGoals", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "initGoals", at = @At("TAIL"))
     private void injectedInitGoals(CallbackInfo ci)
     {
-
-        this.goalSelector.add(0, new SwimGoal(this));
-        this.goalSelector.add(1, new EscapeDangerGoal(this, 2.0));
-        this.goalSelector.add(2, new AnimalMateGoal(this, 1.0));
-        this.goalSelector.add(3, new TemptGoal(this, 1.25, Ingredient.ofItems(Items.WHEAT, Items.SHORT_GRASS), false));
         this.goalSelector.add(3, new TemptGoal(this, 1.4, Ingredient.ofItems(Items.CAKE), false));
-        this.goalSelector.add(4, new FollowParentGoal(this, 1.25));
-        this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0));
-        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.add(7, new LookAroundGoal(this));
-
-        ci.cancel();
-
     }
 
     //@Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
@@ -124,20 +114,14 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
         return stack.getItem() == Items.CAKE;
     }
 
-
-    @Override
-    public void tick()
-    {
-        super.tick();
-        //updateKickAttack();
-    }
-
+    /**
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         super.initDataTracker(builder);
         builder.add(GOT_MILK, false);
         builder.add(WEARING_BREEDING_HARNESS, false);
     }
+     **/
 
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
@@ -162,11 +146,11 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
     }
 
 
+
     @Override
     public boolean getWearingBreedingHarness() {
         return dataTracker.get(WEARING_BREEDING_HARNESS);
     }
-
 
 
     private void updateKickAttack()
@@ -229,6 +213,7 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
         }
     }
 
+
     public Vec3d computeKickAttackCenter()
     {
         float fAttackAngle = MathHelper.wrapDegrees(getYaw() + 180F );
@@ -265,9 +250,11 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
 
         // Create a PacketByteBuf
         PacketByteBuf packetBuf = new PacketByteBuf(PacketByteBufs.create());
+
         // Use Fabric's networking API to send the packet to all players tracking the entity
         EntityEventPacketHandler.sendCustomPacketToClients((ServerWorld) this.getWorld(), this, packetBuf);
     }
+
     @Override
     public void onClientNotifiedOfKickAttack()
     {
@@ -334,8 +321,6 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
             ((EntityAdded)hitEntity).onKickedByCow((CowEntity)(Object)this);
         }
     }
-
-
 
 
 }

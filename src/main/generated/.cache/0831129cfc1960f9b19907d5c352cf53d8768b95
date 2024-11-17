@@ -1,3 +1,5 @@
-// 1.20.1	2024-06-23T19:06:52.3288426	Animageddon/Tags for minecraft:item
-38010b219665e1844f39793780def489e3388ef2 data\c\tags\items\chicken_tempt_items.json
-b651b5b557dc4eb1928ac6c2613e32640defdb4c data\animageddon\tags\items\seeds_for_chicken.json
+// 1.21.1	2024-11-17T20:55:27.7252677	Animageddon/Tags for minecraft:item
+f5eeceed08ca5d0b8e0154c52fb1c1e895b477b6 data\c\tags\item\chicken_tempt_items.json
+1fdad838314bb197562808c8477b88afb19548bf data\minecraft\tags\item\cow_food.json
+1fdad838314bb197562808c8477b88afb19548bf data\minecraft\tags\item\sheep_food.json
+987d040da366a8ed7fe58ba0fdea6e1b16328c10 data\animageddon\tags\item\seeds_for_chicken.json

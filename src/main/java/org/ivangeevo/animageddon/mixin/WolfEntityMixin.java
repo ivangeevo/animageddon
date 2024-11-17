@@ -30,7 +30,7 @@ public abstract class WolfEntityMixin extends TameableEntity implements Angerabl
 
 
     // Injected logic for dropping "Dung".
-    @Inject(method = "tickMovement", at = @At("HEAD"))
+    //@Inject(method = "tickMovement", at = @At("HEAD"))
     private void onTickMovement(CallbackInfo callbackInfo)
     {
         WolfEntity wolf = (WolfEntity) (Object) this;
@@ -49,8 +49,8 @@ public abstract class WolfEntityMixin extends TameableEntity implements Angerabl
             if (dungDropTimer >= minTicks && dungDropTimer <= maxTicks && world.random.nextFloat() < 0.015) {
 
                 // Drop dung item
-                ItemStack dungItemStack = new ItemStack(ModItems.DUNG);
-                wolf.dropStack(dungItemStack);
+                //ItemStack dungItemStack = new ItemStack(ModItems.DUNG);
+                //wolf.dropStack(dungItemStack);
 
                 world.playSound(null,wolfPos, SoundEvents.ENTITY_CHICKEN_EGG, SoundCategory.BLOCKS,0.2f,0.7f);
 

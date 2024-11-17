@@ -25,25 +25,11 @@ public abstract class PigEntityMixin extends AnimalEntity
     }
     @Unique
     private static final Ingredient BREEDING_INGREDIENT = Ingredient.fromTag(ModTags.Items.PIG_BREEDING_ITEMS);
-    @Unique
-    private static final Ingredient TEMPT_ITEMS = Ingredient.ofItems(Items.CARROT, Items.POTATO, Items.BEETROOT);
 
-
-    @Inject(method = "initGoals", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "initGoals", at = @At("TAIL"))
     private void injectedInitGoals(CallbackInfo ci)
     {
-        this.goalSelector.add(0, new SwimGoal(this));
-        this.goalSelector.add(1, new EscapeDangerGoal(this, 2.0));
-        this.goalSelector.add(3, new AnimalMateGoal(this, 1.0));
-
-        this.goalSelector.add(4, new TemptGoal(this, 1.1, TEMPT_ITEMS, true));
-        this.goalSelector.add(4, new TemptGoal(this, 1.2, Ingredient.ofItems(Items.CARROT_ON_A_STICK), false));
         this.goalSelector.add(4, new TemptGoal(this, 1.4, BREEDING_INGREDIENT, false));
-        this.goalSelector.add(5, new FollowParentGoal(this, 1.1));
-        this.goalSelector.add(6, new WanderAroundFarGoal(this, 1.0));
-        this.goalSelector.add(7, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.add(8, new LookAroundGoal(this));
-        ci.cancel();
     }
 
     @Inject(method = "isBreedingItem", at = @At("HEAD"), cancellable = true)
@@ -51,6 +37,5 @@ public abstract class PigEntityMixin extends AnimalEntity
     {
         cir.setReturnValue(BREEDING_INGREDIENT.test(stack));
     }
-
 
 }

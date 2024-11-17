@@ -21,12 +21,6 @@ public class AnimaggedonModItemGroup
                     {
                         /** ITEMS **/
 
-                        // Uncategorized
-                        entries.add(ModItems.DUNG);
-                        entries.add(ModItems.DUNG_GOLDEN);
-
-                        entries.add(ModItems.CHICKEN_FEED);
-
                         /** BLOCKS **/
 
 

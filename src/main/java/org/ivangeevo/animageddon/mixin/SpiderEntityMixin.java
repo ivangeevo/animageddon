@@ -48,26 +48,10 @@ public abstract class SpiderEntityMixin extends HostileEntity implements SpiderE
         super(entityType, world);
     }
 
-    @Inject(method = "initGoals", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "initGoals", at = @At("TAIL"))
     private void injectedInitGoals(CallbackInfo ci) {
-        // Main goals
-        this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(3, new PounceAtTargetGoal(this, 0.4f));
-        this.goalSelector.add(4, new AttackGoal((SpiderEntity) (Object) this));
-
-        //this.goalSelector.add(4, new SpiderAttackGoal((SpiderEntity) (Object) this));
-        this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.8));
-        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
-        this.goalSelector.add(6, new LookAroundGoal(this));
-
-        // Target goals
-        this.targetSelector.add(1, new RevengeGoal(this));
-        this.targetSelector.add(2, new SpiderEntity.TargetGoal<PlayerEntity>((SpiderEntity) (Object) this, PlayerEntity.class));
-        this.targetSelector.add(3, new SpiderEntity.TargetGoal<IronGolemEntity>((SpiderEntity) (Object) this, IronGolemEntity.class));
-        this.targetSelector.add(4, new SpiderEntity.TargetGoal<ChickenEntity>((SpiderEntity) (Object) this, ChickenEntity.class));
-        this.targetSelector.add(4, new SpiderEntity.TargetGoal<RabbitEntity>((SpiderEntity) (Object) this, RabbitEntity.class));
-
-        ci.cancel();
+        this.targetSelector.add(4, new SpiderEntity.TargetGoal<>((SpiderEntity) (Object) this, ChickenEntity.class));
+        this.targetSelector.add(4, new SpiderEntity.TargetGoal<>((SpiderEntity) (Object) this, RabbitEntity.class));
     }
 
     @Inject(method = "initDataTracker", at = @At("RETURN"))
@@ -76,20 +60,19 @@ public abstract class SpiderEntityMixin extends HostileEntity implements SpiderE
         builder.add(TIME_TO_NEXT_WEB, 0);
     }
 
-    @Override
-    public void setShooting(boolean shooting) {
+    @Override public void setShooting(boolean shooting) {
         this.dataTracker.set(SHOOTING, shooting);
     }
-    @Override
-    public int getTimeToNextWeb() {
+
+    @Override public int getTimeToNextWeb() {
         return this.dataTracker.get(TIME_TO_NEXT_WEB);
     }
-    @Override
-    public void setTimeToNextWeb(int timeToNextWeb) {
+
+    @Override public void setTimeToNextWeb(int timeToNextWeb) {
         this.dataTracker.set(TIME_TO_NEXT_WEB, timeToNextWeb);
     }
-    @Override
-    public boolean hasWeb() { return this.dataTracker.get(TIME_TO_NEXT_WEB) <= 0; }
+
+    @Override public boolean hasWeb() { return this.dataTracker.get(TIME_TO_NEXT_WEB) <= 0; }
 
     @Override
     public void spitWeb(Entity targetEntity)

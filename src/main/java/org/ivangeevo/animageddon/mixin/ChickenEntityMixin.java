@@ -69,7 +69,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
         this.goalSelector.add(1, new EscapeDangerGoal(this, 2.0));
         this.goalSelector.add(2, new AnimalMateGoal(this, 1.0));
         this.goalSelector.add(3, new TemptGoal(this, 1.0, Ingredient.fromTag(BTWRConventionalTags.Items.CHICKEN_TEMPT_ITEMS), false));
-        this.goalSelector.add(3, new TemptGoal(this, 1.2, Ingredient.ofItems(ModItems.CHICKEN_FEED), false));
+        //this.goalSelector.add(3, new TemptGoal(this, 1.2, Ingredient.ofItems(ModItems.CHICKEN_FEED), false));
 
         this.goalSelector.add(4, new FollowParentGoal(this, 1.1));
         this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0));
@@ -77,6 +77,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
         this.goalSelector.add(7, new LookAroundGoal(this));
         ci.cancel();
     }
+
 
     //@Inject(method = "tickMovement", at = @At("HEAD"), cancellable = true)
     private void injectedTickMovement(CallbackInfo ci)

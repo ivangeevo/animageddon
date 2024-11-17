@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import org.ivangeevo.animageddon.entity.ai.goal.CustomWanderAroundGoal;
@@ -18,7 +19,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(SheepEntity.class)
 public abstract class SheepEntityMixin extends AnimalEntity implements Shearable
@@ -30,28 +34,23 @@ public abstract class SheepEntityMixin extends AnimalEntity implements Shearable
                  super(entityType, world);
              }
 
+    @Inject(method = "initGoals",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V", ordinal = 3))
+    private void modifyTemptGoal(CallbackInfo ci) {
+        // Set canBeScared to true
+        TemptGoal customTemptGoal =
+                new TemptGoal(this, 1.25, stack -> stack.isIn(ItemTags.SHEEP_FOOD), true);
 
-    // Added the Grass item as a tempt item for the sheep.
-    @Inject(method = "initGoals", at = @At("HEAD"), cancellable = true)
+        this.goalSelector.add(3, customTemptGoal);
+    }
+
+    @Inject(method = "initGoals", at = @At("TAIL"))
     private void injectedInitGoals(CallbackInfo ci) {
-        this.eatGrassGoal = new EatGrassGoal(this);
-        this.goalSelector.add(0, new SwimGoal(this));
-        this.goalSelector.add(1, new EscapeDangerGoal(this, 2.0));
-        this.goalSelector.add(2, new AnimalMateGoal(this, 1.0));
-        this.goalSelector.add(3, new TemptGoal(this, 1.1, Ingredient.ofItems(Items.WHEAT, Items.SHORT_GRASS, Items.PUMPKIN_PIE), false));
         this.goalSelector.add(3, new TemptGoal(this, 1.4, Ingredient.ofItems(Items.PUMPKIN_PIE), false));
-        this.goalSelector.add(4, new FollowParentGoal(this, 1.1));
-        this.goalSelector.add(5, this.eatGrassGoal);
-        this.goalSelector.add(6, new WanderAroundFarGoal(this, 1.0));
-        this.goalSelector.add(7, new LookAtEntityGoal(this, PlayerEntity.class, 6.0f));
-        this.goalSelector.add(8, new LookAroundGoal(this));
-
-        ci.cancel();
     }
 
     // Change the breeding item to Pumpkin Pie.
-    @Override
-    public boolean isBreedingItem(ItemStack stack) {
+    @Override public boolean isBreedingItem(ItemStack stack) {
         return stack.getItem() == Items.PUMPKIN_PIE;
     }
 

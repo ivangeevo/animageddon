@@ -24,7 +24,7 @@ public class ModRecipeProvider extends FabricRecipeProvider
     @Override
     public void generate(RecipeExporter exporter)
     {
-        ShapelessRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.CHICKEN_FEED).input(ModTags.Items.SEEDS_FOR_CHICKEN).input(Items.BONE_MEAL).criterion("has_bone_meal", RecipeProvider.conditionsFromItem(Items.BONE_MEAL)).offerTo(exporter);
+        //ShapelessRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.CHICKEN_FEED).input(ModTags.Items.SEEDS_FOR_CHICKEN).input(Items.BONE_MEAL).criterion("has_bone_meal", RecipeProvider.conditionsFromItem(Items.BONE_MEAL)).offerTo(exporter);
 
 
     }

@@ -51,7 +51,7 @@ public abstract class FishingBobberEntityMixin extends ProjectileEntity {
 
     // Overhaul the fishing logic to work similiarly to original BTW.
     @Inject(method = "tickFishingLogic", at = @At("HEAD"), cancellable = true)
-        private void injectedTickFishingLogic(BlockPos pos, CallbackInfo ci)
+    private void injectedTickFishingLogic(BlockPos pos, CallbackInfo ci)
     {
 
             ServerWorld serverWorld = (ServerWorld)this.getWorld();

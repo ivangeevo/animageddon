@@ -11,12 +11,6 @@ public class ModItems
 {
     public static final Item GROUP_ANIMAGEDDON = registerItem( "group_animaggedon", new Item(new Item.Settings()));
 
-    public static final Item CHICKEN_FEED = registerItem("chicken_feed", new Item(new Item.Settings().food(FoodComponents.ROTTEN_FLESH)));
-
-
-    public static final Item DUNG = registerItem( "dung", new Item(new Item.Settings()));
-    public static final Item DUNG_GOLDEN = registerItem( "dung_golden", new Item(new Item.Settings()));
-
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, Identifier.of(AnimageddonMod.MOD_ID, name), item);

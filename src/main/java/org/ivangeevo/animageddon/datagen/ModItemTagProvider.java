@@ -19,8 +19,22 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg)
     {
-        addToModTags();
+        addToVanillaTags();
         addToConventionalTags();
+        addToModTags();
+    }
+
+    private void addToVanillaTags()
+    {
+        getOrCreateTagBuilder(ItemTags.COW_FOOD)
+                .add(Items.SHORT_GRASS);
+
+        getOrCreateTagBuilder(ItemTags.SHEEP_FOOD)
+                .add(Items.SHORT_GRASS);
+
+
+
+
     }
 
     private void addToModTags()
