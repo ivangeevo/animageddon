@@ -1,0 +1,9 @@
+{
+  "variants":
+  {
+    "break_level=0": [{"model": "animageddon:block/web_block_1"}],
+    "break_level=1": [{"model": "animageddon:block/web_block_2"}],
+    "break_level=2": [{"model": "animageddon:block/web_block_3"}]
+
+  }
+}

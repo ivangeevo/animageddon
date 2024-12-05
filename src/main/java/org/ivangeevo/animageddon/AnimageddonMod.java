@@ -1,17 +1,18 @@
 package org.ivangeevo.animageddon;
 
+import btwr.btwrsl.tag.BTWRConventionalTags;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.MooshroomEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.ActionResult;
 import net.minecraft.world.event.GameEvent;
+import org.ivangeevo.animageddon.block.ModBlocks;
 import org.ivangeevo.animageddon.item.AnimaggedonModItemGroup;
 import org.ivangeevo.animageddon.item.ModItems;
-import org.ivangeevo.animageddon.tag.BTWRConventionalTags;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +29,7 @@ public class AnimageddonMod implements ModInitializer
     public void onInitialize()
     {
         AnimaggedonModItemGroup.registerItemGroups();
-        //ModBlock.registerModBlocks();
+        ModBlocks.registerModBlocks();
         ModItems.registerModItems();
 
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
@@ -40,7 +41,7 @@ public class AnimageddonMod implements ModInitializer
             if (entity instanceof MooshroomEntity shroomCow)
             {
                 if (shroomCow.isShearable() && shroomCow.isAlive() &&
-                        player.getMainHandStack().isIn(BTWRConventionalTags.Items.SHEARS) && !player.isSpectator()) {
+                        player.getMainHandStack().isIn(ConventionalItemTags.SHEAR_TOOLS) && !player.isSpectator()) {
                     shroomCow.sheared(SoundCategory.PLAYERS);
                     shroomCow.emitGameEvent(GameEvent.SHEAR, player);
                     if (!shroomCow.getWorld().isClient) {

@@ -1,12 +1,11 @@
 package org.ivangeevo.animageddon.datagen;
 
+import btwr.btwrsl.tag.BTWRConventionalTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
-import org.ivangeevo.animageddon.item.ModItems;
-import org.ivangeevo.animageddon.tag.BTWRConventionalTags;
 import org.ivangeevo.animageddon.tag.ModTags;
 
 import java.util.concurrent.CompletableFuture;
