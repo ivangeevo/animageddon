@@ -17,9 +17,10 @@ public class AnimaggedonModItemGroup
             Identifier.of(AnimageddonMod.MOD_ID, "group_animageddon"),
             FabricItemGroup.builder().displayName(Text.translatable("itemgroup.group_animageddon"))
                     .icon(() -> new ItemStack(ModItems.GROUP_ANIMAGEDDON))
-                    .entries((displayContext, entries) ->
-                    {
+                    .entries((displayContext, entries) -> {
                         /** ITEMS **/
+                        entries.add(ModItems.NITRE);
+                        entries.add(ModItems.CURED_MEAT);
 
                         /** BLOCKS **/
 

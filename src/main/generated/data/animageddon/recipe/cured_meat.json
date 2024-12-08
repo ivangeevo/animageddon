@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "c:foods/raw_meat"
+    },
+    {
+      "item": "animageddon:nitre"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "animageddon:cured_meat"
+  }
+}

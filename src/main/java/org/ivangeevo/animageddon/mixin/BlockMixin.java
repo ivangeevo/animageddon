@@ -32,11 +32,13 @@ public abstract class BlockMixin extends AbstractBlock
     private void onAfterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack tool, CallbackInfo ci) {
 
         if (state.isOf(Blocks.COBWEB)) {
+            // if shears item drop the whole block
             if (player.getMainHandStack().isIn(ConventionalItemTags.SHEAR_TOOLS)) {
                 player.incrementStat(Stats.MINED.getOrCreateStat((Block)(Object)this));
                 player.addExhaustion(0.005f);
                 ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), Items.COBWEB.getDefaultStack());
             } else {
+                // if other tool that's set viable for the block - break in stages
                 changeToWebBlockState(world, player, pos);
             }
 
@@ -45,9 +47,11 @@ public abstract class BlockMixin extends AbstractBlock
     }
 
     private void changeToWebBlockState(World world, PlayerEntity player, BlockPos pos) {
-        player.incrementStat(Stats.MINED.getOrCreateStat((Block)(Object)this));
-        player.addExhaustion(0.005f);
-        world.setBlockState(pos, ModBlocks.WEB_BLOCK.getDefaultState(),4,0);
+        if (!world.isClient()) {
+            player.incrementStat(Stats.MINED.getOrCreateStat((Block)(Object)this));
+            player.addExhaustion(0.005f);
+            world.setBlockState(pos, ModBlocks.WEB_BLOCK.getDefaultState(),4,0);
+        }
     }
 
 }

@@ -73,10 +73,11 @@ public class WebBlock extends CobwebBlock
     }
 
     private void changeState(int breakLevel, World world, PlayerEntity player, BlockPos pos) {
-        player.incrementStat(Stats.MINED.getOrCreateStat((Block)(Object)this));
-        player.addExhaustion(0.005f);
-        world.setBlockState(pos, ModBlocks.WEB_BLOCK.getDefaultState().with(BREAK_LEVEL, breakLevel),4,0);
-
+        if (!world.isClient()) {
+            player.incrementStat(Stats.MINED.getOrCreateStat((Block)(Object)this));
+            player.addExhaustion(0.005f);
+            world.setBlockState(pos, ModBlocks.WEB_BLOCK.getDefaultState().with(BREAK_LEVEL, breakLevel),4,0);
+        }
     }
 
     private boolean isSuitableChiselForState(BlockState state,ItemStack stack) {
