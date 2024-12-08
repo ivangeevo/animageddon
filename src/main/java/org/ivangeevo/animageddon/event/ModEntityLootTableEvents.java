@@ -42,7 +42,7 @@ public abstract class ModEntityLootTableEvents
         // Burned meat entries
         modifyToBurnedMeat(CHICKEN.getLootTableId(), Items.COOKED_CHICKEN);
         modifyToBurnedMeat(COD.getLootTableId(), Items.COOKED_COD);
-        modifyToBurnedMeat(COW.getLootTableId(), Items.BEEF);
+        modifyToBurnedMeat(COW.getLootTableId(), Items.COOKED_BEEF);
         // dolphin
         // donkey
         // fox
@@ -56,7 +56,7 @@ public abstract class ModEntityLootTableEvents
         modifyToBurnedMeat(RABBIT.getLootTableId(), Items.COOKED_RABBIT);
         modifyToBurnedMeat(SALMON.getLootTableId(), Items.COOKED_SALMON);
         modifyToBurnedMeat(SHEEP.getLootTableId(), Items.COOKED_MUTTON);
-        // trader llamma
+        // trader llama
         // turtle
         // wolf
 
