@@ -5,6 +5,11 @@ import org.ivangeevo.animageddon.util.MiscUtils;
 
 public interface AnimalEntityAdded  {
 
+    // Temporary chicken behaviour related variables
+    boolean getHasBeenFed();
+    void setHasBeenFed(boolean value);
+
+
     void setWearingBreedingHarness( boolean bWearingHarness );
     void onEatBreedingItem();
 
@@ -17,6 +22,8 @@ public interface AnimalEntityAdded  {
     boolean attemptToEatItemForBreeding(ItemStack stack);
     boolean isReadyToEatBreedingItem();
     boolean isFullyFed();
+
+
 
 
 

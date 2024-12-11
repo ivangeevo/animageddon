@@ -11,7 +11,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.world.event.GameEvent;
 import org.ivangeevo.animageddon.block.ModBlocks;
 import org.ivangeevo.animageddon.event.ModEntityLootTableEvents;
-import org.ivangeevo.animageddon.item.AnimaggedonModItemGroup;
 import org.ivangeevo.animageddon.item.ModItems;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,16 +20,13 @@ public class AnimageddonMod implements ModInitializer
 
     public static final String MOD_ID = "animageddon";
 
-    public static final String MOD_VERSION = "1.0";
     public static final Logger LOGGER = LoggerFactory.getLogger("animageddon");
 
 
     @Override
-    public void onInitialize()
-    {
-        AnimaggedonModItemGroup.registerItemGroups();
-        ModBlocks.registerModBlocks();
-        ModItems.registerModItems();
+    public void onInitialize() {
+        ModBlocks.registerModBlocksAndAddToGroups();
+        ModItems.registerModItemsAndAddToGroups();
         ModEntityLootTableEvents.initialize();
 
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
@@ -39,8 +35,7 @@ public class AnimageddonMod implements ModInitializer
 
             /* Manual spectator check is necessary because AttackBlockCallbacks
                fire before the spectator check */
-            if (entity instanceof MooshroomEntity shroomCow)
-            {
+            if (entity instanceof MooshroomEntity shroomCow) {
                 if (shroomCow.isShearable() && shroomCow.isAlive() &&
                         player.getMainHandStack().isIn(ConventionalItemTags.SHEAR_TOOLS) && !player.isSpectator()) {
                     shroomCow.sheared(SoundCategory.PLAYERS);

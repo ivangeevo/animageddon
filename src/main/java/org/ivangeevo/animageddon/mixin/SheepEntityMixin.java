@@ -25,9 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(SheepEntity.class)
-public abstract class SheepEntityMixin extends AnimalEntity implements Shearable
-{
-    @Shadow private EatGrassGoal eatGrassGoal;
+public abstract class SheepEntityMixin extends AnimalEntity implements Shearable {
 
     // Custom map for pairing the appropriate DyeColor color type with each Item dropped.
     protected SheepEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
