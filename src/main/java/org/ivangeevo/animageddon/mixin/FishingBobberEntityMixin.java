@@ -36,7 +36,6 @@ public abstract class FishingBobberEntityMixin extends ProjectileEntity {
 
     @Shadow private float fishAngle;
 
-
     @Shadow @Final private static TrackedData<Integer> HOOK_ENTITY_ID;
 
     @Shadow public abstract void readCustomDataFromNbt(NbtCompound nbt);

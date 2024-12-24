@@ -13,6 +13,8 @@ import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.entry.LootPoolEntry;
+import net.minecraft.loot.function.SetCountLootFunction;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.entity.EntityEquipmentPredicate;
 import net.minecraft.predicate.entity.EntityFlagsPredicate;
@@ -39,9 +41,8 @@ public class ModEntityLootTableEvents
 {
     // Register loot table changes
     public static void initialize() {
-        modifySpecificItem(CREEPER.getLootTableId(), Items.GUNPOWDER, ModItems.NITRE);
+        modifySpecificItemWithCount(CREEPER.getLootTableId(), Items.GUNPOWDER, ModItems.NITRE, 1);
 
-        //replaceCookedWithBurnedMeat(COW.getLootTableId(), Items.COOKED_BEEF);
 
         /**
         // Burned meat entries
@@ -93,11 +94,30 @@ public class ModEntityLootTableEvents
         });
     }
 
+    private static void modifySpecificItemWithCount(RegistryKey<LootTable> registryKey, Item target, Item toReplace, int count) {
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
 
+            // Check if the key is for target's loot table
+            if (registryKey != key) return;
 
+            tableBuilder.modifyPools(builder -> {
+                List<LootPoolEntry> l = new ArrayList<>(((LootPoolBuilderAccessor) builder).getEntries().build());
+                l.replaceAll(entry -> {
+                    if (!(entry instanceof ItemEntry itemEntry))
+                        return entry;
+                    if (((ItemEntryAccessor) itemEntry).getItem().value() != target)
+                        return entry;
 
+                    // Replace the item and add a SetCount function to modify the count
+                    return ItemEntry.builder(toReplace)
+                            .apply(() -> SetCountLootFunction.builder(ConstantLootNumberProvider.create(count)).build())
+                            .build();
+                });
 
-
+                ((LootPoolBuilderAccessor) builder).setEntries(ImmutableList.<LootPoolEntry>builder().addAll(l));
+            });
+        });
+    }
 
 
 }

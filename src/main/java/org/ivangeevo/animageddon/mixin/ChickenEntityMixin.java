@@ -36,12 +36,25 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
 
     @Shadow public abstract boolean hasJockey();
 
+    // Chicken related variables
+    @Unique private boolean hasBeenFed = false;
     @Unique private long lastFedTime = -1;
     @Unique private long timeToLayEgg = 0;
+
     @Unique private long lastWorldTime = -1;
 
     protected ChickenEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
+    }
+
+    @Override
+    public boolean getHasBeenFed() {
+        return hasBeenFed;
+    }
+
+    @Override
+    public void setHasBeenFed(boolean value) {
+        hasBeenFed = value;
     }
 
     @Inject(method = "initGoals", at = @At("HEAD"), cancellable = true)
@@ -56,10 +69,12 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
         this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0));
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.add(7, new LookAroundGoal(this));
+
         ci.cancel();
     }
 
-    @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/ChickenEntity;getWorld()Lnet/minecraft/world/World;"), cancellable = true)
+    @Inject(method = "tickMovement", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/entity/passive/ChickenEntity;getWorld()Lnet/minecraft/world/World;"), cancellable = true)
     private void onTickMovement(CallbackInfo ci) {
 
         long worldTime = getWorld().getTimeOfDay() % 24000;
@@ -100,7 +115,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
             lastFedTime = -1;
             setHasBeenFed(false);
         }
-
     }
+
 
 }

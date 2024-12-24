@@ -8,6 +8,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.ivangeevo.animageddon.AnimageddonMod;
 import org.ivangeevo.animageddon.block.ModBlocks;
+import org.ivangeevo.animageddon.item.items.WoolItem;
 
 public class ModItems
 {
@@ -20,6 +21,8 @@ public class ModItems
     public static final Item CURED_MEAT = registerItem( "cured_meat", new Item(new Item.Settings().maxCount(16).food(ModFoodComponents.CURED_MEAT)));
 
     public static final Item BURNED_MEAT = registerItem( "burned_meat", new Item(new Item.Settings().maxCount(16).food(ModFoodComponents.BURNED_MEAT)));
+
+    public static final Item WOOL = registerItem( "wool", new WoolItem(new Item.Settings()));
 
 
     private static Item registerItem(String name, Item item) {

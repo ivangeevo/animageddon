@@ -23,7 +23,6 @@
     "ZombifiedPiglinEntityMixin"
   ],
   "client": [
-    "CowEntityModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

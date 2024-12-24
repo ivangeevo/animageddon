@@ -8,8 +8,7 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ItemEntry.class)
-public interface ItemEntryAccessor
-{
+public interface ItemEntryAccessor {
     @Accessor RegistryEntry<Item> getItem();
     @Accessor @Mutable void setItem(RegistryEntry<Item> item);
 }

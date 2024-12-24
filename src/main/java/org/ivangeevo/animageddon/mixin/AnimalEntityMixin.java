@@ -9,6 +9,7 @@ import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -20,6 +21,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AnimalEntity.class)
@@ -30,26 +32,6 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
 
     @Unique private boolean isChickenEntity = (AnimalEntity)(Object)this instanceof ChickenEntity;
 
-
-
-    // Chicken related variables
-    @Unique private boolean hasBeenFed = false;
-
-    @Override
-    public boolean getHasBeenFed() {
-        if (isChickenEntity) {
-            return hasBeenFed;
-        }
-
-        return false;
-    }
-
-    @Override
-    public void setHasBeenFed(boolean value) {
-        if (isChickenEntity) {
-            hasBeenFed = value;
-        }
-    }
 
     protected AnimalEntityMixin(EntityType<? extends PassiveEntity> entityType, World world) {
         super(entityType, world);
@@ -63,11 +45,11 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
         if (isChickenEntity) {
             ItemStack heldItem = player.getStackInHand(hand);
 
-            if (!hasBeenFed) {
+            if (!getHasBeenFed()) {
                 if (heldItem.getItem() == ModItems.CHICKEN_FEED) {
                     this.eat(player, player.getActiveHand(), heldItem);
 
-                    hasBeenFed = true;
+                    setHasBeenFed(true);
                     player.swingHand(hand);
 
                     // Play the eating sound
@@ -81,4 +63,5 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
 
         }
     }
+
 }
