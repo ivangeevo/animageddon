@@ -43,7 +43,6 @@ public class ModEntityLootTableEvents
     public static void initialize() {
         modifySpecificItemWithCount(CREEPER.getLootTableId(), Items.GUNPOWDER, ModItems.NITRE, 1);
 
-
         /**
         // Burned meat entries
         modifySpecificItemWithOnFireCondition(PIG.getLootTableId(), Items.COOKED_PORKCHOP, ModItems.BURNED_MEAT);
@@ -56,7 +55,7 @@ public class ModEntityLootTableEvents
          **/
 
 
-        // TODO: add meats:
+        // TODO: add meats?:
         // dolphin
         // donkey
         // fox

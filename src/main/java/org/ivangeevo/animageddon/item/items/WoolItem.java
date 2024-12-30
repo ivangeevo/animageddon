@@ -50,7 +50,8 @@ public class WoolItem extends Item implements ItemColorProvider {
 
             if ( tempStack != null )
             {
-                if ( tempStack.isOf(ModItems.WOOL) /**|| tempStack.isOf(BTWRTags.Items.WOOL_KNIT_ITEMS)**/)
+                // delete "is empty" (fake check)
+                if (tempStack.isEmpty()/** tempStack.isOf(ModItems.WOOL) || tempStack.isOf(BTWRTags.Items.WOOL_KNIT_ITEMS)**/)
                 {
                     int iWoolColorIndex = MathHelper.clamp( tempStack.getDamage(), 0, 15 );
 

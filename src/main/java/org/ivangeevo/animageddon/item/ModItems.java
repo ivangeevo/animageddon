@@ -22,7 +22,7 @@ public class ModItems
 
     public static final Item BURNED_MEAT = registerItem( "burned_meat", new Item(new Item.Settings().maxCount(16).food(ModFoodComponents.BURNED_MEAT)));
 
-    public static final Item WOOL = registerItem( "wool", new WoolItem(new Item.Settings()));
+    //public static final Item WOOL = registerItem( "wool", new WoolItem(new Item.Settings()));
 
 
     private static Item registerItem(String name, Item item) {
