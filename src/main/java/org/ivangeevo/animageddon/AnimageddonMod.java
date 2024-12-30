@@ -53,8 +53,8 @@ public class AnimageddonMod implements ModInitializer
             return ActionResult.PASS;
         });
 
-        ColorProviderRegistry.ITEM.register(
-                (itemStack, tintIndex) -> itemStack != null ? WoolItem.getClosestColorIndex(tintIndex) : 0);
+        //ColorProviderRegistry.ITEM.register(
+                //(itemStack, tintIndex) -> itemStack != null ? WoolItem.getClosestColorIndex(tintIndex) : 0);
 
 
     }

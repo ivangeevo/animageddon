@@ -21,8 +21,8 @@ import org.ivangeevo.animageddon.block.ModBlocks;
 import org.ivangeevo.animageddon.item.ModItems;
 import org.jetbrains.annotations.Nullable;
 
-import static btwr.btwrsl.tag.BTWRConventionalTags.Items.MODERN_CHISELS;
-import static btwr.btwrsl.tag.BTWRConventionalTags.Items.PRIMITIVE_CHISELS;
+import static btwr.btwr_sl.tag.BTWRConventionalTags.Items.MODERN_CHISELS;
+import static btwr.btwr_sl.tag.BTWRConventionalTags.Items.PRIMITIVE_CHISELS;
 
 public class WebBlock extends CobwebBlock
 {
