@@ -3,7 +3,7 @@
   "id": "animageddon",
   "version": "${version}",
   "name": "Animageddon",
-  "description": "",
+  "description": "Overhaul of animals while preserving the vanilla style of the game",
   "authors": [],
   "contact": {
     "repo": "https://github.com/ivangeevo/animageddon.git"
@@ -29,7 +29,7 @@
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": "${minecraft_version}",
-    "btwr_sl": "${btwr_sl_version}"
+    "btwr_sl": ">=${btwr_sl_version}"
 
   },
 

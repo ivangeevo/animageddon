@@ -1,26 +1,15 @@
 package org.ivangeevo.animageddon.mixin;
 
 import btwr.btwr_sl.tag.BTWRConventionalTags;
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.ivangeevo.animageddon.item.ModItems;
@@ -73,8 +62,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
         ci.cancel();
     }
 
-    @Inject(method = "tickMovement", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/entity/passive/ChickenEntity;getWorld()Lnet/minecraft/world/World;"), cancellable = true)
+    //@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/ChickenEntity;getWorld()Lnet/minecraft/world/World;"), cancellable = true)
     private void onTickMovement(CallbackInfo ci) {
 
         long worldTime = getWorld().getTimeOfDay() % 24000;

@@ -39,7 +39,7 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
 
 
     // TODO: Figure out why the nbt data for hasBeenFed doesn't persist between world restarts.
-    @Inject(method = "interactMob", at = @At("TAIL"), cancellable = true)
+    //@Inject(method = "interactMob", at = @At("TAIL"), cancellable = true)
     private void onInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
 
         if (isChickenEntity) {
