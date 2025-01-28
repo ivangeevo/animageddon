@@ -23,18 +23,16 @@ public abstract class PigEntityMixin extends AnimalEntity
     protected PigEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }
-    @Unique
-    private static final Ingredient BREEDING_INGREDIENT = Ingredient.fromTag(ModTags.Items.PIG_BREEDING_ITEMS);
+
+    @Unique private static final Ingredient BREEDING_INGREDIENT = Ingredient.fromTag(ModTags.Items.PIG_BREEDING_ITEMS);
 
     @Inject(method = "initGoals", at = @At("TAIL"))
-    private void injectedInitGoals(CallbackInfo ci)
-    {
+    private void injectedInitGoals(CallbackInfo ci) {
         this.goalSelector.add(4, new TemptGoal(this, 1.4, BREEDING_INGREDIENT, false));
     }
 
     @Inject(method = "isBreedingItem", at = @At("HEAD"), cancellable = true)
-    private void injectedIsBreedingItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir)
-    {
+    private void injectedIsBreedingItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(BREEDING_INGREDIENT.test(stack));
     }
 

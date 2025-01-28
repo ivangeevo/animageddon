@@ -8,7 +8,7 @@
   "contact": {
     "repo": "https://github.com/ivangeevo/animageddon.git"
   },
-  "license": "MIT",
+  "license": "CC-BY 4.0",
   "icon": "assets/animageddon/icon.png",
   "environment": "*",
   "entrypoints": {

@@ -33,24 +33,17 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
         super(entityType, world);
     }
 
-    @Inject(method = "initGoals", at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V",
-                    ordinal = 3))
+    // Setting "canBeScared" to true for non-breeding tempt items
+    @Inject(method = "initGoals", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V", ordinal = 3))
     private void modifyTemptGoal(CallbackInfo ci) {
-        TemptGoal customTemptGoal = new TemptGoal(
-                this,
-                1.25,
-                stack -> stack.isIn(ItemTags.COW_FOOD),
-                true // Custom `canBeScared` value
-        );
-
+        TemptGoal customTemptGoal = new TemptGoal(this, 1.25, stack -> stack.isIn(ItemTags.COW_FOOD), true);
         this.goalSelector.add(3, customTemptGoal);
     }
 
+    // making Cake a viable "tempt" item
     @Inject(method = "initGoals", at = @At("TAIL"))
     private void injectedInitGoals(CallbackInfo ci) {
-        this.goalSelector.add(3,
-                new TemptGoal(this, 1.4, Ingredient.ofItems(Items.CAKE), false));
+        this.goalSelector.add(3, new TemptGoal(this, 1.4, Ingredient.ofItems(Items.CAKE), false));
     }
 
     @Override

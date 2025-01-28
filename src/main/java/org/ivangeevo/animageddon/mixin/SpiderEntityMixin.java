@@ -1,28 +1,17 @@
 package org.ivangeevo.animageddon.mixin;
 
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.RabbitEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
-import org.ivangeevo.animageddon.entity.ai.goal.CobwebShootGoal;
-import org.ivangeevo.animageddon.entity.ai.goal.CobwebShootGoalV2;
-import org.ivangeevo.animageddon.entity.ai.goal.SpiderAttackGoal;
 import org.ivangeevo.animageddon.entity.interfaces.SpiderEntityAdded;
 import org.ivangeevo.animageddon.entity.projectile.CobwebEntity;
 import org.spongepowered.asm.mixin.Mixin;
