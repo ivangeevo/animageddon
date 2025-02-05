@@ -25,11 +25,11 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity
 
     @Unique private int fedLevel = 0;
 
-    @Unique protected final int maxFedLevel = 480;
+    @Unique protected final int maxFedLevel = 3000;
 
-    @Unique private final int rideableFedLevel = 400;
+    @Unique private final int rideableFedLevel = 600;
 
-    @Unique private final int untamedFedLevel = maxFedLevel / 16; // 3000
+    @Unique private final int untamedFedLevel = maxFedLevel / 8; // 400
 
 
     // holds the value of whether the horse is fed enough to be ridden

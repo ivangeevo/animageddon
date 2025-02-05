@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin implements EntityAdded
-{
+public abstract class EntityMixin implements EntityAdded {
+
     @Shadow public abstract @Nullable Entity getVehicle();
     @Shadow public abstract boolean startRiding(Entity entity);
     @Shadow private Vec3d velocity;

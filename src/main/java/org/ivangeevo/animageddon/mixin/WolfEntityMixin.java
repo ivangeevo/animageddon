@@ -17,14 +17,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(WolfEntity.class)
-public abstract class WolfEntityMixin extends TameableEntity implements Angerable
-{
+public abstract class WolfEntityMixin extends TameableEntity implements Angerable {
     @Unique
     private int dungDropTimer = 0;
 
 
-    protected WolfEntityMixin(EntityType<? extends TameableEntity> entityType, World world)
-    {
+    protected WolfEntityMixin(EntityType<? extends TameableEntity> entityType, World world) {
         super(entityType, world);
     }
 

@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+// TODO : Make baby animals unable to jump full blocks, only half blocks.
 @Mixin(EntityNavigation.class)
 public abstract class EntityNavigationMixin {
     @Shadow @Final protected MobEntity entity;
@@ -28,7 +29,8 @@ public abstract class EntityNavigationMixin {
 
     @Shadow @Nullable private BlockPos currentTarget;
 
-    @Inject(method = "canJumpToNext", at = @At("HEAD"), cancellable = true)
+
+    //@Inject(method = "canJumpToNext", at = @At("HEAD"), cancellable = true)
     private void preventBabyJumps(PathNodeType nodeType, CallbackInfoReturnable<Boolean> cir) {
         if (this.entity instanceof AnimalEntity animal && animal.isBaby()) {
 
@@ -47,7 +49,7 @@ public abstract class EntityNavigationMixin {
         }
     }
 
-    @Inject(method = "continueFollowingPath", at = @At("HEAD"), cancellable = true)
+    //@Inject(method = "continueFollowingPath", at = @At("HEAD"), cancellable = true)
     private void restrictBabyJumping(CallbackInfo ci) {
         if (this.entity instanceof AnimalEntity animal && animal.isBaby()) {
             Vec3i nextNodePos = this.currentPath.getCurrentNodePos();
@@ -61,7 +63,7 @@ public abstract class EntityNavigationMixin {
         }
     }
 
-    @Inject(method = "shouldJumpToNextNode", at = @At("HEAD"), cancellable = true)
+    //@Inject(method = "shouldJumpToNextNode", at = @At("HEAD"), cancellable = true)
     private void restrictBabyJumpNodes(Vec3d currentPos, CallbackInfoReturnable<Boolean> cir) {
         if (this.entity instanceof AnimalEntity animal && animal.isBaby()) {
             // Prevent jump to high blocks here, similar to the logic above.

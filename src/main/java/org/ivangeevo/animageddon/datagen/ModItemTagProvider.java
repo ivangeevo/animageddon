@@ -11,20 +11,19 @@ import org.ivangeevo.animageddon.tag.ModTags;
 import java.util.concurrent.CompletableFuture;
 
 public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
+
     public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
         super(output, completableFuture);
     }
 
     @Override
-    protected void configure(RegistryWrapper.WrapperLookup arg)
-    {
+    protected void configure(RegistryWrapper.WrapperLookup arg) {
         addToVanillaTags();
         addToConventionalTags();
         addToModTags();
     }
 
-    private void addToVanillaTags()
-    {
+    private void addToVanillaTags() {
         getOrCreateTagBuilder(ItemTags.COW_FOOD)
                 .add(Items.SHORT_GRASS);
 
@@ -36,8 +35,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
     }
 
-    private void addToModTags()
-    {
+    private void addToModTags() {
         getOrCreateTagBuilder(ModTags.Items.SEEDS_FOR_CHICKEN)
                 .add(Items.WHEAT_SEEDS)
                 .add(Items.MELON_SEEDS)
@@ -45,8 +43,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(Items.BEETROOT_SEEDS);
 
     }
-    private void addToConventionalTags()
-    {
+
+    private void addToConventionalTags() {
         getOrCreateTagBuilder(BTWRConventionalTags.Items.CHICKEN_TEMPT_ITEMS)
                 .addTag(ModTags.Items.SEEDS_FOR_CHICKEN);
     }

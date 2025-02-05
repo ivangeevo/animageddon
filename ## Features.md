@@ -2,7 +2,7 @@
 
 # 
 + Added Cobwebs breaking in stages
-+ Added mobs killing animals at night:
++ Added mobs hunting/killing animals at night:
 Zombies will hunt: Sheep & Cows
 Spiders will hunt: Chickens & Rabbits
 
@@ -10,3 +10,4 @@ Spiders will hunt: Chickens & Rabbits
 + Added Cured Meat food item
 + Changes breeding items for animals to ones that are harder to acquire
 + Removes creepers ability to blow up instantly after falling close to the player and taking damage
+

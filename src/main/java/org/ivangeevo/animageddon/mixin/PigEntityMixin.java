@@ -18,8 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.ivangeevo.animageddon.tag.ModTags;
 
 @Mixin(PigEntity.class)
-public abstract class PigEntityMixin extends AnimalEntity
-{
+public abstract class PigEntityMixin extends AnimalEntity {
     protected PigEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -33,7 +32,7 @@ public abstract class PigEntityMixin extends AnimalEntity
 
     @Inject(method = "isBreedingItem", at = @At("HEAD"), cancellable = true)
     private void injectedIsBreedingItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(BREEDING_INGREDIENT.test(stack));
+        cir.setReturnValue(stack.isIn(ModTags.Items.PIG_BREEDING_ITEMS));
     }
 
 }
