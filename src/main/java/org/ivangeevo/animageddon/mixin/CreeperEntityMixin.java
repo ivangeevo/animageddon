@@ -17,7 +17,7 @@ public abstract class CreeperEntityMixin extends HostileEntity
         super(entityType, world);
     }
 
-    // Should be removing the creeper's instant blowing up when they land after taking damage
+    // Removing the creeper's instant blowing up when they land after taking damage
     @Inject(method = "handleFallDamage", at = @At("HEAD"), cancellable = true)
     private void injectedHandleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(super.handleFallDamage(fallDistance, damageMultiplier, damageSource));

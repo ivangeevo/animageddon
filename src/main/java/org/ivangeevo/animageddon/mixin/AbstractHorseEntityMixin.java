@@ -14,8 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractHorseEntity.class)
-public abstract class AbstractHorseEntityMixin extends AnimalEntity
-{
+public abstract class AbstractHorseEntityMixin extends AnimalEntity {
 
     @Shadow protected abstract boolean getHorseFlag(int bitmask);
 

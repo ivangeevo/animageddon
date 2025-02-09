@@ -2,8 +2,7 @@ package org.ivangeevo.animageddon.util;
 
 public class WoolColorsHelper {
 
-
-    public static final String[] woolColorNames = new String[]{
+    public static final String[] woolColorNames = new String[] {
             "Black", "Red", "Green", "Brown", "Blue", "Purple", "Cyan", "Light Gray", "Gray", "Pink",
             "Lime", "Yellow", "Light Blue", "Magenta", "Orange", "White"
     };
