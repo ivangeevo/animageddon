@@ -51,7 +51,7 @@ Breeding has been rebalanced to require more effort:
 ### 🏚️ Smarter Hostile Mobs
 - **Zombie Villagers** 🚪 will be able to **open doors**.
 - **Squids** 🦑 will get a **tentacle grab attack** and become **more aggressive at night**, staying in deep water during the day.
-- **Cows** 🐄 will have a **"defensive kick" attack** 🦵 when scared, knocking back attackers.
+- **Cows**, **Horses**, **Donkeys** & **Mules** will have a **"defensive kick" attack** 🦵 when scared, knocking back attackers.
 
 ### 🎣 Fishing Overhaul
 - **No more AFK fishing** 🎣❌ – Requires a **substantial water source**.
