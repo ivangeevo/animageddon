@@ -29,7 +29,7 @@ Breeding has been rebalanced to require more effort:
 ---
 
 ## 🔥 Survival & Combat Changes
-- **Cobwebs now break in stages** 🕸️, rather than instantly.
+- **Cobwebs now break in stages** 🕸️, rather than instantly. They can be harvested fully with Shears and un-crafted to get 2 strings instead of 1.
 - **Creepers** no longer explode 💣 instantly  after falling near the player and taking damage.
 - **Zombified Piglins** 🧟‍♂️ now have only a **30% chance** of spawning with golden tools.
 - **Zombies now prioritize attacking players** 👥.
