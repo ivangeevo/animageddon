@@ -18,9 +18,9 @@ public class ModItems
 
     public static final Item NITRE = registerItem( "nitre", new Item(new Item.Settings()));
 
-    public static final Item CURED_MEAT = registerItem( "cured_meat", new Item(new Item.Settings().maxCount(16).food(ModFoodComponents.CURED_MEAT)));
+    public static final Item CURED_MEAT = registerItem( "cured_meat", new Item(new Item.Settings().food(ModFoodComponents.CURED_MEAT)));
 
-    public static final Item BURNED_MEAT = registerItem( "burned_meat", new Item(new Item.Settings().maxCount(16).food(ModFoodComponents.BURNED_MEAT)));
+    public static final Item BURNED_MEAT = registerItem( "burned_meat", new Item(new Item.Settings().food(ModFoodComponents.BURNED_MEAT)));
 
     //public static final Item WOOL = registerItem( "wool", new WoolItem(new Item.Settings()));
 
@@ -36,7 +36,7 @@ public class ModItems
         {
             entries.add(CURED_MEAT);
             entries.add(BURNED_MEAT);
-            entries.add(CHICKEN_FEED);
+            //entries.add(CHICKEN_FEED);
 
         });
 

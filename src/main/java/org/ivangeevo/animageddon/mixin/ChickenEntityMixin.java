@@ -6,6 +6,7 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
@@ -19,6 +20,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ChickenEntity.class)
 public abstract class ChickenEntityMixin extends AnimalEntity {
@@ -103,6 +105,11 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
             lastFedTime = -1;
             setHasBeenFed(false);
         }
+    }
+
+    @Inject(method = "isBreedingItem", at = @At("HEAD"), cancellable = true)
+    private void onIsBreedingItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        cir.setReturnValue(stack.isOf(ModItems.CHICKEN_FEED));
     }
 
 

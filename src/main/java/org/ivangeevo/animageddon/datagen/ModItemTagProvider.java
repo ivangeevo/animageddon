@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.util.Identifier;
 import org.ivangeevo.animageddon.tag.ModTags;
 
 import java.util.concurrent.CompletableFuture;
@@ -41,6 +42,9 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(Items.MELON_SEEDS)
                 .add(Items.PUMPKIN_SEEDS)
                 .add(Items.BEETROOT_SEEDS);
+
+        getOrCreateTagBuilder(ModTags.Items.PIG_BREEDING_ITEMS)
+                .addOptional(Identifier.of("vegehenna", "chocolate"));
 
     }
 

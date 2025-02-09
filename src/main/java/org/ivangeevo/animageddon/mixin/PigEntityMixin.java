@@ -25,7 +25,12 @@ public abstract class PigEntityMixin extends AnimalEntity {
         super(entityType, world);
     }
 
-    @Unique private static final Ingredient BREEDING_INGREDIENT = Ingredient.fromTag(ModTags.Items.PIG_BREEDING_ITEMS);
+    // Temporary solution (permanent if it works) setting the breeding ingredient to one that Vegehenna mod provides -
+    // which is the chocolate item from that mod, else use the default ingredient.
+    @Unique private static final boolean isVegehennaLoaded = FabricLoader.getInstance().isModLoaded("vegehenna");
+
+    @Unique private static final Ingredient BREEDING_INGREDIENT =
+            isVegehennaLoaded ? Ingredient.fromTag(ModTags.Items.PIG_BREEDING_ITEMS) : Ingredient.fromTag(ItemTags.PIG_FOOD);
 
     @Inject(method = "initGoals", at = @At("TAIL"))
     private void injectedInitGoals(CallbackInfo ci) {
@@ -34,11 +39,7 @@ public abstract class PigEntityMixin extends AnimalEntity {
 
     @Inject(method = "isBreedingItem", at = @At("HEAD"), cancellable = true)
     private void injectedIsBreedingItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        if (FabricLoader.getInstance().isModLoaded("vegehenna")) {
-            cir.setReturnValue(stack.isIn(ModTags.Items.PIG_BREEDING_ITEMS));
-        }
-
-        cir.setReturnValue(stack.isIn(ItemTags.PIG_FOOD));
+        cir.setReturnValue(isVegehennaLoaded ? stack.isIn(ModTags.Items.PIG_BREEDING_ITEMS) : stack.isIn(ItemTags.PIG_FOOD));
     }
 
 }

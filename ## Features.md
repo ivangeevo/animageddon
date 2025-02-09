@@ -20,8 +20,8 @@ Animageddon enhances Minecraft’s survival experience by making the world more 
 
 ### 🐣 Animal Breeding Adjustments
 Breeding has been rebalanced to require more effort:
-- **🐷 Pigs** – Unchanged.
-- **🐔 Chickens** – Unchanged.
+- **🐷 Pigs** – Unchanged -> If the Vegehenna mod is present, then it's changed to 🍫Chocolate from it.
+- **🐔 Chickens** – Temporary breeding allowed with a new item - **Chicken Feed**.
 - **🐄 Cows** – Now require **Cake** 🎂.
 - **🐑 Sheep** – Now require **Pumpkin Pie** 🥧.
 - Animals now **run faster** 🏃 towards their breeding items.
@@ -46,7 +46,7 @@ Breeding has been rebalanced to require more effort:
 - **Animals will require food** 🍽️ to survive—if not fed, they will **starve and die**.
 
 ### 🐔 Chicken Breeding Overhaul
-- **Breeding removed** ❌ – Instead, feeding **Chicken Feed** will make them produce eggs.
+- **Breeding removed** ❌ – Instead, feeding **Chicken Feed** will make them produce eggs on the next morning.
 
 ### 🏚️ Smarter Hostile Mobs
 - **Zombie Villagers** 🚪 will be able to **open doors**.

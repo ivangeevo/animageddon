@@ -23,14 +23,13 @@ public abstract class SheepEntityMixin extends AnimalEntity implements Shearable
     }
 
     @Inject(method = "initGoals",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V", ordinal = 3), cancellable = true)
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V", ordinal = 3))
     private void modifyTemptGoal(CallbackInfo ci) {
         // Set canBeScared to true
         TemptGoal customTemptGoal =
                 new TemptGoal(this, 1.25, stack -> stack.isIn(ItemTags.SHEEP_FOOD), true);
 
         this.goalSelector.add(3, customTemptGoal);
-        ci.cancel();
     }
 
     @Inject(method = "initGoals", at = @At("TAIL"))

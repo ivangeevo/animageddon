@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-version = project.mod_version
+version = project.mod_version + "-" + project.minecraft_version
 group = project.maven_group
 
 def dataOutput = 'src/main/generated'
@@ -51,6 +51,8 @@ repositories {
     // for more information about repositories.
 
     maven { url "https://ivangeevo.github.io/btwr-shared-lib" }
+    maven { url "https://api.modrinth.com/maven" }
+
 }
 
 dependencies {
@@ -62,7 +64,10 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation( "org.ivangeevo:btwr-shared-lib:${project.btwr_sl_version}")
+    modImplementation("org.ivangeevo:btwr-shared-lib:${project.btwr_sl_version}")
+
+    //modImplementation "maven.modrinth:vegehenna:${project.vegehenna_version}"
+
 }
 
 processResources {
