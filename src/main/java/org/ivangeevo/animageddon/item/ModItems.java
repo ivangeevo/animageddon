@@ -35,8 +35,8 @@ public class ModItems
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(entries ->
         {
             entries.add(CURED_MEAT);
-            entries.add(BURNED_MEAT);
-            //entries.add(CHICKEN_FEED);
+            //entries.add(BURNED_MEAT);
+            entries.add(CHICKEN_FEED);
 
         });
 
