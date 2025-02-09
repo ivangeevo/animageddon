@@ -30,13 +30,13 @@ Breeding has been rebalanced to require more effort:
 
 ## 🔥 Survival & Combat Changes
 - **Cobwebs now break in stages** 🕸️, rather than instantly.
-- **Creepers can no longer explode instantly** 💣 after falling near the player and taking damage.
+- **Creepers** no longer explode 💣 instantly  after falling near the player and taking damage.
 - **Zombified Piglins** 🧟‍♂️ now have only a **30% chance** of spawning with golden tools.
 - **Zombies now prioritize attacking players** 👥.
 - **Zombie AI improvements**:
-    - Wait **120–200 ticks** before attacking.
-    - Attack **Sheep** and **Cows** **20% faster**.
-    - Use a **new attack handling system** for better behavior.
+  - Wait **120–200 ticks** before attacking.
+  - Attack **Sheep** and **Cows** **20% faster**.
+  - Use a **new attack handling system** for better behavior.
 
 ---
 
