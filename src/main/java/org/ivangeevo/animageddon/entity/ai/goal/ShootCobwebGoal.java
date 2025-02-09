@@ -7,8 +7,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.ivangeevo.animageddon.entity.interfaces.SpiderEntityAdded;
 
-public class ShootCobwebGoal extends Goal
-{
+public class ShootCobwebGoal extends Goal {
     private final SpiderEntity spider;
     public int cooldown;
 

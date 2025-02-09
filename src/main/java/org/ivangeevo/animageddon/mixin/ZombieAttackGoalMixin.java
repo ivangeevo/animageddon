@@ -15,19 +15,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ZombieAttackGoal.class)
 public abstract class ZombieAttackGoalMixin extends MeleeAttackGoal {
     @Shadow private int ticks;
-    private final ZombieEntity zombie;
 
     public ZombieAttackGoalMixin(ZombieEntity zombie, double speed, boolean pauseWhenMobIdle) {
         super(zombie, speed, pauseWhenMobIdle);
-        this.zombie = zombie;
     }
 
     @Inject(method = "start", at = @At("HEAD"))
     private void onStart(CallbackInfo ci) {
-        if (this.mob.getAttacking() instanceof PlayerEntity)
-        {
-            PlayerEntity player = (PlayerEntity) this.mob.getAttacking();
-
+        if (this.mob.getAttacking() instanceof PlayerEntity player) {
             // Check conditions for attacking players
             if (this.shouldAttackPlayer(player)) {
                 // Initiate the attack

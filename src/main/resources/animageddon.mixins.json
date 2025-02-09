@@ -11,6 +11,7 @@
     "CowEntityMixin",
     "CreeperEntityMixin",
     "EntityMixin",
+    "FishingBobberEntityMixin",
     "ItemEntryAccessor",
     "ItemMixin",
     "LootPoolBuilderAccessor",
@@ -18,7 +19,7 @@
     "SheepEntityMixin",
     "SpiderEntityMixin",
     "SquidEntityMixin",
-    "WolfEntityMixin",
+    "SwordItemMixin",
     "ZombieAttackGoalMixin",
     "ZombieEntityMixin",
     "ZombifiedPiglinEntityMixin"

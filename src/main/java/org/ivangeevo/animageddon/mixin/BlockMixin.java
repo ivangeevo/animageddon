@@ -19,10 +19,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Block.class)
-public abstract class BlockMixin extends AbstractBlock
-{
-    @Unique
-    private static final IntProperty BREAK_LEVEL = IntProperty.of("break_level", 0, 2);
+public abstract class BlockMixin extends AbstractBlock {
 
     public BlockMixin(Settings settings) {
         super(settings);
@@ -38,7 +35,7 @@ public abstract class BlockMixin extends AbstractBlock
                 player.addExhaustion(0.005f);
                 ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), Items.COBWEB.getDefaultStack());
             } else {
-                // if other tool that's set viable for the block - break in stages
+                // if other tool that's set viable for the block - break in stages (like swords and chisels)
                 changeToWebBlockState(world, player, pos);
             }
 
@@ -46,6 +43,7 @@ public abstract class BlockMixin extends AbstractBlock
         }
     }
 
+    @Unique
     private void changeToWebBlockState(World world, PlayerEntity player, BlockPos pos) {
         if (!world.isClient()) {
             player.incrementStat(Stats.MINED.getOrCreateStat((Block)(Object)this));

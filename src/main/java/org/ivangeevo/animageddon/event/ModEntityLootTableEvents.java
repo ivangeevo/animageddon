@@ -3,6 +3,7 @@ package org.ivangeevo.animageddon.event;
 import com.google.common.collect.ImmutableList;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
@@ -13,8 +14,12 @@ import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.entry.LootPoolEntry;
+import net.minecraft.loot.function.EnchantedCountIncreaseLootFunction;
+import net.minecraft.loot.function.FurnaceSmeltLootFunction;
+import net.minecraft.loot.function.LootFunction;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.entity.EntityEquipmentPredicate;
 import net.minecraft.predicate.entity.EntityFlagsPredicate;
@@ -42,6 +47,10 @@ public class ModEntityLootTableEvents
     // Register loot table changes
     public static void initialize() {
         modifySpecificItemWithCount(CREEPER.getLootTableId(), Items.GUNPOWDER, ModItems.NITRE, 1);
+
+        // TODO: Make it so that when the mob dies on fire it drops burned meat instead of cooked.
+        //modifyFoodItemToBurned(COW.getLootTableId(), Items.COOKED_BEEF, ModItems.BURNED_MEAT,1);
+
 
         /**
         // Burned meat entries
@@ -117,6 +126,45 @@ public class ModEntityLootTableEvents
             });
         });
     }
+
+    private static void modifyFoodItemToBurned(RegistryKey<LootTable> registryKey, Item target, Item toReplace, int count) {
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+
+            // Check if the key is for target's loot table
+            if (registryKey != key) return;
+
+            tableBuilder.modifyPools(builder -> {
+                List<LootPoolEntry> l = new ArrayList<>(((LootPoolBuilderAccessor) builder).getEntries().build());
+                l.replaceAll(entry -> {
+                    if (!(entry instanceof ItemEntry itemEntry))
+                        return entry;
+                    if (((ItemEntryAccessor) itemEntry).getItem().value() != target)
+                        return entry;
+
+                    if (builder.conditionally(createSmeltLootCondition(registries)) != null) {
+                        return entry;
+                    }
+
+                    return ItemEntry.builder(toReplace)
+                            .conditionally(createSmeltLootCondition(registries))
+                            .apply(() -> SetCountLootFunction.builder(ConstantLootNumberProvider.create(count)).build())
+                            .build();
+                });
+
+                ((LootPoolBuilderAccessor) builder).setEntries(ImmutableList.<LootPoolEntry>builder().addAll(l));
+
+            });
+        });
+    }
+
+    protected static AnyOfLootCondition.Builder createSmeltLootCondition(RegistryWrapper.WrapperLookup registryLookup) {
+        RegistryWrapper.Impl<Enchantment> impl = registryLookup.getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
+        return AnyOfLootCondition.builder(EntityPropertiesLootCondition.builder(LootContext.EntityTarget.THIS, EntityPredicate.Builder.create().flags(EntityFlagsPredicate.Builder.create().onFire(true))), EntityPropertiesLootCondition.builder(LootContext.EntityTarget.DIRECT_ATTACKER, EntityPredicate.Builder.create().equipment(EntityEquipmentPredicate.Builder.create().mainhand(ItemPredicate.Builder.create().subPredicate(ItemSubPredicateTypes.ENCHANTMENTS, EnchantmentsPredicate.enchantments(List.of(new EnchantmentPredicate(impl.getOrThrow(EnchantmentTags.SMELTS_LOOT), NumberRange.IntRange.ANY))))))));
+    }
+
+
+
+
 
 
 }

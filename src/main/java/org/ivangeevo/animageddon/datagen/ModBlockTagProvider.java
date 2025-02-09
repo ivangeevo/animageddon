@@ -19,6 +19,9 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg) {
 
+        getOrCreateTagBuilder(BlockTags.FALL_DAMAGE_RESETTING)
+                .add(ModBlocks.WEB_BLOCK);
+
         getOrCreateTagBuilder(BTWRConventionalTags.Blocks.WEB_BLOCKS)
                 .add(ModBlocks.WEB_BLOCK);
 

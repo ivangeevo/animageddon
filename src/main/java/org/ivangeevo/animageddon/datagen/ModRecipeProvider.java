@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.RecipeProvider;
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
@@ -17,8 +16,7 @@ import org.ivangeevo.animageddon.item.ModItems;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ModRecipeProvider extends FabricRecipeProvider
-{
+public class ModRecipeProvider extends FabricRecipeProvider {
 
 
     public ModRecipeProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
@@ -26,8 +24,7 @@ public class ModRecipeProvider extends FabricRecipeProvider
     }
 
     @Override
-    public void generate(RecipeExporter exporter)
-    {
+    public void generate(RecipeExporter exporter) {
         //ShapelessRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.CHICKEN_FEED).input(ModTags.Items.SEEDS_FOR_CHICKEN).input(Items.BONE_MEAL).criterion("has_bone_meal", RecipeProvider.conditionsFromItem(Items.BONE_MEAL)).offerTo(exporter);
 
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, Items.STRING,2).input(Items.COBWEB).criterion("has_cobweb", RecipeProvider.conditionsFromItem(Items.COBWEB)).offerTo(exporter, Identifier.of(AnimageddonMod.MOD_ID, "string_from_cobweb"));

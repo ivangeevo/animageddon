@@ -25,8 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AnimalEntity.class)
-public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalEntityAdded
-{
+public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalEntityAdded {
 
     @Shadow protected abstract void eat(PlayerEntity player, Hand hand, ItemStack stack);
 

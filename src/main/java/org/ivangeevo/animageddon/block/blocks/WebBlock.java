@@ -11,6 +11,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
@@ -53,7 +54,8 @@ public class WebBlock extends CobwebBlock
     public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack tool) {
         if (player.getMainHandStack() != null) {
 
-            if (isSuitableChiselForState(state, tool) ) {
+            // You need either a chisel item or a sword to start breaking the web in increments
+            if (isSuitableChiselForState(state, tool) || tool.isIn(ItemTags.SWORDS)) {
 
                 if (state.get(BREAK_LEVEL) < 1) {
                     changeState(1, world, player, pos);
@@ -64,6 +66,7 @@ public class WebBlock extends CobwebBlock
                     ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), Items.STRING.getDefaultStack());
                 }
 
+                // Shears harvest the web block instantly
             } else if (tool.isIn(ConventionalItemTags.SHEAR_TOOLS)) {
                 ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), ModBlocks.WEB_BLOCK.asItem().getDefaultStack());
             }
