@@ -1,32 +1,67 @@
-## Animageddon List of Features
+# 🧟 Animageddon – A More Hostile Minecraft
 
-# 
-+ Added Cobwebs breaking in stages
-+ Added mobs hunting/killing animals at night:
-Zombies will hunt: Sheep & Cows
-Spiders will hunt: Chickens & Rabbits
+Animageddon enhances Minecraft’s survival experience by making the world more dangerous and immersive. Mobs now hunt animals, breeding is more balanced, and survival requires greater strategy. Experience a world where nature fights back and survival is never guaranteed.
 
-+ Added Nitre item which creepers will drop instead of Gunpowder (which is now craftable instead)
-+ Added Cured Meat food item
-+ Changes breeding items for animals to ones that are harder to acquire and this tones down/balances breeding a bit from the vanilla game:
-<p>Pig: Unchanged</p>
-<p>Chicken: Unchanged</p>
-<p>Cow: Cake</p>
-<p>Sheep: Pumpkin Pie</p>
+---
 
-+ Animals will now run faster towards their breeding items
-+ Removes creepers ability to blow up instantly after falling close to the player and taking damage
-+ Reduces the chance that Zombified Piglins will spawn with golden tools to only 30%
-+ Zombies will now prioritize attacking players,
-wait 120–200 ticks before attacking, attack Sheep and Cows 20% faster, and use a new attack handling method.
+## ⚔️ Features at a Glance
 
-## Features/changes to be added later
-+ Hostile mobs will consume the food that animals drop when they kill them
-+ Animals requiring to eat in order to stay alive and will starve and eventually die if they don't
-+ Chickens breeding removal and changed with feeding with "Chicken Feed" in order to produce eggs
-+ Zombie Villagers will be able to open doors
-+ Squids will be changed to have a tentacle grab attack and prefer attacking the player at night, while staying in deep waters during the day
-+ Cows will have a "defensive" kick attack when they're in the "fleeing/scared" state which will damage and fling the player away
-+ Fishing will be changed even further to require a substantial amount of water
-to be able to fish (effectively removing afk fishing) & will also require bait in order to catch fish
-+ Animals set on fire will drop Burned Meat when they die instead of cooked one.
+### 🐾 Animal Behavior & Hunting
+- **Zombies** now hunt **Sheep** 🐑 and **Cows** 🐄 at night.
+- **Spiders** now hunt **Chickens** 🐔 and **Rabbits** 🐇 at night.
+
+---
+
+### 🛠️ New Items & Crafting Changes
+- **Nitre** 💥 – Dropped by Creepers instead of Gunpowder (Gunpowder is now craftable).
+- **Cured Meat** 🍖 – A new food item.
+
+---
+
+### 🐣 Animal Breeding Adjustments
+Breeding has been rebalanced to require more effort:
+- **🐷 Pigs** – Unchanged.
+- **🐔 Chickens** – Unchanged.
+- **🐄 Cows** – Now require **Cake** 🎂.
+- **🐑 Sheep** – Now require **Pumpkin Pie** 🥧.
+- Animals now **run faster** 🏃 towards their breeding items.
+
+---
+
+## 🔥 Survival & Combat Changes
+- **Cobwebs now break in stages** 🕸️, rather than instantly.
+- **Creepers can no longer explode instantly** 💣 after falling near the player and taking damage.
+- **Zombified Piglins** 🧟‍♂️ now have only a **30% chance** of spawning with golden tools.
+- **Zombies now prioritize attacking players** 👥.
+- **Zombie AI improvements**:
+    - Wait **120–200 ticks** before attacking.
+    - Attack **Sheep** and **Cows** **20% faster**.
+    - Use a **new attack handling system** for better behavior.
+
+---
+
+## 🔮 Planned Features
+### 🦴 Hostile Mobs & Animal Survival
+- **Hostile mobs will consume food** 🥩 dropped by animals they kill.
+- **Animals will require food** 🍽️ to survive—if not fed, they will **starve and die**.
+
+### 🐔 Chicken Breeding Overhaul
+- **Breeding removed** ❌ – Instead, feeding **Chicken Feed** will make them produce eggs.
+
+### 🏚️ Smarter Hostile Mobs
+- **Zombie Villagers** 🚪 will be able to **open doors**.
+- **Squids** 🦑 will get a **tentacle grab attack** and become **more aggressive at night**, staying in deep water during the day.
+- **Cows** 🐄 will have a **"defensive kick" attack** 🦵 when scared, knocking back attackers.
+
+### 🎣 Fishing Overhaul
+- **No more AFK fishing** 🎣❌ – Requires a **substantial water source**.
+- **Fishing now requires bait** 🪱.
+
+### 🍖 Cooking & Food Adjustments
+- Animals set on fire will drop **Burned Meat** 🔥 instead of cooked meat.
+
+---
+
+Animageddon transforms Minecraft’s survival gameplay by making nature unpredictable and dangerous. Whether you're facing smarter zombies, rethinking your animal farms, or adapting to a harsher wilderness, every decision counts.
+
+Will you adapt—or be hunted?  
