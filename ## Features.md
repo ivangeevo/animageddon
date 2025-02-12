@@ -48,8 +48,10 @@ Breeding has been rebalanced to require more effort:
 ### 🐔 Chicken Breeding Overhaul
 - **Breeding removed** ❌ – Instead, feeding **Chicken Feed** will make them produce eggs on the next morning.
 
-### 🕷️ New mob - Jungle Spider
-- **Jungle Spiders** will only spawn in the jungle. They work the same as Cave Spiders, but are smaller and venomous.
+
+### 🕷️ Spider Changes
+- **Spiders shooting cobwebs!** - Spiders will now shoot cobwebs at entities it targets.
+- **New mob - Jungle Spider** It will only spawn in the jungle. Works the same as Cave Spider, but smaller and venomous.
 
 ### 🏚️ Smarter Hostile Mobs
 - **Zombie Villagers** 🚪 will be able to **open doors**.
