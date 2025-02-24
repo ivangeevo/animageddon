@@ -1,12 +1,8 @@
 ## Changelog Animageddon
 
-# v1.0
-+ Added Cobwebs breaking in stages
-+ Added mobs killing animals at night:
-Zombies will hunt: Sheep & Cows
-Spiders will hunt: Chickens & Rabbits
+# v0.1.1
++ Updated the mod to Fabric API 0.115.0, Fabric Loader 0.16.10 & BTWR Shared Library 0.47
++ Fixed a bug where creepers would drop only 1 nitre on death instead of maximum 2 as it does gunpowder normally
 
-+ Added Nitre item which creepers will drop instead of Gunpowder (which is now craftable instead)
-+ Added Cured Meat food item
-+ Changes breeding items for animals to ones that are harder to acquire
-+ Removes creepers ability to blow up instantly after falling close to the player and taking damage
+# v0.1
++ Initial Release
