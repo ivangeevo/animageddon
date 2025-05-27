@@ -46,6 +46,12 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         getOrCreateTagBuilder(ModTags.Items.PIG_BREEDING_ITEMS)
                 .addOptional(Identifier.of("vegehenna", "chocolate"));
 
+        getOrCreateTagBuilder(ModTags.Items.FISH_BAITS)
+                .add(Items.ROTTEN_FLESH)
+                .add(Items.SPIDER_EYE);
+
+
+
     }
 
     private void addToConventionalTags() {

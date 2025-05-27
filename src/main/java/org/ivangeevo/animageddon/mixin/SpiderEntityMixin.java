@@ -24,11 +24,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class SpiderEntityMixin extends HostileEntity implements SpiderEntityAdded {
 
     @Unique
-    private static final TrackedData<Boolean> SHOOTING =
-            DataTracker.registerData(SpiderEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(SpiderEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     @Unique
-    private static final TrackedData<Integer> TIME_TO_NEXT_WEB =
-            DataTracker.registerData(SpiderEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<Integer> TIME_TO_NEXT_WEB = DataTracker.registerData(SpiderEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     @Unique
     private static final int TIME_BETWEEN_WEBS = 20 * 60 * 20; // 1 minute in ticks
@@ -64,12 +62,10 @@ public abstract class SpiderEntityMixin extends HostileEntity implements SpiderE
     @Override public boolean hasWeb() { return this.dataTracker.get(TIME_TO_NEXT_WEB) <= 0; }
 
     @Override
-    public void spitWeb(Entity targetEntity)
-    {
-        if (!getWorld().isClient())
-        {
-            if (this.getTimeToNextWeb() <= 0)
-            {
+    public void spitWeb(Entity targetEntity) {
+
+        if (!getWorld().isClient()) {
+            if (this.getTimeToNextWeb() <= 0) {
                 Vec3d vec3d = this.getRotationVec(1.0F);
                 double f = targetEntity.getX() - (this.getX() + vec3d.x * 4.0);
                 double g = targetEntity.getBodyY(0.5) - (0.5 + this.getBodyY(0.5));

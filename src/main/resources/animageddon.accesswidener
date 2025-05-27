@@ -1,3 +1,4 @@
 accessWidener v2 named
 
 accessible class net/minecraft/entity/mob/SpiderEntity$TargetGoal
+accessible field net/minecraft/entity/projectile/FishingBobberEntity state Lnet/minecraft/entity/projectile/FishingBobberEntity$State;

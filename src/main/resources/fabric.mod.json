@@ -13,17 +13,22 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "org.ivangeevo.animageddon.client.AnimageddonModClient"
+      "org.ivangeevo.animageddon.AnimageddonModClient"
     ],
     "main": [
       "org.ivangeevo.animageddon.AnimageddonMod"
     ],
+
     "fabric-datagen": [
       "org.ivangeevo.animageddon.AnimageddonDataGenerator"
     ]
   },
   "mixins": [
-    "animageddon.mixins.json"
+    "animageddon.mixins.json",
+    {
+      "config": "animageddon.client.mixins.json",
+      "environment": "client"
+    }
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
@@ -43,7 +48,8 @@
       "net/minecraft/class_1297": ["org/ivangeevo/animageddon/entity/interfaces/EntityAdded"],
       "net/minecraft/class_1477": ["org/ivangeevo/animageddon/entity/interfaces/SquidEntityAdded"],
       "net/minecraft/class_1429": ["org/ivangeevo/animageddon/entity/interfaces/AnimalEntityAdded"],
-      "net/minecraft/class_1430": ["org/ivangeevo/animageddon/entity/interfaces/CowEntityAdded"]
+      "net/minecraft/class_1430": ["org/ivangeevo/animageddon/entity/interfaces/CowEntityAdded"],
+      "net/minecraft/class_560": ["org/ivangeevo/animageddon/entity/interfaces/CowEntityModelAdded"]
 
     }
   }

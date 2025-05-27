@@ -1,21 +1,15 @@
 package org.ivangeevo.animageddon.item.items;
 
-import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.MathHelper;
-import org.ivangeevo.animageddon.item.ModComponents;
-import org.ivangeevo.animageddon.item.ModItems;
 import org.ivangeevo.animageddon.util.WoolColorsHelper;
 import org.ivangeevo.animageddon.util.WoolType;
 
 import java.util.*;
 
-public class WoolItem extends Item implements ItemColorProvider {
+public class WoolItem extends Item {
 
     static private final List<List<Integer>> colorConversionArray = new LinkedList<>();
     private static final Map<WoolType, Integer> colorMap = new HashMap<>();
@@ -35,22 +29,19 @@ public class WoolItem extends Item implements ItemColorProvider {
 
     //------------- Class Specific Methods ------------//
 
-    static public int averageWoolColorsInGrid(Inventory inventory)
-    {
+    static public int averageWoolColorsInGrid(Inventory inventory) {
         int iAverageColor = 0;
         int iSumRed = 0;
         int iSumGreen = 0;
         int iSumBlue = 0;
         int iWoolCount = 0;
 
-        for ( int iTempSlot = 0; iTempSlot < inventory.size(); ++iTempSlot )
-        {
-            ItemStack tempStack = inventory.getStack( iTempSlot );
+        for (int iTempSlot = 0; iTempSlot < inventory.size(); ++iTempSlot) {
+            ItemStack tempStack = inventory.getStack(iTempSlot);
 
-            if ( tempStack != null )
-            {
+            if (tempStack != null) {
                 // delete "is empty" (fake check)
-                if (tempStack.isEmpty()/** tempStack.isOf(ModItems.WOOL) || tempStack.isOf(BTWRTags.Items.WOOL_KNIT_ITEMS)**/)
+                if (tempStack.isEmpty() /**&& tempStack.isOf(ModItems.WOOL) || tempStack.isOf(BTWRTags.Items.WOOL_KNIT_ITEMS)**/)
                 {
                     int iWoolColorIndex = MathHelper.clamp( tempStack.getDamage(), 0, 15 );
 
@@ -66,14 +57,12 @@ public class WoolItem extends Item implements ItemColorProvider {
             }
         }
 
-        if ( iWoolCount > 0 )
-        {
+        if (iWoolCount > 0) {
             int iAverageRed = iSumRed / iWoolCount;
             int iAverageGreen = iSumGreen / iWoolCount;
             int iAverageBlue = iSumBlue / iWoolCount;
 
             iAverageColor = ( iAverageRed << 16 ) | ( iAverageGreen << 8 ) | iAverageBlue;
-
         }
 
         return iAverageColor;
@@ -88,7 +77,6 @@ public class WoolItem extends Item implements ItemColorProvider {
             colorConversionArray.add(iTempIndex, tempColorList);
             tempColorList.add(WoolColorsHelper.woolColors[iTempIndex]);
         }
-
 
         // Additional points to aid in coming up with reasonable conversions
         // These are the same colors that are hardcoded in recipes to result from blending dyes
@@ -125,15 +113,13 @@ public class WoolItem extends Item implements ItemColorProvider {
         int iColorGreen = ( iColor >> 8 ) & 255;
         int iColorBlue = iColor & 255;
 
-        if (colorConversionArray == null )
-        {
+        if (colorConversionArray == null) {
             initColorConversionArray();
         }
 
         if ( MathHelper.abs( iColorRed - iColorGreen ) > 5 || MathHelper.abs( iColorRed - iColorBlue ) > 5 ) // skip straight to grey scale if there isn't much difference between colors
         {
-            for ( int iTempIndex = 0; iTempIndex < 16; iTempIndex++ )
-            {
+            for (int iTempIndex = 0; iTempIndex < 16; iTempIndex++) {
                 List<Integer> tempColorList = colorConversionArray.get(iTempIndex);
 
                 for (int iTempColor : tempColorList) {
@@ -159,26 +145,18 @@ public class WoolItem extends Item implements ItemColorProvider {
             }
         }
 
-        if ( iClosestIndex == -1 || iClosestColorDistanceSq > 15000 )
-        {
+        if (iClosestIndex == -1 || iClosestColorDistanceSq > 15000) {
             // go gray scale if no match was found or if the distance to the closest match is too large
 
             int iColorTotal = iColorRed + iColorGreen + iColorBlue;
 
-            if ( iColorTotal < 125 )
-            {
+            if ( iColorTotal < 125 ) {
                 iClosestIndex = 0;
-            }
-            else if ( iColorTotal < 297 )
-            {
+            } else if ( iColorTotal < 297 ) {
                 iClosestIndex = 8;
-            }
-            else if ( iColorTotal < 579 )
-            {
+            } else if ( iColorTotal < 579 ) {
                 iClosestIndex = 7;
-            }
-            else
-            {
+            } else {
                 iClosestIndex = 15;
             }
         }
@@ -223,8 +201,4 @@ public class WoolItem extends Item implements ItemColorProvider {
         return null;
     }
 
-    @Override
-    public int getColor(ItemStack stack, int tintIndex) {
-        return tintIndex;
-    }
 }

@@ -5,13 +5,12 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AbstractHorseEntityMixin",
-    "AnimalEntityMixin",
     "BlockMixin",
     "ChickenEntityMixin",
     "CowEntityMixin",
     "CreeperEntityMixin",
     "EntityMixin",
-    "FishingBobberEntityMixin",
+    "FishingRodItemMixin",
     "ItemEntryAccessor",
     "ItemMixin",
     "LootPoolBuilderAccessor",
@@ -20,11 +19,14 @@
     "SpiderEntityMixin",
     "SquidEntityMixin",
     "SwordItemMixin",
+    "WanderAroundGoalAccessor",
+    "WanderAroundGoalMixin",
     "ZombieAttackGoalMixin",
     "ZombieEntityMixin",
     "ZombifiedPiglinEntityMixin"
   ],
   "client": [
+
   ],
   "injectors": {
     "defaultRequire": 1

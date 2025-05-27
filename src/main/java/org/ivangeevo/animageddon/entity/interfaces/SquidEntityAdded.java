@@ -2,11 +2,11 @@ package org.ivangeevo.animageddon.entity.interfaces;
 
 public interface SquidEntityAdded {
 
-    int tentacleAttackInProgressCounter();
+    int animageddon$tentacleAttackInProgressCounter();
 
-    void setTentacleAttackInProgressCounter(int value);
+    void animageddon$setTentacleAttackInProgressCounter(int value);
 
-    void onClientNotifiedOfTentacleAttack(double dTargetX, double dTargetY, double dTargetZ);
+    void animageddon$onClientNotifiedOfTentacleAttack(double dTargetX, double dTargetY, double dTargetZ);
 
 
 

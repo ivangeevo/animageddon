@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "org.ivangeevo.btwr_ds.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+  ]
+}

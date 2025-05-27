@@ -30,7 +30,6 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import org.ivangeevo.animageddon.entity.interfaces.CowEntityAdded;
 import org.ivangeevo.animageddon.entity.interfaces.EntityAdded;
-import org.ivangeevo.animageddon.networking.packet.EntityEventPacketHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -43,8 +42,8 @@ import java.io.IOException;
 import java.util.List;
 
 @Mixin(CowEntity.class)
-public abstract class CowEntityTO_ADD_Mixin extends AnimalEntity implements CowEntityAdded
-{
+public abstract class CowEntityTO_ADD_Mixin extends AnimalEntity implements CowEntityAdded {
+
     // Added variables
     private int kickAttackInProgressCounter = 0;
     private int kickAttackCooldownTimer = KICK_ATTACK_TICKS_TO_COOLDOWN;
@@ -79,31 +78,20 @@ public abstract class CowEntityTO_ADD_Mixin extends AnimalEntity implements CowE
     private void injectedInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         ItemStack stack = player.getInventory().getMainHandStack();
 
-        if ( stack != null && stack.getItem() == Items.BUCKET )
-        {
-            if ( gotMilk() )
-            {
+        if ( stack != null && stack.getItem() == Items.BUCKET ) {
+            if ( gotMilk() ) {
                 stack.decrement(1);
-
-                if ( stack.getCount() <= 0 )
-                {
+                if ( stack.getCount() <= 0 ) {
                     player.getInventory().setStack(player.getInventory().selectedSlot, new ItemStack( Items.BUCKET ) );
-                }
-                else if ( !player.getInventory().contains(Items.BUCKET.getDefaultStack()) )
-                {
+                } else if ( !player.getInventory().contains(Items.BUCKET.getDefaultStack()) ) {
                     player.dropItem(Items.MILK_BUCKET);
                 }
-
                 tryAttack(this);
-
-                if ( !getWorld().isClient )
-                {
+                if ( !getWorld().isClient ) {
                     setGotMilk(false);
-
                     this.getWorld().playSound(null,this.getBlockPos(), SoundEvents.ENTITY_SLIME_ATTACK, SoundCategory.NEUTRAL, 1.0F, (getWorld().random.nextFloat() - getWorld().random.nextFloat()) * 0.2F + 0.6F);
                 }
             }
-
             cir.setReturnValue(ActionResult.success(this.getWorld().isClient));
         }
 
@@ -243,7 +231,7 @@ public abstract class CowEntityTO_ADD_Mixin extends AnimalEntity implements CowE
 
         try {
             dataStream.writeInt(getId());
-            dataStream.writeByte((byte) EntityEventPacketHandler.COW_KICK_ATTACK_EVENT_ID);
+            //dataStream.writeByte((byte) EntityEventPacketHandler.COW_KICK_ATTACK_EVENT_ID);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -252,7 +240,7 @@ public abstract class CowEntityTO_ADD_Mixin extends AnimalEntity implements CowE
         PacketByteBuf packetBuf = new PacketByteBuf(PacketByteBufs.create());
 
         // Use Fabric's networking API to send the packet to all players tracking the entity
-        EntityEventPacketHandler.sendCustomPacketToClients((ServerWorld) this.getWorld(), this, packetBuf);
+        //EntityEventPacketHandler.sendCustomPacketToClients((ServerWorld) this.getWorld(), this, packetBuf);
     }
 
     @Override

@@ -10,24 +10,27 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.ivangeevo.animageddon.entity.interfaces.SquidEntityAdded;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(SquidEntity.class)
-public abstract class SquidEntityMixin extends WaterCreatureEntity implements SquidEntityAdded
-{
+public abstract class SquidEntityMixin extends WaterCreatureEntity implements SquidEntityAdded {
 
+    @Unique
     private static final int TENTACLE_ATTACK_TICKS_TO_COOLDOWN = 100;
 
+    @Unique
     private int tentacleAttackCooldownTimer = TENTACLE_ATTACK_TICKS_TO_COOLDOWN;
 
+    @Unique
     private int tentacleAttackInProgressCounter  = -1;
 
     @Override
-    public int tentacleAttackInProgressCounter() {
+    public int animageddon$tentacleAttackInProgressCounter() {
         return tentacleAttackInProgressCounter;
     }
 
     @Override
-    public void setTentacleAttackInProgressCounter(int value) {
+    public void animageddon$setTentacleAttackInProgressCounter(int value) {
         tentacleAttackInProgressCounter = value;
     }
 
@@ -36,14 +39,12 @@ public abstract class SquidEntityMixin extends WaterCreatureEntity implements Sq
         super(entityType, world);
     }
 
-
     private double tentacleAttackTargetX = 0D;
     private double tentacleAttackTargetY = 0D;
     private double tentacleAttackTargetZ = 0D;
 
-
     @Override
-    public void onClientNotifiedOfTentacleAttack(double dTargetX, double dTargetY, double dTargetZ) {
+    public void animageddon$onClientNotifiedOfTentacleAttack(double dTargetX, double dTargetY, double dTargetZ) {
         tentacleAttackInProgressCounter = 0;
 
         tentacleAttackTargetX = dTargetX;
@@ -53,10 +54,9 @@ public abstract class SquidEntityMixin extends WaterCreatureEntity implements Sq
         getWorld().playSound( null, this.getBlockPos(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.HOSTILE, 1F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 0.5F);
         getWorld().playSound(null,  this.getBlockPos(), SoundEvents.ENTITY_SLIME_SQUISH, SoundCategory.HOSTILE, 1F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 0.5F);
 
-        if ( isTouchingWater() )
-        {
-            for ( int iParticleCount = 0; iParticleCount < 150; iParticleCount++ )
-            {
+        if ( isTouchingWater() ) {
+
+            for ( int iParticleCount = 0; iParticleCount < 150; iParticleCount++ ) {
                 this.getWorld().addParticle(ParticleTypes.BUBBLE,
                         getX() + ( random.nextDouble() * 2F ) - 1F,
                         getY() + random.nextDouble(),
@@ -64,8 +64,7 @@ public abstract class SquidEntityMixin extends WaterCreatureEntity implements Sq
                         0D, 0D, 0D);
             }
 
-            for ( int iParticleCount = 0; iParticleCount < 10; iParticleCount++ )
-            {
+            for ( int iParticleCount = 0; iParticleCount < 10; iParticleCount++ ) {
                 this.getWorld().addParticle( ParticleTypes.SPLASH,
                         getX() + ( random.nextDouble() * 2F ) - 1F,
                         getY() + getHeight(),
@@ -77,8 +76,4 @@ public abstract class SquidEntityMixin extends WaterCreatureEntity implements Sq
         }
 
     }
-
-
-
-
 }

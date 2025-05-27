@@ -18,6 +18,13 @@ Animageddon enhances Minecraft’s survival experience by making the world more 
 
 ---
 
+### 🎣 Fishing Overhaul
+- **No more AFK fishing** 🎣❌ – Requires a **substantial water source**.
+- **Fishing only works on certain times of the day** - During Full moon is the best, or dawn/dusk/rain
+- **Fishing now requires bait** 🪱.
+
+---
+
 ### 🐣 Animal Breeding Adjustments
 Breeding has been rebalanced to require more effort:
 - **🐷 Pigs** – Unchanged -> If the Vegehenna mod is present, then it's changed to 🍫Chocolate from it.
@@ -44,6 +51,7 @@ Breeding has been rebalanced to require more effort:
 ### 🦴 Hostile Mobs & Animal Survival
 - **Hostile mobs will consume food** 🥩 dropped by animals they kill.
 - **Animals will require food** 🍽️ to survive—if not fed, they will **starve and die**.
+- **Mobs will wander around at night** even if the player is far away from them.
 
 ### 🐔 Chicken Breeding Overhaul
 - **Breeding removed** ❌ – Instead, feeding **Chicken Feed** will make them produce eggs on the next morning.
@@ -56,10 +64,6 @@ Breeding has been rebalanced to require more effort:
 - **Zombie Villagers** 🚪 will be able to **open doors**.
 - **Squids** 🦑 will get a **tentacle grab attack** and become **more aggressive at night**, staying in deep water during the day.
 - **Cows**, **Horses**, **Donkeys** & **Mules** will have a **"defensive kick" attack** 🦵 when scared, knocking back attackers.
-
-### 🎣 Fishing Overhaul
-- **No more AFK fishing** 🎣❌ – Requires a **substantial water source**.
-- **Fishing now requires bait** 🪱.
 
 ### 🍖 Cooking & Food Adjustments
 - Animals set on fire will drop **Burned Meat** 🔥 instead of cooked meat.

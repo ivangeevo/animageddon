@@ -9,23 +9,16 @@ public interface AnimalEntityAdded  {
     boolean getHasBeenFed();
     void setHasBeenFed(boolean value);
 
-
     void setWearingBreedingHarness( boolean bWearingHarness );
     void onEatBreedingItem();
 
     void setInLove();
-
-
 
     boolean getWearingBreedingHarness();
     boolean isEdibleItem(ItemStack stack);
     boolean attemptToEatItemForBreeding(ItemStack stack);
     boolean isReadyToEatBreedingItem();
     boolean isFullyFed();
-
-
-
-
 
     int getFoodValueMultiplier();
 

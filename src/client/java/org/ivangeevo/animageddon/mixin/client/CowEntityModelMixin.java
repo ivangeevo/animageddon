@@ -1,28 +1,27 @@
-package org.ivangeevo.animageddon.mixin;
+package org.ivangeevo.animageddon.mixin.client;
 
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.CowEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.client.render.entity.model.QuadrupedEntityModel;
 import net.minecraft.entity.Entity;
+import org.ivangeevo.animageddon.entity.interfaces.CowEntityModelAdded;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.ivangeevo.animageddon.entity.interfaces.CowEntityAdded;
-import org.ivangeevo.animageddon.entity.interfaces.CowEntityModelAdded;
 
 @Mixin(CowEntityModel.class)
 public abstract class CowEntityModelMixin<T extends Entity> extends QuadrupedEntityModel<T> implements CowEntityModelAdded
 {
-    protected CowEntityModelMixin(ModelPart root, boolean headScaled, float childHeadYOffset, float childHeadZOffset, float invertedChildHeadScale, float invertedChildBodyScale, int childBodyYOffset)
-    {
-        super(root, headScaled, childHeadYOffset, childHeadZOffset, invertedChildHeadScale, invertedChildBodyScale, childBodyYOffset);
+
+    protected CowEntityModelMixin(ModelPart root, boolean headScaled, float childHeadYOffset, float childHeadZOffset,
+                                  float invertedChildHeadScale, float invertedChildBodyScale, int childBodyYOffset) {
+        super(root, headScaled, childHeadYOffset, childHeadZOffset,
+                invertedChildHeadScale, invertedChildBodyScale, childBodyYOffset);
     }
 
     //@Inject(method = "getTexturedModelData", at = @At("HEAD"), cancellable = true)
-    private static void injectedGetTexturedModelData(CallbackInfoReturnable<TexturedModelData> cir)
-    {
+    private static void injectedGetTexturedModelData(CallbackInfoReturnable<TexturedModelData> cir) {
 
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
@@ -47,7 +46,6 @@ public abstract class CowEntityModelMixin<T extends Entity> extends QuadrupedEnt
         }
 
         if (cowEntity != null && (cowEntity.gotMilk())) {
-
             modelPartData.addChild("udder", ModelPartBuilder.create().uv(0, 0)
                     .cuboid(-4.0f, -4.0f, -6.0f, 8.0f, 8.0f, 6.0f), ModelTransform.pivot(0.0f, 4.0f, -8.0f));
 
