@@ -6,7 +6,6 @@ import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
-import org.ivangeevo.animageddon.AnimageddonMod;
 import org.ivangeevo.animageddon.block.ModBlocks;
 import org.ivangeevo.animageddon.item.ModComponents;
 
@@ -23,7 +22,7 @@ public class AnimageddonModClient implements ClientModInitializer {
                     }
 
                     // Retrieve the attachment value
-                    Boolean hasBait = itemStack.get(ModComponents.HAS_BAIT);
+                    Boolean hasBait = itemStack.get(ModComponents.HAS_BAIT_COMPONENT);
 
                     // Return 1.0F if baited, otherwise 0.0F
                     return hasBait != null && hasBait ? 1.0F : 0.0F;

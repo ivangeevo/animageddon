@@ -11,6 +11,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.world.event.GameEvent;
 import org.ivangeevo.animageddon.block.ModBlocks;
 import org.ivangeevo.animageddon.event.ModEntityLootTableEvents;
+import org.ivangeevo.animageddon.item.ModComponents;
 import org.ivangeevo.animageddon.item.ModItems;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,10 @@ public class AnimageddonMod implements ModInitializer
     public void onInitialize() {
         ModBlocks.registerModBlocksAndAddToGroups();
         ModItems.registerModItemsAndAddToGroups();
+        ModComponents.initialize();
+        ModAttachments.initialize();
         ModEntityLootTableEvents.initialize();
+
 
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
             ItemStack itemStack = player.getMainHandStack();

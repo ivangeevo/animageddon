@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "org.ivangeevo.btwr_ds.mixin.client",
+  "package": "org.ivangeevo.animageddon.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
   ],
