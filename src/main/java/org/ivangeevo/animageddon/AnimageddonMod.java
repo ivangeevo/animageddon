@@ -1,6 +1,7 @@
 package org.ivangeevo.animageddon;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.entity.EquipmentSlot;
@@ -13,6 +14,7 @@ import org.ivangeevo.animageddon.block.ModBlocks;
 import org.ivangeevo.animageddon.event.ModEntityLootTableEvents;
 import org.ivangeevo.animageddon.item.ModComponents;
 import org.ivangeevo.animageddon.item.ModItems;
+import org.ivangeevo.animageddon.util.ServerTimeHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +34,8 @@ public class AnimageddonMod implements ModInitializer
         ModAttachments.initialize();
         ModEntityLootTableEvents.initialize();
 
+        // Initialize the helper class for keeping track of current time of day on the server world only
+        ServerLifecycleEvents.SERVER_STARTING.register(ServerTimeHelper::setServerInstance);
 
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
             ItemStack itemStack = player.getMainHandStack();
