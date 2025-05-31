@@ -7,6 +7,7 @@ import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Identifier;
+import org.ivangeevo.animageddon.item.ModItems;
 import org.ivangeevo.animageddon.tag.ModTags;
 
 import java.util.concurrent.CompletableFuture;
@@ -25,15 +26,15 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
     }
 
     private void addToVanillaTags() {
+        getOrCreateTagBuilder(ItemTags.CHICKEN_FOOD)
+                .setReplace(true)
+                .add(ModItems.CHICKEN_FEED);
+
         getOrCreateTagBuilder(ItemTags.COW_FOOD)
                 .add(Items.SHORT_GRASS);
 
         getOrCreateTagBuilder(ItemTags.SHEEP_FOOD)
                 .add(Items.SHORT_GRASS);
-
-
-
-
     }
 
     private void addToModTags() {

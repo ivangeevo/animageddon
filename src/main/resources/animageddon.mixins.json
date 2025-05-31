@@ -5,12 +5,12 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AbstractHorseEntityMixin",
+    "AnimalEntityMixin",
     "BlockMixin",
     "ChickenEntityMixin",
     "CowEntityMixin",
     "CreeperEntityMixin",
     "EntityMixin",
-    "FishingRodItemMixin",
     "ItemEntryAccessor",
     "ItemMixin",
     "LootPoolBuilderAccessor",
@@ -26,7 +26,6 @@
     "ZombifiedPiglinEntityMixin"
   ],
   "client": [
-
   ],
   "injectors": {
     "defaultRequire": 1

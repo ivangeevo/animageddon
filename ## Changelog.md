@@ -1,4 +1,7 @@
 ## Changelog Animageddon
+# v0.3
++ Added chickens to only lay eggs after being fed with chicken feed exactly how it works in the original BTW mod.
++ Made chickens not breed-able in the traditional way.
 
 # v0.2
 + Added chickens requiring chicken feed to lay eggs and with this breeding has been disabled.

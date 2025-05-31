@@ -1,6 +1,7 @@
 package org.ivangeevo.animageddon.mixin;
 
 import btwr.btwr_sl.tag.BTWRConventionalTags;
+import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -41,7 +42,12 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
         lastWorldTime = world.getTimeOfDay();
     }
 
-    @Inject(method = "initGoals", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V", ordinal = 3))
+    @Inject(method = "isBreedingItem", at = @At("RETURN"), cancellable = true)
+    private void setBreedingItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        cir.setReturnValue(stack.isOf(ModItems.CHICKEN_FEED));
+    }
+
+    //@Inject(method = "initGoals", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V", ordinal = 3))
     private void modifyTemptGoal(CallbackInfo ci) {
         // Set canBeScared to true
         TemptGoal customTemptGoal =
@@ -50,7 +56,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
         this.goalSelector.add(3, customTemptGoal);
     }
 
-    @Inject(method = "initGoals", at = @At("TAIL"))
+    //@Inject(method = "initGoals", at = @At("TAIL"))
     private void addBreedingGoal(CallbackInfo ci) {
         // Set canBeScared to false for breeding items
         TemptGoal customBreedingGoal =
@@ -61,7 +67,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
 
     @Inject(method = "tickMovement", at = @At("TAIL"))
     private void onTickMovement(CallbackInfo ci) {
-        // set the original egg lay time to max int value to practically make it never reach 0
+        // set the original egg lay time to max int value to practically make it never reach 0 (and lay an egg)
         this.eggLayTime = Integer.MAX_VALUE;
 
         if (!this.isBaby() /**&& isFullyFed()**/ && timeToLayEgg > 0 && validateTimeToLayEgg(this.getWorld())) {
@@ -88,12 +94,6 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
             this.playSound(SoundEvents.ENTITY_CHICKEN_HURT, this.getSoundVolume(), this.random.nextFloat() * 0.2F + 1.5F);
         }
         super.eat(player, hand, stack);
-    }
-
-    @Inject(method = "isBreedingItem", at = @At("HEAD"), cancellable = true)
-    private void onIsBreedingItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        //cir.setReturnValue(stack.isOf(ModItems.CHICKEN_FEED));
-        cir.setReturnValue(false);
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
