@@ -1,5 +1,8 @@
 ## Changelog Animageddon
 
+# v0.3(dev)
++ Fixed missing recipe for Chicken Feed.
+
 # v0.2
 + Added chickens requiring chicken feed to lay eggs and with this breeding has been disabled.
 + Updated the mod to Fabric API 0.116.0, Fabric Loader 0.16.14 & BTWR: Shared Library 0.54

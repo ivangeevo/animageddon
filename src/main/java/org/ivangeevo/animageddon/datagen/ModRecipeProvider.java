@@ -13,6 +13,7 @@ import net.minecraft.util.Identifier;
 import org.ivangeevo.animageddon.AnimageddonMod;
 import org.ivangeevo.animageddon.block.ModBlocks;
 import org.ivangeevo.animageddon.item.ModItems;
+import org.ivangeevo.animageddon.tag.ModTags;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -25,7 +26,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
     @Override
     public void generate(RecipeExporter exporter) {
-        //ShapelessRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.CHICKEN_FEED).input(ModTags.Items.SEEDS_FOR_CHICKEN).input(Items.BONE_MEAL).criterion("has_bone_meal", RecipeProvider.conditionsFromItem(Items.BONE_MEAL)).offerTo(exporter);
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.CHICKEN_FEED).input(ModTags.Items.SEEDS_FOR_CHICKEN).input(Items.BONE_MEAL).criterion("has_bone_meal", RecipeProvider.conditionsFromItem(Items.BONE_MEAL)).offerTo(exporter);
 
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, Items.STRING,2).input(Items.COBWEB).criterion("has_cobweb", RecipeProvider.conditionsFromItem(Items.COBWEB)).offerTo(exporter, Identifier.of(AnimageddonMod.MOD_ID, "string_from_cobweb"));
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, Items.STRING,2).input(ModBlocks.WEB_BLOCK).criterion("has_web_block", conditionsFromItem(ModBlocks.WEB_BLOCK)).offerTo(exporter, Identifier.of(AnimageddonMod.MOD_ID, "string_from_web_block"));
