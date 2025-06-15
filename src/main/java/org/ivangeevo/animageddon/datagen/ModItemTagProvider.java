@@ -42,7 +42,9 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(Items.WHEAT_SEEDS)
                 .add(Items.MELON_SEEDS)
                 .add(Items.PUMPKIN_SEEDS)
-                .add(Items.BEETROOT_SEEDS);
+                .add(Items.BEETROOT_SEEDS)
+                .addOptional(Identifier.of("vegehenna", "carrot_seeds"))
+                .addOptional(Identifier.of("bwt", "hemp_seeds"));
 
         getOrCreateTagBuilder(ModTags.Items.PIG_BREEDING_ITEMS)
                 .addOptional(Identifier.of("vegehenna", "chocolate"));

@@ -3,6 +3,14 @@
     "minecraft:wheat_seeds",
     "minecraft:melon_seeds",
     "minecraft:pumpkin_seeds",
-    "minecraft:beetroot_seeds"
+    "minecraft:beetroot_seeds",
+    {
+      "id": "vegehenna:carrot_seeds",
+      "required": false
+    },
+    {
+      "id": "bwt:hemp_seeds",
+      "required": false
+    }
   ]
 }
