@@ -3,6 +3,7 @@
   "package": "org.ivangeevo.animageddon.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "CowEntityModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

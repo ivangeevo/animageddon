@@ -1,5 +1,8 @@
 package org.ivangeevo.animageddon.mixin;
 
+import com.mojang.serialization.Codec;
+import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
+import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -21,6 +24,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
@@ -28,6 +32,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import org.ivangeevo.animageddon.AnimageddonMod;
 import org.ivangeevo.animageddon.entity.interfaces.CowEntityAdded;
 import org.ivangeevo.animageddon.entity.interfaces.EntityAdded;
 import org.spongepowered.asm.mixin.Mixin;
@@ -44,17 +49,14 @@ import java.util.List;
 @Mixin(CowEntity.class)
 public abstract class CowEntityTO_ADD_Mixin extends AnimalEntity implements CowEntityAdded {
 
+
+
     // Added variables
     private int kickAttackInProgressCounter = 0;
     private int kickAttackCooldownTimer = KICK_ATTACK_TICKS_TO_COOLDOWN;
     private int kickAttackLegUsed = 0;
 
     @Unique private int milkAccumulationCount = 0;
-
-    @Unique TrackedData<Boolean> GOT_MILK = DataTracker.registerData(CowEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-
-    @Unique TrackedData<Boolean> WEARING_BREEDING_HARNESS = DataTracker.registerData(CowEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-
 
     @Shadow public abstract ActionResult interactMob(PlayerEntity player, Hand hand);
 
@@ -74,29 +76,7 @@ public abstract class CowEntityTO_ADD_Mixin extends AnimalEntity implements CowE
         this.goalSelector.add(3, new TemptGoal(this, 1.4, Ingredient.ofItems(Items.CAKE), false));
     }
 
-    //@Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
-    private void injectedInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        ItemStack stack = player.getInventory().getMainHandStack();
 
-        if ( stack != null && stack.getItem() == Items.BUCKET ) {
-            if ( gotMilk() ) {
-                stack.decrement(1);
-                if ( stack.getCount() <= 0 ) {
-                    player.getInventory().setStack(player.getInventory().selectedSlot, new ItemStack( Items.BUCKET ) );
-                } else if ( !player.getInventory().contains(Items.BUCKET.getDefaultStack()) ) {
-                    player.dropItem(Items.MILK_BUCKET);
-                }
-                tryAttack(this);
-                if ( !getWorld().isClient ) {
-                    setGotMilk(false);
-                    this.getWorld().playSound(null,this.getBlockPos(), SoundEvents.ENTITY_SLIME_ATTACK, SoundCategory.NEUTRAL, 1.0F, (getWorld().random.nextFloat() - getWorld().random.nextFloat()) * 0.2F + 0.6F);
-                }
-            }
-            cir.setReturnValue(ActionResult.success(this.getWorld().isClient));
-        }
-
-        cir.setReturnValue( interactMob(player, player.getActiveHand()));
-    }
 
     @Override
     public boolean isBreedingItem(ItemStack stack)
@@ -253,20 +233,6 @@ public abstract class CowEntityTO_ADD_Mixin extends AnimalEntity implements CowE
         this.getWorld().playSound(null, this.getBlockPos(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1F,
                 ( random.nextFloat() - random.nextFloat() ) * 0.2F + 0.5F );
     }
-
-    @Override
-    public boolean gotMilk() {
-        byte bGotMilk = dataTracker.get(GOT_MILK) ? (byte) 1 : (byte) 0;
-
-        return bGotMilk != 0;
-
-    }
-
-    @Override
-    public void setGotMilk(boolean bGotMilk) {
-        dataTracker.set(GOT_MILK, bGotMilk);
-    }
-
 
 
     //------------- Class Specific Methods ------------//
