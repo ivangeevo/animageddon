@@ -1,4 +1,4 @@
-package org.ivangeevo.animageddon.mixin;
+package org.ivangeevo.animageddon.mixin.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.CowEntity;

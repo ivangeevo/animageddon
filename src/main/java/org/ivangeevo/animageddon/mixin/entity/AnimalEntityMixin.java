@@ -1,4 +1,4 @@
-package org.ivangeevo.animageddon.mixin;
+package org.ivangeevo.animageddon.mixin.entity;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -10,7 +10,6 @@ import org.ivangeevo.animageddon.data.ModDataAttachments;
 import org.ivangeevo.animageddon.entity.interfaces.AnimalEntityAdded;
 import org.ivangeevo.animageddon.entity.interfaces.CowEntityAdded;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;

@@ -1,4 +1,4 @@
-package org.ivangeevo.animageddon.mixin;
+package org.ivangeevo.animageddon.mixin.entity;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Shearable;

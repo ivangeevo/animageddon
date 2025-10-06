@@ -1,4 +1,4 @@
-package org.ivangeevo.animageddon.mixin;
+package org.ivangeevo.animageddon.mixin.item;
 
 import net.minecraft.item.Item;
 import net.minecraft.loot.entry.ItemEntry;

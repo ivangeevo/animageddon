@@ -43,7 +43,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .offerTo(exporter, Identifier.of(AnimageddonMod.MOD_ID, "string_from_web_block"));
 
         ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, Items.GUNPOWDER,2)
-                .input(ModItems.NITRE).input(Items.COAL)
+                .input(ModItems.NITRE)
+                .input(Items.COAL)
                 .criterion("has_nitre", conditionsFromItem(ModItems.NITRE))
                 .offerTo(exporter);
 

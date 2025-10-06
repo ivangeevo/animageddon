@@ -1,8 +1,7 @@
-package org.ivangeevo.animageddon.mixin;
+package org.ivangeevo.animageddon.mixin.entity;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.WaterCreatureEntity;
-import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;

@@ -1,4 +1,4 @@
-package org.ivangeevo.animageddon.mixin;
+package org.ivangeevo.animageddon.mixin.item;
 
 import btwr.btwr_sl.tag.BTWRConventionalTags;
 import net.minecraft.component.type.ToolComponent;

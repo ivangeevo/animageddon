@@ -1,4 +1,4 @@
-package org.ivangeevo.animageddon.mixin;
+package org.ivangeevo.animageddon.mixin.entity;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.EntityType;

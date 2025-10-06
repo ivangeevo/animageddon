@@ -1,8 +1,5 @@
-package org.ivangeevo.animageddon.mixin;
+package org.ivangeevo.animageddon.mixin.entity;
 
-import com.mojang.serialization.Codec;
-import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
-import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -16,14 +13,11 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
-import org.ivangeevo.animageddon.AnimageddonMod;
 import org.ivangeevo.animageddon.data.ModDataAttachments;
 import org.ivangeevo.animageddon.entity.interfaces.CowEntityAdded;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -88,13 +82,12 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
                 cir.setReturnValue(ActionResult.success(getWorld().isClient));
             }
         }
-        cir.setReturnValue(ActionResult.PASS);
     }
 
 
     @Override
     public boolean gotMilk() {
-        return Boolean.TRUE.equals(this.getAttachedOrSet(ModDataAttachments.GOT_MILK));
+        return Boolean.TRUE.equals(this.getAttached(ModDataAttachments.GOT_MILK));
     }
 
     @Override

@@ -52,10 +52,19 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation("org.ivangeevo:btwr-shared-lib:${project.btwr_sl_version}")
+    // BTWR Shared Library
+    modImplementation("maven.modrinth:btwr-shared-library:${project.btwr_sl_version}")
+    //modImplementation("org.ivangeevo:btwr-shared-lib:${project.btwr_sl_version}")
 
     //modImplementation "maven.modrinth:vegehenna:${project.vegehenna_version}"
     modApi "com.terraformersmc:modmenu:${project.mod_menu_version}"
+
+
+    // EMI
+    modCompileOnly "dev.emi:emi-fabric:${emi_version}:api"
+    modCompileOnly "dev.emi:emi-fabric:${emi_version}"
+
+    modLocalRuntime "dev.emi:emi-fabric:${emi_version}"
 
 }
 
