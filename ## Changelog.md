@@ -2,6 +2,7 @@
 
 # v0.3(dev)
 + Fixed missing recipe for Chicken Feed.
++ Changed baby animals to not be able to jump full blocks.
 + Updated the mod to Fabric API 0.116.6, Fabric Loader 0.17.2 & BTWR: Shared Library 0.59
 
 # v0.2

@@ -103,7 +103,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
         if (nbt.contains("TimeToLayEgg")) {
             timeToLayEgg = nbt.getLong("TimeToLayEgg");
             lastFedTime = nbt.getLong("LastFedTime");
-            setHasBeenFed( nbt.getBoolean("HasBeenFed") ); ;
+            setHasBeenFed( nbt.getBoolean("HasBeenFed"));
         } else {
             timeToLayEgg = 0;
             lastFedTime = -1;

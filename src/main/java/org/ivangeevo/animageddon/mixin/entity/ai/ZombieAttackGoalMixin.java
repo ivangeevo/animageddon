@@ -1,4 +1,4 @@
-package org.ivangeevo.animageddon.mixin;
+package org.ivangeevo.animageddon.mixin.entity.ai;
 
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.ZombieAttackGoal;

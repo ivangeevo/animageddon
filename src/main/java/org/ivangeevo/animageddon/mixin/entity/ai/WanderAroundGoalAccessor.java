@@ -1,4 +1,4 @@
-package org.ivangeevo.animageddon.mixin;
+package org.ivangeevo.animageddon.mixin.entity.ai;
 
 import net.minecraft.entity.ai.goal.WanderAroundGoal;
 import net.minecraft.entity.mob.PathAwareEntity;
