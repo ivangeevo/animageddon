@@ -64,7 +64,7 @@ dependencies {
     modCompileOnly "dev.emi:emi-fabric:${emi_version}:api"
     modCompileOnly "dev.emi:emi-fabric:${emi_version}"
 
-    modLocalRuntime "dev.emi:emi-fabric:${emi_version}"
+    //modLocalRuntime "dev.emi:emi-fabric:${emi_version}"
 
 }
 

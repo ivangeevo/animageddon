@@ -24,7 +24,7 @@ public abstract class MobNavigationMixin extends EntityNavigation {
         super(entity, world);
     }
 
-    @Inject(method = "findPathTo(Lnet/minecraft/util/math/BlockPos;I)Lnet/minecraft/entity/ai/pathing/Path;", at = @At("RETURN"), cancellable = true)
+    //@Inject(method = "findPathTo(Lnet/minecraft/util/math/BlockPos;I)Lnet/minecraft/entity/ai/pathing/Path;", at = @At("RETURN"), cancellable = true)
     private void restrictBabyPath(BlockPos target, int distance, CallbackInfoReturnable<Path> cir) {
         if (!(this.entity instanceof AnimalEntity animal) || !animal.isBaby()) return;
 

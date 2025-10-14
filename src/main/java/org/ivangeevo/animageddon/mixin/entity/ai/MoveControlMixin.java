@@ -15,7 +15,7 @@ public abstract class MoveControlMixin {
 
     @Final @Shadow protected MobEntity entity;
 
-    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/control/JumpControl;setActive()V"), cancellable = true)
+    //@Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/control/JumpControl;setActive()V"), cancellable = true)
     private void preventBabyAnimalJump(CallbackInfo ci) {
         if (this.entity instanceof AnimalEntity animal && animal.isBaby()) {
             // cancel the jump activation for babies

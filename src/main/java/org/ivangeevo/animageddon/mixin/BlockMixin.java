@@ -7,7 +7,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.stat.Stats;
-import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -27,28 +26,27 @@ public abstract class BlockMixin extends AbstractBlock {
 
     @Inject(method = "afterBreak", at = @At("HEAD"), cancellable = true)
     private void onAfterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack tool, CallbackInfo ci) {
-
         if (state.isOf(Blocks.COBWEB)) {
-            // if shears item drop the whole block
-            if (player.getMainHandStack().isIn(ConventionalItemTags.SHEAR_TOOLS)) {
-                player.incrementStat(Stats.MINED.getOrCreateStat((Block)(Object)this));
-                player.addExhaustion(0.005f);
-                ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), Items.COBWEB.getDefaultStack());
-            } else {
-                // if other tool that's set viable for the block - break in stages (like swords and chisels)
-                changeToWebBlockState(world, player, pos);
-            }
-
+            this.afterBreakCobweb(world, player, pos);
             ci.cancel();
         }
     }
 
     @Unique
-    private void changeToWebBlockState(World world, PlayerEntity player, BlockPos pos) {
+    private void afterBreakCobweb(World world, PlayerEntity player, BlockPos pos) {
+        // if shears item drop the whole block
+        // if another tool that's set viable for the block - break in stages (like swords and chisels)
         if (!world.isClient()) {
             player.incrementStat(Stats.MINED.getOrCreateStat((Block)(Object)this));
             player.addExhaustion(0.005f);
-            world.setBlockState(pos, ModBlocks.WEB_BLOCK.getDefaultState(),4,0);
+
+            boolean breaksFully = player.getMainHandStack().isIn(ConventionalItemTags.SHEAR_TOOLS);
+
+            if (breaksFully) {
+                ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), Items.COBWEB.getDefaultStack());
+            } else {
+                world.setBlockState(pos, ModBlocks.WEB_BLOCK.getDefaultState(),4,0);
+            }
         }
     }
 

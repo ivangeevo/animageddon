@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LandPathNodeMaker.class)
 public abstract class LandPathNodeMakerMixin extends PathNodeMaker {
 
-    @Inject(method = "getDefaultNodeType", at = @At("HEAD"), cancellable = true)
+    //@Inject(method = "getDefaultNodeType", at = @At("HEAD"), cancellable = true)
     private void restrictBabyStep(PathContext context, int x, int y, int z, CallbackInfoReturnable<PathNodeType> cir) {
         if (entity instanceof AnimalEntity animal && animal.isBaby()) {
             BlockPos pos = new BlockPos(x, y, z);

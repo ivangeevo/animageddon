@@ -1,9 +1,8 @@
 ## Changelog Animageddon
 
-# v0.3(dev)
+# v0.2.1
 + Fixed missing recipe for Chicken Feed.
-+ Changed baby animals to not be able to jump full blocks.
-+ Updated the mod to Fabric API 0.116.6, Fabric Loader 0.17.2 & BTWR: Shared Library 0.59
++ Updated the mod to Fabric API 0.116.7, Fabric Loader 0.17.2 & BTWR: Shared Library 0.61
 
 # v0.2
 + Added chickens requiring chicken feed to lay eggs and with this breeding has been disabled.

@@ -12,6 +12,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.world.event.GameEvent;
 import org.ivangeevo.animageddon.block.ModBlocks;
 import org.ivangeevo.animageddon.event.ModEntityLootTableEvents;
+import org.ivangeevo.animageddon.event.ModPlayerBlockBreakEvents;
 import org.ivangeevo.animageddon.item.ModComponents;
 import org.ivangeevo.animageddon.item.ModItems;
 import org.ivangeevo.animageddon.util.ServerTimeHelper;
@@ -33,6 +34,7 @@ public class AnimageddonMod implements ModInitializer
         ModComponents.initialize();
         ModAttachments.initialize();
         ModEntityLootTableEvents.initialize();
+        //ModPlayerBlockBreakEvents.initialize();
 
         // Initialize the helper class for keeping track of current time of day on the server world only
         ServerLifecycleEvents.SERVER_STARTING.register(ServerTimeHelper::setServerInstance);

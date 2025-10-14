@@ -19,7 +19,6 @@ import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.ivangeevo.animageddon.block.ModBlocks;
-import org.ivangeevo.animageddon.item.ModItems;
 import org.jetbrains.annotations.Nullable;
 
 import static btwr.btwr_sl.tag.BTWRConventionalTags.Items.MODERN_CHISELS;
@@ -28,6 +27,8 @@ import static btwr.btwr_sl.tag.BTWRConventionalTags.Items.PRIMITIVE_CHISELS;
 public class WebBlock extends CobwebBlock
 {
     public static final MapCodec<CobwebBlock> CODEC = WebBlock.createCodec(WebBlock::new);
+
+    public static final IntProperty BREAK_LEVEL = IntProperty.of("break_level", 0, 2);
 
     @Override
     public MapCodec<CobwebBlock> getCodec() {
@@ -39,7 +40,6 @@ public class WebBlock extends CobwebBlock
         this.setDefaultState(this.stateManager.getDefaultState().with(BREAK_LEVEL, 0));
     }
 
-    public static final IntProperty BREAK_LEVEL = IntProperty.of("break_level", 0, 2);
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
@@ -84,7 +84,7 @@ public class WebBlock extends CobwebBlock
     }
 
     private boolean isSuitableChiselForState(BlockState state,ItemStack stack) {
-        return ( stack.isIn(PRIMITIVE_CHISELS) || stack.isIn(MODERN_CHISELS) )
-                && state.isIn(BlockTags.INCORRECT_FOR_WOODEN_TOOL);
+        boolean isChiselTool = stack.isIn(PRIMITIVE_CHISELS) || stack.isIn(MODERN_CHISELS);
+        return isChiselTool && state.isIn(BlockTags.INCORRECT_FOR_WOODEN_TOOL);
     }
 }
