@@ -1,6 +1,7 @@
 package org.ivangeevo.animageddon.mixin.entity;
 
 import btwr.btwr_sl.tag.BTWRConventionalTags;
+import com.terraformersmc.modmenu.util.mod.Mod;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -12,6 +13,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import org.ivangeevo.animageddon.entity.interfaces.ChickenEntityAdded;
 import org.ivangeevo.animageddon.item.ModItems;
 import org.ivangeevo.animageddon.util.ServerTimeHelper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,12 +25,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ChickenEntity.class)
-public abstract class ChickenEntityMixin extends AnimalEntity {
+public abstract class ChickenEntityMixin extends AnimalEntity implements ChickenEntityAdded {
 
     // Chicken related variables
     @Unique private boolean hasBeenFed = false;
     @Unique private long lastFedTime = -1;
-    @Unique private long lastWorldTime = -1;
+    @Unique private long lastWorldTime;
     @Unique private long timeToLayEgg = 0;
 
     @Shadow public int eggLayTime;
@@ -43,24 +45,6 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
         cir.setReturnValue(stack.isOf(ModItems.CHICKEN_FEED));
     }
 
-    //@Inject(method = "initGoals", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V", ordinal = 3))
-    private void modifyTemptGoal(CallbackInfo ci) {
-        // Set canBeScared to true
-        TemptGoal customTemptGoal =
-                new TemptGoal(this, 1.0, stack -> stack.isIn(BTWRConventionalTags.Items.CHICKEN_TEMPT_ITEMS), true);
-
-        this.goalSelector.add(3, customTemptGoal);
-    }
-
-    //@Inject(method = "initGoals", at = @At("TAIL"))
-    private void addBreedingGoal(CallbackInfo ci) {
-        // Set canBeScared to false for breeding items
-        TemptGoal customBreedingGoal =
-                new TemptGoal(this, 1.25, stack -> stack.isOf(ModItems.CHICKEN_FEED), false);
-
-        this.goalSelector.add(3, customBreedingGoal);
-    }
-
     @Inject(method = "tickMovement", at = @At("TAIL"))
     private void onTickMovement(CallbackInfo ci) {
         // set the original egg lay time to max int value to practically make it never reach 0 (and lay an egg)
@@ -72,7 +56,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
                 this.playSound(SoundEvents.ENTITY_CHICKEN_HURT,1.0f, this.getSoundPitch());
                 this.dropItem(Items.EGG);
                 this.timeToLayEgg = 0;
-
+                this.hasBeenFed = false;
             }
         }
     }
@@ -81,13 +65,16 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
     protected void eat(PlayerEntity player, Hand hand, ItemStack stack) {
         if (stack.isOf(ModItems.CHICKEN_FEED) && !isBaby()) {
             long currentTime = ServerTimeHelper.getOverworldTimeOfDayServerOnly();
-            // following morning, at least half day from now
+            // the following morning, at least half a day from now
             timeToLayEgg = (((currentTime + 12000L) / 24000L) + 1) * 24000L;
 
-            // crack of dawn (22550) + 30 seconds random variance
+            // crack of dawn (22550) + 30-second random variance
             timeToLayEgg += -1450 + this.random.nextInt(600);
             this.playSound(SoundEvents.ENTITY_CHICKEN_HURT, this.getSoundVolume(), this.random.nextFloat() * 0.2F + 1.5F);
+            this.hasBeenFed = true;
+            this.lastFedTime = currentTime;
         }
+
         super.eat(player, hand, stack);
     }
 
@@ -95,7 +82,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
     private void onWriteCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
         nbt.putLong("TimeToLayEgg", this.timeToLayEgg);
         nbt.putLong("LastFedTime", this.lastFedTime);
-        nbt.putBoolean("HasBeenFed", this.getHasBeenFed());
+        nbt.putBoolean("HasBeenFed", this.animageddon$getHasBeenFed());
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
@@ -103,11 +90,11 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
         if (nbt.contains("TimeToLayEgg")) {
             timeToLayEgg = nbt.getLong("TimeToLayEgg");
             lastFedTime = nbt.getLong("LastFedTime");
-            setHasBeenFed( nbt.getBoolean("HasBeenFed"));
+            this.animageddon$setHasBeenFed( nbt.getBoolean("HasBeenFed"));
         } else {
             timeToLayEgg = 0;
             lastFedTime = -1;
-            setHasBeenFed(false);
+            this.animageddon$setHasBeenFed(false);
         }
     }
 
@@ -126,13 +113,33 @@ public abstract class ChickenEntityMixin extends AnimalEntity {
         return true;
     }
 
-    public boolean getHasBeenFed() {
+    @Override
+    public boolean animageddon$getHasBeenFed() {
         return hasBeenFed;
     }
 
-    public void setHasBeenFed(boolean value) {
+    @Override
+    public void animageddon$setHasBeenFed(boolean value) {
         hasBeenFed = value;
     }
 
+    @Override
+    public long animageddon$getTimeToLayEgg() {
+        return timeToLayEgg;
+    }
 
+    @Override
+    public void animageddon$setTimeToLayEgg(long timeToLayEgg) {
+        this.timeToLayEgg = timeToLayEgg;
+    }
+
+    @Override
+    public long animageddon$getLastFedTime() {
+        return lastFedTime;
+    }
+
+    @Override
+    public void animageddon$setLastFedTime(long lastFedTime) {
+        this.lastFedTime = lastFedTime;
+    }
 }

@@ -1,6 +1,7 @@
 ## Changelog Animageddon
 # v???(dev)
-
++ Fixed a bug with chickens being able to be fed again after a short amount of time when they have already been fed in this egg laying cycle
++ Updated all mod items in the creative menu tabs to be positioned after similar items instead of being at the bottom of the list
 
 # v0.2.1
 + Fixed missing recipe for Chicken Feed.

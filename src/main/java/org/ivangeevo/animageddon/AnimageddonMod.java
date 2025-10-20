@@ -42,7 +42,6 @@ public class AnimageddonMod implements ModInitializer
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
             ItemStack itemStack = player.getMainHandStack();
 
-
             /* Manual spectator check is necessary because AttackBlockCallbacks
                fire before the spectator check */
             if (entity instanceof MooshroomEntity shroomCow) {
