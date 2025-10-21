@@ -1,6 +1,6 @@
 ## Changelog Animageddon
 # v???(dev)
-+ Changed cows to be milked only once a day and to initially spawn without milk. Part of this is a temporary behavior until the change for animals requiring to eat food is implemented into the mod
++ Changed cows to be milked only once a day and to initially spawn without milk. Part of this is temporary behavior until the change for animals requiring to eat food is implemented into the mod
 + Fixed a bug with chickens being able to be fed again after a short amount of time when they have already been fed in this egg laying cycle
 + Updated all mod items in the creative menu tabs to be positioned after similar items instead of being at the bottom of the list
 
