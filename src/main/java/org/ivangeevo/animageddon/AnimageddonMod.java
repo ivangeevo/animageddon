@@ -39,6 +39,5 @@ public class AnimageddonMod implements ModInitializer
         ServerLifecycleEvents.SERVER_STARTING.register(ServerTimeHelper::setServerInstance);
 
         ModEntityUseEvents.register();
-
     }
 }

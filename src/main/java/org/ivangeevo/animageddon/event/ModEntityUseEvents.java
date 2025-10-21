@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.passive.MooshroomEntity;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -36,39 +37,38 @@ public class ModEntityUseEvents {
                 ItemStack stack = player.getStackInHand(hand);
 
                 // Only intercept bucket interactions
-                if (stack.isIn(ConventionalItemTags.BUCKETS)) {
+                if (stack.getItem() instanceof BucketItem || stack.isIn(ConventionalItemTags.BUCKETS)) {
 
-                    // Check if the cow can be milked
                     if (!cow.hasAttached(ModDataAttachments.MILK_DATA)) return ActionResult.FAIL;
 
                     MilkAttachedData data = cow.getAttached(ModDataAttachments.MILK_DATA);
+                    assert data != null;
+                    if (!data.getCanBeMilked()) {
+                        return ActionResult.FAIL;
+                    } else {
+                        stack.decrement(1);
+                        ItemStack milkBucket = new ItemStack(Items.MILK_BUCKET);
 
-                    if (!data.getCanBeMilked()) return ActionResult.FAIL;
+                        if (stack.isEmpty()) {
+                            player.setStackInHand(hand, milkBucket);
+                        } else if (!player.getInventory().insertStack(milkBucket)) {
+                            player.dropItem(milkBucket, false);
+                        }
 
-                    // Custom milking logic
-                    stack.decrement(1);
-                    Item bucketItem = stack.getItem();
+                        // Cow "attack" animation flicker for milking
+                        cow.hurtTime = 10;
 
-                    if (stack.isEmpty()) {
-                        player.setStackInHand(hand, new ItemStack(bucketItem));
-                    } else if (!player.getInventory().insertStack(new ItemStack(bucketItem))) {
-                        player.dropItem(new ItemStack(bucketItem), false);
+                        // Reset milk state and do particles/sound effect
+                        data.setMilked();
+                        doMilkingEffects(cow);
+
+                        // Handled successfully — prevent vanilla milking
+                        return ActionResult.SUCCESS;
                     }
-
-                    // Cow attacks player for milking
-                    //cow.tryAttack(player);
-                    cow.hurtTime = 10;
-
-                    // Reset milk state and play sound
-                    data.setMilked();
-                    doMilkingEffects(cow);
-
-                    // Interaction handled successfully — prevent vanilla milking
-                    return ActionResult.SUCCESS;
                 }
             }
 
-            // Not a bucket, or not a cow — let other interactions happen
+            // Let other interactions happen
             return ActionResult.PASS;
         });
     }
