@@ -27,8 +27,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAdded {
     @Shadow public abstract ActionResult interactMob(PlayerEntity player, Hand hand);
 
-
-
     protected CowEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -51,47 +49,4 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
         cir.setReturnValue(stack.isOf(Items.CAKE));
     }
 
-    @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
-    private void injectedInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        ItemStack stack = player.getStackInHand(hand);
-
-        if (!this.isBaby() && stack.getItem() == Items.BUCKET) {
-            if (gotMilk()) {
-                stack.decrement(1);
-
-                if (stack.isEmpty()) {
-                    player.setStackInHand(hand, new ItemStack(Items.MILK_BUCKET));
-                } else {
-                    if (!player.getInventory().insertStack(new ItemStack(Items.MILK_BUCKET))) {
-                        player.dropItem(Items.MILK_BUCKET.getDefaultStack(), false);
-                    }
-                }
-
-                tryAttack(this);
-
-                if (!getWorld().isClient) {
-                    setGotMilk(false);
-                    this.setAttached(ModDataAttachments.MILK_COOLDOWN, 0);
-                    this.getWorld().playSound(
-                            null, this.getBlockPos(), SoundEvents.ENTITY_SLIME_ATTACK, SoundCategory.NEUTRAL,
-                            1.0F, (getWorld().random.nextFloat() - getWorld().random.nextFloat()) * 0.2F + 0.6F
-                    );
-                }
-
-
-                cir.setReturnValue(ActionResult.success(getWorld().isClient));
-            }
-        }
-    }
-
-
-    @Override
-    public boolean gotMilk() {
-        return Boolean.TRUE.equals(this.getAttached(ModDataAttachments.GOT_MILK));
-    }
-
-    @Override
-    public void setGotMilk(boolean bGotMilk) {
-        this.setAttached(ModDataAttachments.GOT_MILK, bGotMilk);
-    }
 }

@@ -2,18 +2,18 @@ package org.ivangeevo.animageddon.item.interfaces;
 
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.item.ItemStack;
-import org.ivangeevo.animageddon.ModAttachments;
+import org.ivangeevo.animageddon.data.ModDataAttachments;
 
 import static org.ivangeevo.animageddon.item.ModComponents.HAS_BAIT_COMPONENT;
 
 public interface BaitableFishingRod {
 
     default void setHasBaitBobber(FishingBobberEntity bobber, boolean value) {
-        bobber.setAttached(ModAttachments.HAS_BAIT_ATTACHMENT, value);
+        bobber.setAttached(ModDataAttachments.HAS_BAIT, value);
     }
 
     default boolean hasBaitBobber(FishingBobberEntity bobber) {
-        return Boolean.TRUE.equals(bobber.getAttached(ModAttachments.HAS_BAIT_ATTACHMENT));
+        return Boolean.TRUE.equals(bobber.getAttached(ModDataAttachments.HAS_BAIT));
     }
 
     default void setHasBaitComponent(ItemStack stack, boolean value) {
