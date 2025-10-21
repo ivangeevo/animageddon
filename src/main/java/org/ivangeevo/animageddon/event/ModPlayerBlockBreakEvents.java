@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.Unique;
 
 public class ModPlayerBlockBreakEvents {
 
-    public static void initialize() {
+    public static void register() {
         PlayerBlockBreakEvents.BEFORE.register((world, player, pos, state, blockEntity) -> {
             if (state.isOf(Blocks.COBWEB)) {
                 // Run your own logic instead of vanilla

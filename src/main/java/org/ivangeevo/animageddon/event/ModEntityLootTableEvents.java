@@ -38,12 +38,11 @@ import static net.minecraft.entity.EntityType.*;
 public class ModEntityLootTableEvents {
 
     // Register loot table changes
-    public static void initialize() {
+    public static void register() {
         modifySpecificItem(CREEPER.getLootTableId(), Items.GUNPOWDER, ModItems.NITRE);
 
         // TODO: Make it so that when the mob dies on fire it drops burned meat instead of cooked.
         //modifyFoodItemToBurned(COW.getLootTableId(), Items.COOKED_BEEF, ModItems.BURNED_MEAT,1);
-
 
         /**
         // Burned meat entries

@@ -1,15 +1,8 @@
 package org.ivangeevo.animageddon.entity.interfaces;
 
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.passive.CowEntity;
 import org.ivangeevo.animageddon.util.MiscUtils;
 
 public interface CowEntityAdded {
-
-    TrackedData<Byte> HUNGER_LEVEL = DataTracker.registerData(CowEntity.class, TrackedDataHandlerRegistry.BYTE);
-    TrackedData<Boolean> IN_LOVE = DataTracker.registerData(CowEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     int KICK_ATTACK_DURATION = 20;
     int KICK_ATTACK_TICKS_TO_COOLDOWN = 40;
@@ -19,10 +12,7 @@ public interface CowEntityAdded {
 
     void setKickAttackInProgressCounter(int Value);
     void setKickAttackLegUsed(int value);
-    void setGotMilk(boolean bGotMilk);
     void onClientNotifiedOfKickAttack();
-
-    boolean gotMilk();
 
     double KICK_ATTACK_RANGE = 1.75D;
     double KICK_ATTACK_TIP_COLLISION_WIDTH = 2.75D;
