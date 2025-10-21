@@ -1,6 +1,5 @@
 package org.ivangeevo.animageddon.mixin.client;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPartBuilder;
 import net.minecraft.client.model.ModelPartData;

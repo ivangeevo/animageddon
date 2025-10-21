@@ -19,7 +19,7 @@ public abstract class ItemStackMixin {
 
     // Shows detailed data for the components of an itemstack in its item's tooltip
     // (slightly laggy, but mostly used it for debugging)
-    @Inject(method = "getTooltip", at = @At("TAIL"))
+    //@Inject(method = "getTooltip", at = @At("TAIL"))
     private void appendComponentDebug(Item.TooltipContext context, @Nullable PlayerEntity player, TooltipType type,
                                       CallbackInfoReturnable<List<Text>> cir) {
 
@@ -34,7 +34,6 @@ public abstract class ItemStackMixin {
 
         // Add components to the tooltip
         components.forEach(component -> {
-            // Assuming component is an object with a value() method for its type and toString() method for its value
             tooltip.add(Text.literal("§8 - " + component.getClass().getSimpleName() + ": " + component.toString()));
         });
     }

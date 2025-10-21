@@ -1,14 +1,8 @@
 package org.ivangeevo.animageddon;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.minecraft.entity.passive.CowEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.Box;
 import org.ivangeevo.animageddon.block.ModBlocks;
-import org.ivangeevo.animageddon.data.MilkAttachedData;
 import org.ivangeevo.animageddon.data.ModDataAttachments;
 import org.ivangeevo.animageddon.event.ModEntityLootTableEvents;
 import org.ivangeevo.animageddon.event.ModEntityUseEvents;
