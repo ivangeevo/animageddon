@@ -1,10 +1,11 @@
 ## Changelog Animageddon
-# v???(dev)
+# v0.3
 + Changed cows to be milked only once a day and to initially spawn without milk. Part of this is temporary behavior until the change for animals requiring to eat food is implemented into the mod
 + Changed cows to run away(become scared) if they can't be milked
 + Fixed a bug with chickens being able to be fed again after a short amount of time when they have already been fed in this egg laying cycle
 + Minimized the mixin modifications for some animal classes like chicken and cow and used Fabric events instead where possible
 + Updated all mod items in the creative menu tabs to be positioned after similar items instead of being at the bottom of the list
++ Updated the mod to Fabric Loader 0.17.3
 
 # v0.2.1
 + Fixed missing recipe for Chicken Feed.
