@@ -50,8 +50,9 @@ public class ChickenEggAttachedData {
     public void tick(ChickenEntity chicken) {
         chicken.eggLayTime = Integer.MAX_VALUE;
 
-        if (!chicken.isBaby() /**&& isFullyFed()**/ && timeToLayEgg > 0 && validateTimeToLayEgg(chicken.getWorld())) {
-            if (chicken.getWorld().getTimeOfDay() > timeToLayEgg) {
+        World world = chicken.getWorld();
+        if (!chicken.isBaby() /**&& isFullyFed()**/ && timeToLayEgg > 0 && validateTimeToLayEgg(world)) {
+            if (world.getTimeOfDay() > timeToLayEgg) {
                 chicken.playSound(SoundEvents.ENTITY_SLIME_ATTACK, 1.0f, chicken.getSoundPitch());
                 chicken.playSound(SoundEvents.ENTITY_CHICKEN_HURT, 1.0f, chicken.getSoundPitch());
                 chicken.dropItem(Items.EGG);
