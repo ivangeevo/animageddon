@@ -3,15 +3,20 @@ package org.ivangeevo.animageddon.event;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.passive.MooshroomEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
@@ -26,7 +31,7 @@ public class ModEntityUseEvents {
     }
 
     private static void onUseCowEntity() {
-        UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
+            UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
 
             // Only handle cows that are alive and not babies
             if (entity instanceof CowEntity cow && cow.isAlive() && !cow.isBaby()) {
@@ -34,34 +39,19 @@ public class ModEntityUseEvents {
                 if (player.isSpectator()) return ActionResult.PASS;
 
                 ItemStack stack = player.getStackInHand(hand);
+                boolean isBucket = stack.getItem() instanceof BucketItem || stack.isIn(ConventionalItemTags.BUCKETS);
 
                 // Only intercept bucket interactions
-                if (stack.getItem() instanceof BucketItem || stack.isIn(ConventionalItemTags.BUCKETS)) {
-
+                if (isBucket) {
                     if (!cow.hasAttached(ModDataAttachments.MILK_DATA)) return ActionResult.FAIL;
 
                     CowMilkAttachedData data = cow.getAttached(ModDataAttachments.MILK_DATA);
                     assert data != null;
                     if (!data.getCanBeMilked()) {
-                        return ActionResult.FAIL;
+                        tryMilking(cow, data, stack, player, false);
+                        return ActionResult.SUCCESS_NO_ITEM_USED;
                     } else {
-                        stack.decrement(1);
-                        ItemStack milkBucket = new ItemStack(Items.MILK_BUCKET);
-
-                        if (stack.isEmpty()) {
-                            player.setStackInHand(hand, milkBucket);
-                        } else if (!player.getInventory().insertStack(milkBucket)) {
-                            player.dropItem(milkBucket, false);
-                        }
-
-                        // Cow "attack" animation flicker for milking
-                        cow.hurtTime = 10;
-
-                        // Reset milk state and do particles/sound effect
-                        data.setMilked();
-                        doMilkingEffects(cow);
-
-                        // Handled successfully — prevent vanilla milking
+                        tryMilking(cow, data, stack, player, true);
                         return ActionResult.SUCCESS;
                     }
                 }
@@ -70,6 +60,36 @@ public class ModEntityUseEvents {
             // Let other interactions happen
             return ActionResult.PASS;
         });
+    }
+
+    private static void tryMilking(CowEntity cow, CowMilkAttachedData data, ItemStack stack, PlayerEntity player, boolean canMilk) {
+        World world = cow.getWorld();
+        if (!canMilk) {
+            cow.hurtTime = 10;
+            DamageSource damageSource = new DamageSource(
+                    world.getRegistryManager()
+                            .get(RegistryKeys.DAMAGE_TYPE)
+                            .entryOf(DamageTypes.IN_FIRE)
+            );
+            cow.damage(damageSource, 0);
+        } else {
+            stack.decrement(1);
+            ItemStack milkBucket = new ItemStack(Items.MILK_BUCKET);
+            Hand hand = player.getActiveHand();
+
+            if (stack.isEmpty()) {
+                player.setStackInHand(hand, milkBucket);
+            } else if (!player.getInventory().insertStack(milkBucket)) {
+                player.dropItem(milkBucket, false);
+            }
+
+            // Cow "attack" animation flicker for milking
+            cow.hurtTime = 10;
+
+            data.setMilked();
+            doMilkingEffects(cow);
+        }
+
     }
 
     public static void doMilkingEffects(CowEntity cow) {

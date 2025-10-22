@@ -11,7 +11,6 @@
     "entity.ai.ZombieAttackGoalMixin",
     "entity.AbstractHorseEntityMixin",
     "entity.AnimalEntityMixin",
-    "entity.ChickenEntityMixin",
     "entity.CowEntityMixin",
     "entity.CreeperEntityMixin",
     "entity.EntityMixin",

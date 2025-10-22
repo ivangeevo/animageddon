@@ -8,7 +8,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.ivangeevo.animageddon.AnimageddonMod;
-import org.ivangeevo.animageddon.item.items.ChickenFeedItem;
 
 public class ModItems
 {

@@ -23,6 +23,17 @@ public class ModDataAttachments {
                     )
     );
 
+    public static final AttachmentType<ChickenEggAttachedData> CHICKEN_EGG_DATA = AttachmentRegistry.create(
+            Identifier.of(AnimageddonMod.MOD_ID, "chicken_egg_data"),
+            builder -> builder
+                    .initializer(() -> ChickenEggAttachedData.DEFAULT)
+                    .persistent(ChickenEggAttachedData.CODEC)
+                    .syncWith(
+                            ChickenEggAttachedData.PACKET_CODEC,
+                            AttachmentSyncPredicate.all()
+                    )
+    );
+
     public static void register() {
         AnimageddonMod.LOGGER.info("Registering {} attachments", AnimageddonMod.MOD_ID);
         // Technically this method can stay empty, but some developers like to notify

@@ -40,12 +40,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity implements Chicken
         lastWorldTime = world.getTimeOfDay();
     }
 
-    @Inject(method = "isBreedingItem", at = @At("RETURN"), cancellable = true)
-    private void setBreedingItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(stack.isOf(ModItems.CHICKEN_FEED));
-    }
-
-    @Inject(method = "tickMovement", at = @At("TAIL"))
+    //@Inject(method = "tickMovement", at = @At("TAIL"))
     private void onTickMovement(CallbackInfo ci) {
         // set the original egg lay time to max int value to practically make it never reach 0 (and lay an egg)
         this.eggLayTime = Integer.MAX_VALUE;
@@ -61,6 +56,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity implements Chicken
         }
     }
 
+    /**
     @Override
     protected void eat(PlayerEntity player, Hand hand, ItemStack stack) {
         if (stack.isOf(ModItems.CHICKEN_FEED) && !isBaby()) {
@@ -77,20 +73,21 @@ public abstract class ChickenEntityMixin extends AnimalEntity implements Chicken
 
         super.eat(player, hand, stack);
     }
+    **/
 
-    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
+    //@Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
     private void onWriteCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
         nbt.putLong("TimeToLayEgg", this.timeToLayEgg);
         nbt.putLong("LastFedTime", this.lastFedTime);
         nbt.putBoolean("HasBeenFed", this.animageddon$getHasBeenFed());
     }
 
-    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
+    //@Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     private void onReadCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
         if (nbt.contains("TimeToLayEgg")) {
             timeToLayEgg = nbt.getLong("TimeToLayEgg");
             lastFedTime = nbt.getLong("LastFedTime");
-            this.animageddon$setHasBeenFed( nbt.getBoolean("HasBeenFed"));
+            this.animageddon$setHasBeenFed(nbt.getBoolean("HasBeenFed"));
         } else {
             timeToLayEgg = 0;
             lastFedTime = -1;
