@@ -6,26 +6,26 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 
-public class MilkAttachedData {
+public class CowMilkAttachedData {
 
     private int ticks;
     private boolean gotMilk;
 
-    public static final MilkAttachedData DEFAULT = new MilkAttachedData(0, false);
+    public static final CowMilkAttachedData DEFAULT = new CowMilkAttachedData(0, false);
 
-    public MilkAttachedData(int ticks, boolean gotMilk) {
+    public CowMilkAttachedData(int ticks, boolean gotMilk) {
         this.ticks = ticks;
         this.gotMilk = gotMilk;
     }
 
-    public static final Codec<MilkAttachedData> CODEC = RecordCodecBuilder.create(instance ->
+    public static final Codec<CowMilkAttachedData> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
-                    Codec.INT.fieldOf("ticks").forGetter(MilkAttachedData::getTicks),
-                    Codec.BOOL.fieldOf("gotMilk").forGetter(MilkAttachedData::getCanBeMilked)
-            ).apply(instance, MilkAttachedData::new)
+                    Codec.INT.fieldOf("ticks").forGetter(CowMilkAttachedData::getTicks),
+                    Codec.BOOL.fieldOf("gotMilk").forGetter(CowMilkAttachedData::getCanBeMilked)
+            ).apply(instance, CowMilkAttachedData::new)
     );
 
-    public static PacketCodec<ByteBuf, MilkAttachedData> PACKET_CODEC = PacketCodecs.codec(CODEC);
+    public static PacketCodec<ByteBuf, CowMilkAttachedData> PACKET_CODEC = PacketCodecs.codec(CODEC);
 
     public int getTicks() {
         return ticks;

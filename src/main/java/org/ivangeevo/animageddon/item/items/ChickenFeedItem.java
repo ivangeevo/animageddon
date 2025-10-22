@@ -27,9 +27,6 @@ public class ChickenFeedItem extends Item {
             return ActionResult.FAIL;
         }
 
-
-
-
         return super.useOnEntity(stack, user, entity, hand);
     }
 

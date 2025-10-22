@@ -6,7 +6,6 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.passive.MooshroomEntity;
 import net.minecraft.item.BucketItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
@@ -16,7 +15,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
-import org.ivangeevo.animageddon.data.MilkAttachedData;
+import org.ivangeevo.animageddon.data.CowMilkAttachedData;
 import org.ivangeevo.animageddon.data.ModDataAttachments;
 
 public class ModEntityUseEvents {
@@ -41,7 +40,7 @@ public class ModEntityUseEvents {
 
                     if (!cow.hasAttached(ModDataAttachments.MILK_DATA)) return ActionResult.FAIL;
 
-                    MilkAttachedData data = cow.getAttached(ModDataAttachments.MILK_DATA);
+                    CowMilkAttachedData data = cow.getAttached(ModDataAttachments.MILK_DATA);
                     assert data != null;
                     if (!data.getCanBeMilked()) {
                         return ActionResult.FAIL;

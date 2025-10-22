@@ -7,10 +7,9 @@ import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.world.World;
-import org.ivangeevo.animageddon.data.MilkAttachedData;
+import org.ivangeevo.animageddon.data.CowMilkAttachedData;
 import org.ivangeevo.animageddon.data.ModDataAttachments;
 import org.ivangeevo.animageddon.entity.interfaces.AnimalEntityAdded;
-import org.ivangeevo.animageddon.entity.interfaces.CowEntityAdded;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -47,7 +46,7 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
     private void onMobTick(CallbackInfo ci) {
         if ((AnimalEntity)(Object)this instanceof CowEntity cow) {
             if (!cow.getWorld().isClient) {
-                MilkAttachedData data = cow.getAttachedOrCreate(ModDataAttachments.MILK_DATA, () -> new MilkAttachedData(0, true));
+                CowMilkAttachedData data = cow.getAttachedOrCreate(ModDataAttachments.MILK_DATA, () -> new CowMilkAttachedData(0, true));
                 data.tick();
                 cow.setAttached(ModDataAttachments.MILK_DATA, data);
             }

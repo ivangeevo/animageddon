@@ -12,13 +12,13 @@ public class ModDataAttachments {
     static Identifier HAS_BAIT_ID = Identifier.of(AnimageddonMod.MOD_ID, "has_bait");
     public static final AttachmentType<Boolean> HAS_BAIT = AttachmentRegistry.createPersistent(HAS_BAIT_ID, Codec.BOOL);
 
-    public static final AttachmentType<MilkAttachedData> MILK_DATA = AttachmentRegistry.create(
+    public static final AttachmentType<CowMilkAttachedData> MILK_DATA = AttachmentRegistry.create(
             Identifier.of(AnimageddonMod.MOD_ID, "milk_data"),
             builder -> builder
-                    .initializer(() -> MilkAttachedData.DEFAULT)
-                    .persistent(MilkAttachedData.CODEC)
+                    .initializer(() -> CowMilkAttachedData.DEFAULT)
+                    .persistent(CowMilkAttachedData.CODEC)
                     .syncWith(
-                            MilkAttachedData.PACKET_CODEC,
+                            CowMilkAttachedData.PACKET_CODEC,
                             AttachmentSyncPredicate.all()
                     )
     );
