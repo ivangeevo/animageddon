@@ -25,7 +25,6 @@ public class AnimageddonMod implements ModInitializer
         ModItems.registerModItemsAndAddToGroups();
         ModComponents.register();
         ModDataAttachments.register();
-        ModDamageTypes.register();
 
         ModEntityLootTableEvents.register();
         //ModPlayerBlockBreakEvents.register();
