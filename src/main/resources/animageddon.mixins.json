@@ -6,7 +6,6 @@
   "mixins": [
     "BlockMixin",
     "LootPoolBuilderAccessor",
-    "entity.AbstractHorseEntityMixin",
     "entity.AnimalEntityMixin",
     "entity.CowEntityMixin",
     "entity.CreeperEntityMixin",

@@ -1,4 +1,4 @@
-package org.ivangeevo.animageddon.ai.goal;
+package org.ivangeevo.animageddon.entity.ai.goal;
 
 import java.util.EnumSet;
 import java.util.function.Predicate;
@@ -9,6 +9,8 @@ import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.predicate.block.BlockStatePredicate;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
@@ -32,27 +34,22 @@ public class GrazeGoal extends Goal {
 		this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK, Goal.Control.JUMP));
 	}
 
-	private boolean hasAttachedHungerData() {
-		return animal.hasAttached(ModDataAttachments.ANIMAL_HUNGER_DATA);
-	}
-
 	@Override
 	public boolean canStart() {
-		if (!hasAttachedHungerData()) return false;
-
 		if (grazeCooldown > 0) {
 			grazeCooldown--;
 			return false;
 		}
 
-		AnimalHungerAttachedData data = animal.getAttached(ModDataAttachments.ANIMAL_HUNGER_DATA);
-
-		if (data.isSubjectToHunger(animal)) {
-			return data.isHungryEnoughToGraze() && data.getGrazeBlockForPos(animal) != null;
+		if (animal.isSubjectToHunger()) {
+			return animal.isHungryEnoughToGraze() && animal.getGrazeBlockForPos() != null;
 		} else {
 			return animal.getRandom().nextInt(animal.isBaby() ? 50 : 1000) == 0 &&
-					data.getGrazeBlockForPos(animal) != null;
+					animal.getGrazeBlockForPos() != null;
 		}
+
+
+
 	}
 
 	@Override
@@ -77,14 +74,37 @@ public class GrazeGoal extends Goal {
 
 	@Override
 	public void tick() {
-		AnimalHungerAttachedData data = animal.getAttachedOrCreate(
-				ModDataAttachments.ANIMAL_HUNGER_DATA, AnimalHungerAttachedData::forDefault
-		);
+		animal.setGrazeProgressCounter(Math.max(0, animal.getGrazeProgressCounter() - 1));
+
+		if (animal.getGrazeProgressCounter() == 4) {
+			BlockPos targetPos = animal.getGrazeBlockForPos();
+
+			if (targetPos != null) {
+				animal.onGrazeBlock(targetPos);
+
+				//GroundCoverBlock.clearAnyGroundCoverRestingOnBlock(animal.worldObj, targetPos.x, targetPos.y, targetPos.z);
+
+				if (animal.shouldNotifyBlockOnGraze()) {
+					Block block = world.getBlockState(targetPos).getBlock();
+
+					if (!block.getDefaultState().isAir()) {
+						world.playSound(null, targetPos, SoundEvents.BLOCK_GRASS_BREAK, SoundCategory.BLOCKS);
+						block.onGrazed(world, targetPos, animal);
+					}
+				}
+			}
+		}
+
+
+
+		/**
+		AnimalHungerAttachedData hungerData = animal.getAttached(ModDataAttachments.ANIMAL_HUNGER_DATA);
 		this.grazeProgressCounter = Math.max(0, this.grazeProgressCounter - 1);
 		if (this.grazeProgressCounter == this.getTickCount(4)) {
 			BlockPos blockPos = this.animal.getBlockPos();
 			if (SHORT_GRASS_PREDICATE.test(this.world.getBlockState(blockPos))) {
-				data.onGrazeBlock(animal, blockPos);
+                assert hungerData != null;
+                animal.onGrazeBlock(blockPos);
 				if (this.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) {
 					this.world.breakBlock(blockPos, false);
 				}
@@ -102,6 +122,7 @@ public class GrazeGoal extends Goal {
 				}
 			}
 		}
+		 **/
 
 	}
 }

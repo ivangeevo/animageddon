@@ -1,6 +1,7 @@
 package org.ivangeevo.animageddon.mixin.entity;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.ChickenEntity;
@@ -8,21 +9,31 @@ import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.ivangeevo.animageddon.data.attachments.hunger.AnimalHungerAttachedData;
 import org.ivangeevo.animageddon.data.attachments.ChickenEggAttachedData;
 import org.ivangeevo.animageddon.data.attachments.CowMilkAttachedData;
 import org.ivangeevo.animageddon.data.ModDataAttachments;
+import org.ivangeevo.animageddon.data.attachments.hunger.AnimalHungerConstants;
 import org.ivangeevo.animageddon.entity.interfaces.AnimalEntityAdded;
 import org.ivangeevo.animageddon.util.ServerTimeHelper;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.function.Consumer;
+
+import static org.ivangeevo.animageddon.data.attachments.hunger.AnimalHungerConstants.FULL_HUNGER_COUNT;
+import static org.ivangeevo.animageddon.data.attachments.hunger.AnimalHungerConstants.LEVEL_UP_HUNGER_COUNT;
 
 @Mixin(AnimalEntity.class)
 public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalEntityAdded {
@@ -30,6 +41,20 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
     protected AnimalEntityMixin(EntityType<? extends PassiveEntity> entityType, World world) {
         super(entityType, world);
     }
+
+    @Unique
+    public int grazeProgressCounter = 0;
+
+    @Override
+    public int getGrazeProgressCounter() {
+        return grazeProgressCounter;
+    }
+
+    @Override
+    public void setGrazeProgressCounter(int value) {
+        grazeProgressCounter = value;
+    }
+
 
     // Prevents chickens from eating chicken feed again within the same egg-laying cycle.
     // Only affects adult chickens since babies cannot lay eggs.
@@ -58,47 +83,81 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
 
     @Inject(method = "mobTick", at = @At("HEAD"))
     private void onMobTick(CallbackInfo ci) {
-        if ((AnimalEntity)(Object)this instanceof CowEntity cow) {
-            if (!this.getWorld().isClient) {
-                AnimalHungerAttachedData data = cow.getAttachedOrCreate(
-                        ModDataAttachments.ANIMAL_HUNGER_DATA,
-                        AnimalHungerAttachedData::forDefault
-                );
-                data.tick(cow);
-            }
-        }
-    }
-
-    @Inject(method = "mobTick", at = @At("HEAD"))
-    private void onMobTickCow(CallbackInfo ci) {
-        if ((AnimalEntity)(Object)this instanceof CowEntity cow && !cow.isBaby()) {
+        this.forAnimal(CowEntity.class, cow -> {
             if (!cow.getWorld().isClient) {
-                CowMilkAttachedData data = cow.getAttachedOrCreate(
-                        ModDataAttachments.MILK_DATA,
-                        () -> CowMilkAttachedData.DEFAULT
+                /**
+                var hungerData = cow.getAttachedOrCreate(
+                        ModDataAttachments.ANIMAL_HUNGER_DATA, AnimalHungerAttachedData::forDefault
                 );
-                data.tick();
-                cow.setAttached(ModDataAttachments.MILK_DATA, data);
-            }
-        }
-    }
+                if (!cow.isSubjectToHunger()) return;
 
-    @Inject(method = "mobTick", at = @At("HEAD"))
-    private void onMobTickChicken(CallbackInfo ci) {
-        if ((AnimalEntity)(Object)this instanceof ChickenEntity chicken && !chicken.isBaby()) {
-            if (!chicken.getWorld().isClient) {
-                ChickenEggAttachedData data = chicken.getAttachedOrCreate(
-                        ModDataAttachments.CHICKEN_EGG_DATA,
-                        () -> ChickenEggAttachedData.DEFAULT
-                );
-                data.tick(chicken);
-                chicken.setAttached(ModDataAttachments.CHICKEN_EGG_DATA, data);
+                int hungerCountdown = hungerData.getHungerCountdown();
+                //hungerCountdown -= animal.isBaby() ? 2 : 1;
+                hungerData.setHungerCountdown(hungerCountdown - (cow.isBaby() ? 2 : 1));
+
+                if (hungerCountdown <= 0) {
+                    if (!cow.isBaby()) {
+                        switch (hungerData.getHungerLevel()) {
+                            case 0 -> hungerData.onBecomeFamished();
+                            case 1 -> hungerData.onBecomeStarving();
+                            case 2 -> cow.onStarvingCountExpired();
+                        }
+                        hungerData.resetHungerCountdown();
+                    } else {
+                        // children can't survive being famished. they'll
+                        // just keep taking damage once their countdown expires
+                        cow.damage(cow.getDamageSources().starve(), 1);
+                    }
+                }
+                 **/
+
+                if (!cow.isBaby()) {
+                    var milkData = cow.getAttachedOrCreate(
+                            ModDataAttachments.MILK_DATA, () -> CowMilkAttachedData.DEFAULT
+                    );
+                    milkData.tick();
+                    cow.setAttached(ModDataAttachments.MILK_DATA, milkData);
+                }
             }
-        }
+        });
+
+        this.forAnimal(ChickenEntity.class, chicken -> {
+            var eggData = chicken.getAttachedOrCreate(
+                    ModDataAttachments.CHICKEN_EGG_DATA, () -> ChickenEggAttachedData.DEFAULT
+            );
+            eggData.tick(chicken);
+            chicken.setAttached(ModDataAttachments.CHICKEN_EGG_DATA, eggData);
+        });
     }
 
     @Inject(method = "eat", at = @At("HEAD"))
     private void onEatChicken(PlayerEntity player, Hand hand, ItemStack stack, CallbackInfo ci) {
+        this.forAnimal(ChickenEntity.class, chicken -> {
+            // allow feeding only of adult chickens
+            if (!chicken.isBaby()) {
+                long currentTime = ServerTimeHelper.getOverworldTimeOfDayServerOnly();
+                var eggData = chicken.getAttachedOrCreate(ModDataAttachments.CHICKEN_EGG_DATA, () -> ChickenEggAttachedData.DEFAULT);
+
+                // don't try to feed if already fed
+                if (eggData.getHasBeenFed()) return;
+
+                if (stack.isIn(ItemTags.CHICKEN_FOOD)) {
+                    // the following morning, at least half a day from now
+                    long timeToLayEgg = (((currentTime + 12000L) / 24000L) + 1) * 24000L;
+
+                    // crack of dawn (22550) + 30-second random variance
+                    timeToLayEgg += -1450 + chicken.getRandom().nextInt(600);
+
+                    chicken.playSound(SoundEvents.ENTITY_CHICKEN_HURT, 1.0F, chicken.getRandom().nextFloat() * 0.2F + 1.5F);
+
+                    eggData.setTimeToLayEgg(timeToLayEgg);
+                    eggData.setHasBeenFed(true);
+                    chicken.setAttached(ModDataAttachments.CHICKEN_EGG_DATA, eggData);
+                }
+            }
+        });
+
+        /**
         // allow feeding only of adult chickens
         if ((AnimalEntity)(Object)this instanceof ChickenEntity chicken && !chicken.isBaby()) {
 
@@ -125,6 +184,113 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
                 }
             }
         }
+         **/
+    }
+
+    @Override
+    public void initHungerWithVariance() {
+        // prevent initially spawned animals from all eating at the same time.
+        AnimalEntity animal = (AnimalEntity)(Object)this;
+
+        var data = animal.getAttached(ModDataAttachments.ANIMAL_HUNGER_DATA);
+        if (data == null) return;
+
+        if (animal.isSubjectToHunger()) {
+            data.setHungerCountdown(FULL_HUNGER_COUNT - animal.getRandom().nextInt(data.getGrazeHungerGain()));
+        }
+    }
+
+    @Override
+    public boolean canGrazeOnBlock(BlockPos pos) {
+        World world = this.getWorld();
+        Block block = world.getBlockState(pos).getBlock();
+
+        if (block != null) {
+            return block.canBeGrazedOn(world, pos, (AnimalEntity)(Object)this);
+        }
+
+        return false;
+    }
+
+    @Override
+    public BlockPos getGrazeBlockForPos() {
+        BlockPos pos = this.getBlockPos();
+        BlockPos targetPos = new BlockPos(
+                MathHelper.floor(pos.getX()),
+                (int)this.getBoundingBox().minY,
+                MathHelper.floor(pos.getZ())
+        );
+
+        if (this.canGrazeOnBlock(targetPos)) {
+            return targetPos;
+        } else {
+            //targetPos.y--;
+            BlockPos newTargetPos = targetPos.down();
+
+            if (canGrazeOnBlock(newTargetPos) ) {
+                return targetPos;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public boolean isSubjectToHunger() {
+        return false;
+    }
+
+    @Override
+    public boolean isHungryEnoughToGraze() {
+        var hungerData = this.getAttached(ModDataAttachments.ANIMAL_HUNGER_DATA);
+        if (hungerData == null) return false;
+        return !hungerData.isFullyFed() || hungerData.getHungerCountdown() + hungerData.getGrazeHungerGain() <= FULL_HUNGER_COUNT;
+    }
+
+    @Override
+    public boolean shouldNotifyBlockOnGraze() {
+        return true;
+    }
+
+    @Override
+    public void onStarvingCountExpired() {
+        // max health 20 wolves, 15 cows, 10 pigs, 8 sheep, 4 chicken
+        // Keep the if check for when we add difficulty checks
+        //if (this.getWorld().getDifficulty().canAnimalsStarve()) {
+        this.damage(this.getDamageSources().starve(), 5);
+        //}
+    }
+
+    @Override
+    public void addToHungerCount(int addedHunger) {
+        var hungerData = this.getAttached(ModDataAttachments.ANIMAL_HUNGER_DATA);
+        if (hungerData == null) return;
+        int hungerCountdown = hungerData.getHungerCountdown();
+
+        //hungerCountdown += iAddedHunger;
+        hungerData.setHungerCountdown(hungerCountdown + addedHunger);
+
+        // don't level up immediately when full to prevent flickering state
+
+        if (hungerCountdown > LEVEL_UP_HUNGER_COUNT)
+        {
+            int hungerLevel = hungerData.getHungerLevel();
+
+            if (hungerLevel > 0) {
+                //hungerCountdown -= FULL_HUNGER_COUNT;
+                hungerData.setHungerCountdown(hungerCountdown - FULL_HUNGER_COUNT);
+
+                //setHungerLevel(hungerLevel - 1);
+                hungerData.setHungerLevel(hungerLevel - 1);
+            }
+        }
+    }
+
+    @Override
+    public void onGrazeBlock(BlockPos pos) {
+        var hungerData = this.getAttached(ModDataAttachments.ANIMAL_HUNGER_DATA);
+        if (hungerData == null) return;
+        addToHungerCount(hungerData.getGrazeHungerGain());
     }
 
     //TODO: [BUG] Cow baby unexpected behavior
@@ -149,5 +315,14 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
             }
         }
     }
+
+    @Unique
+    @SuppressWarnings("unchecked")
+    private <T extends AnimalEntity> void forAnimal(Class<T> type, Consumer<T> action) {
+        if (type.isInstance(this)) {
+            action.accept((T)(Object)this);
+        }
+    }
+
 
 }

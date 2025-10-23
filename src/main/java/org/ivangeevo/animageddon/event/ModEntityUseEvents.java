@@ -31,9 +31,7 @@ public class ModEntityUseEvents {
         onUseMushroomEntity();
     }
 
-    private static void onUseAnimalEntity() {
-
-    }
+    private static void onUseAnimalEntity() {}
 
     private static void onUseCowEntity() {
             UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {

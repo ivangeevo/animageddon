@@ -9,13 +9,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
-import org.ivangeevo.animageddon.ai.goal.GrazeGoal;
-import org.ivangeevo.animageddon.data.ModDataAttachments;
+import org.ivangeevo.animageddon.entity.ai.goal.GrazeGoal;
 import org.ivangeevo.animageddon.entity.interfaces.CowEntityAdded;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -44,12 +41,15 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
     @Inject(method = "initGoals", at = @At("TAIL"))
     private void injectedInitGoals(CallbackInfo ci) {
         this.goalSelector.add(3, new TemptGoal(this, 1.4, Ingredient.ofItems(Items.CAKE), false));
-        this.goalSelector.add(2, new GrazeGoal(this));
+        this.goalSelector.add(6, new GrazeGoal(this));
     }
 
     @Inject(method = "isBreedingItem", at = @At("HEAD"), cancellable = true)
     private void onIsBreedingItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(stack.isOf(Items.CAKE));
     }
+
+    @Override
+    public boolean isSubjectToHunger() { return true; }
 
 }

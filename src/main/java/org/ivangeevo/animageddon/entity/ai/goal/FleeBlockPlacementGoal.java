@@ -1,4 +1,4 @@
-package org.ivangeevo.animageddon.ai.goal;
+package org.ivangeevo.animageddon.entity.ai.goal;
 
 import net.minecraft.entity.ai.NoPenaltyTargeting;
 import net.minecraft.entity.ai.goal.Goal;

@@ -1,33 +1,50 @@
 package org.ivangeevo.animageddon.entity.interfaces;
 
-import net.minecraft.item.ItemStack;
-import org.ivangeevo.animageddon.util.MiscUtils;
+import net.minecraft.entity.EntityType;
+import net.minecraft.util.math.BlockPos;
 
 public interface AnimalEntityAdded  {
 
-    void setWearingBreedingHarness( boolean bWearingHarness );
-    void onEatBreedingItem();
-
-    void setInLove();
 
     boolean getWearingBreedingHarness();
-    boolean isEdibleItem(ItemStack stack);
-    boolean attemptToEatItemForBreeding(ItemStack stack);
-    boolean isReadyToEatBreedingItem();
-    boolean isFullyFed();
-
-    int getFoodValueMultiplier();
-
-    int getHungerLevel();
 
     //-------------- Hunger related functionality ------------//
+    default void initHungerWithVariance() {}
 
-    int FULL_HUNGER_COUNT = ( MiscUtils.TICKS_PER_GAME_DAY );
-    int hungerCountdown();
-    void setHungerCountdown( int value );
+    default void onStarvingCountExpired() {}
+
+    default void addToHungerCount(int addedHunger) {}
 
 
 
-    int getInLove();
+    //-------------- Grazing related functionality ------------//
+
+    default BlockPos getGrazeBlockForPos() {
+        return null;
+    }
+
+    default boolean canGrazeOnBlock(BlockPos pos) {
+        return false;
+    }
+
+    default void onGrazeBlock(BlockPos pos) {}
+
+    default boolean isSubjectToHunger() {
+        return false;
+    }
+
+    default boolean isHungryEnoughToGraze() {
+        return false;
+    }
+
+    default boolean shouldNotifyBlockOnGraze() {
+        return false;
+    }
+
+    default int getGrazeProgressCounter() {
+        return 0;
+    }
+
+    default void setGrazeProgressCounter(int value) {}
 
 }

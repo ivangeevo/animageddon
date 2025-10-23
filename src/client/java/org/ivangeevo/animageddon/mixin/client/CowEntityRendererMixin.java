@@ -20,17 +20,25 @@ public abstract class CowEntityRendererMixin {
     @Shadow @Final private static Identifier TEXTURE;
 
     @Unique
-    private static final Identifier FAMISHED_TEXTURE = Identifier.of(AnimageddonMod.MOD_ID, "textures/entity/cow_famished.png");
+    private static final Identifier FAMISHED_TEXTURE = Identifier.of(
+            AnimageddonMod.MOD_ID, "textures/entity/cow_famished.png"
+    );
 
     @Unique
-    private static final Identifier STARVING_TEXTURE = Identifier.of(AnimageddonMod.MOD_ID, "textures/entity/cow_starving.png");
+    private static final Identifier STARVING_TEXTURE = Identifier.of(
+            AnimageddonMod.MOD_ID, "textures/entity/cow_starving.png"
+    );
 
     @Inject(method = "getTexture(Lnet/minecraft/entity/passive/CowEntity;)Lnet/minecraft/util/Identifier;",
             at = @At("HEAD"), cancellable = true)
     private void injectedGetTexture(CowEntity cowEntity, CallbackInfoReturnable<Identifier> cir) {
-        AnimalHungerAttachedData hungerData = cowEntity.getAttachedOrCreate(
-                ModDataAttachments.ANIMAL_HUNGER_DATA, AnimalHungerAttachedData::forDefault
+        var hungerData = cowEntity.getAttachedOrCreate(ModDataAttachments.ANIMAL_HUNGER_DATA);
+        if (hungerData == null) return;
+        cir.setReturnValue(hungerData.isFamished()
+                ? FAMISHED_TEXTURE
+                : hungerData.isStarving()
+                ? STARVING_TEXTURE
+                : TEXTURE
         );
-        cir.setReturnValue(hungerData.isFamished() ? FAMISHED_TEXTURE : hungerData.isStarving() ? STARVING_TEXTURE : TEXTURE);
     }
 }

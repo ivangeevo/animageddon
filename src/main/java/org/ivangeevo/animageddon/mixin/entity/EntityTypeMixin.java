@@ -30,10 +30,7 @@ public abstract class EntityTypeMixin {
     )
     private <T> void onCreate(ServerWorld world, @Nullable Consumer<T> afterConsumer, BlockPos pos, SpawnReason reason, boolean alignPosition, boolean invertY, CallbackInfoReturnable<T> cir, @Local MobEntity mobEntity) {
         if (mobEntity instanceof AnimalEntity animal && animal.hasAttached(ModDataAttachments.ANIMAL_HUNGER_DATA)) {
-            AnimalHungerAttachedData data = animal.getAttached(ModDataAttachments.ANIMAL_HUNGER_DATA);
-            assert data != null;
-            data.initHungerWithVariance(animal);
-            animal.setAttached(ModDataAttachments.ANIMAL_HUNGER_DATA, data);
+            animal.initHungerWithVariance();
         }
     }
 

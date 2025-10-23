@@ -1,7 +1,5 @@
-package org.ivangeevo.animageddon.ai.goal;
+package org.ivangeevo.animageddon.entity.ai.goal;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.server.world.ServerWorld;

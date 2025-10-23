@@ -1,5 +1,6 @@
 package org.ivangeevo.animageddon.tag;
 
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
@@ -30,6 +31,15 @@ public class ModTags {
 
         private static TagKey<Item> createTag (String name) {
             return TagKey.of(RegistryKeys.ITEM, Identifier.of(AnimageddonMod.MOD_ID, name));
+        }
+    }
+
+    public static class EntityTypes {
+
+        public static final TagKey<EntityType<?>> GRAZING_ANIMALS = createTag("grazing__animals");
+
+        private static TagKey<EntityType<?>> createTag (String name) {
+            return TagKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(AnimageddonMod.MOD_ID, name));
         }
     }
 }
