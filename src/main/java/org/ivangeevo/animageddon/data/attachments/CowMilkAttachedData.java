@@ -11,11 +11,13 @@ public class CowMilkAttachedData {
     private int ticks;
     private boolean gotMilk;
 
-    public static final CowMilkAttachedData DEFAULT = new CowMilkAttachedData(0, false);
-
     public CowMilkAttachedData(int ticks, boolean gotMilk) {
         this.ticks = ticks;
         this.gotMilk = gotMilk;
+    }
+
+    public static CowMilkAttachedData forDefault() {
+        return new CowMilkAttachedData(0, false);
     }
 
     public static final Codec<CowMilkAttachedData> CODEC = RecordCodecBuilder.create(instance ->

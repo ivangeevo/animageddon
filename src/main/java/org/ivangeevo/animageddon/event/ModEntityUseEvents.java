@@ -46,17 +46,10 @@ public class ModEntityUseEvents {
 
                 // Only intercept bucket interactions
                 if (isBucket) {
-                    if (!cow.hasAttached(ModDataAttachments.MILK_DATA)) return ActionResult.FAIL;
-
                     CowMilkAttachedData data = cow.getAttached(ModDataAttachments.MILK_DATA);
-                    assert data != null;
-                    if (!data.getCanBeMilked()) {
-                        tryMilking(cow, data, stack, player, false);
-                        return ActionResult.SUCCESS_NO_ITEM_USED;
-                    } else {
-                        tryMilking(cow, data, stack, player, true);
-                        return ActionResult.SUCCESS;
-                    }
+                    if (data == null) return ActionResult.PASS;
+                    tryMilking(cow, data, stack, player, data.getCanBeMilked());
+                    return ActionResult.SUCCESS;
                 }
             }
 
@@ -69,60 +62,55 @@ public class ModEntityUseEvents {
         World world = cow.getWorld();
         if (!canMilk) {
             cow.hurtTime = 10;
-            DamageSource damageSource = new DamageSource(
-                    world.getRegistryManager()
-                            .get(RegistryKeys.DAMAGE_TYPE)
-                            .entryOf(DamageTypes.IN_FIRE)
-            );
-            cow.damage(damageSource, 0);
-        } else {
-            stack.decrement(1);
-            ItemStack milkBucket = new ItemStack(Items.MILK_BUCKET);
-            Hand hand = player.getActiveHand();
-
-            if (stack.isEmpty()) {
-                player.setStackInHand(hand, milkBucket);
-            } else if (!player.getInventory().insertStack(milkBucket)) {
-                player.dropItem(milkBucket, false);
+            if (!world.isClient) {
+                DamageSource damageSource = new DamageSource(
+                        world.getRegistryManager()
+                                .get(RegistryKeys.DAMAGE_TYPE)
+                                .entryOf(DamageTypes.IN_FIRE)
+                );
+                cow.damage(damageSource, 0);
             }
-
+        } else {
             // Cow "attack" animation flicker for milking
             cow.hurtTime = 10;
 
-            data.setMilked();
-            doMilkingEffects(cow);
+            if (!world.isClient) {
+                stack.decrementUnlessCreative(1, player);
+                ItemStack milkBucket = new ItemStack(Items.MILK_BUCKET);
+                Hand hand = player.getActiveHand();
+
+                if (stack.isEmpty()) {
+                    player.setStackInHand(hand, milkBucket);
+                } else if (!player.getInventory().insertStack(milkBucket)) {
+                    player.dropItem(milkBucket, false);
+                }
+
+                data.setMilked();
+            }
+
+            // Play sound at the cow
+            cow.playSound(
+                    SoundEvents.ENTITY_SLIME_ATTACK,
+                    1.0F,
+                    (world.random.nextFloat() - world.random.nextFloat()) * 0.2F + 0.6F
+            );
+
+            // Spawn 50 snowball-like particles at the cow
+            for (int i = 0; i < 50; i++) {
+                double particleX = cow.getPos().x + world.random.nextDouble() - 0.5;
+                double particleY = cow.getPos().y + 0.5; // adjust for cow body height
+                double particleZ = cow.getPos().z + world.random.nextDouble() - 0.5;
+
+                double velX = (world.random.nextDouble() - 0.5) * 0.5;
+                double velY = world.random.nextDouble() * 0.25;
+                double velZ = (world.random.nextDouble() - 0.5) * 0.5;
+
+                world.addParticle(ParticleTypes.ITEM_SNOWBALL, particleX, particleY, particleZ, velX, velY, velZ);
+            }
+
         }
 
     }
-
-    public static void doMilkingEffects(CowEntity cow) {
-        World world = cow.getWorld();
-        Vec3d pos = cow.getPos();
-
-        // Play sound at the cow
-        world.playSound(
-                pos.x, pos.y, pos.z,
-                SoundEvents.ENTITY_SLIME_ATTACK,
-                SoundCategory.NEUTRAL,
-                1.0F,
-                (world.random.nextFloat() - world.random.nextFloat()) * 0.2F + 0.6F,
-                false // not distant
-        );
-
-        // Spawn 50 snowball-like particles at the cow
-        for (int i = 0; i < 50; i++) {
-            double particleX = pos.x + world.random.nextDouble() - 0.5;
-            double particleY = pos.y + 0.5; // adjust for cow body height
-            double particleZ = pos.z + world.random.nextDouble() - 0.5;
-
-            double velX = (world.random.nextDouble() - 0.5) * 0.5;
-            double velY = world.random.nextDouble() * 0.25;
-            double velZ = (world.random.nextDouble() - 0.5) * 0.5;
-
-            world.addParticle(ParticleTypes.ITEM_SNOWBALL, particleX, particleY, particleZ, velX, velY, velZ);
-        }
-    }
-
 
     /** Modifications for Mushroom Cow entities
      * <p>1. Disable creating of Mushroom Stew

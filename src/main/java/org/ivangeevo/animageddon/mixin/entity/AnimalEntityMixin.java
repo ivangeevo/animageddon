@@ -9,18 +9,16 @@ import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.tag.EntityTypeTags;
+import net.minecraft.item.Items;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import org.ivangeevo.animageddon.data.attachments.hunger.AnimalHungerAttachedData;
 import org.ivangeevo.animageddon.data.attachments.ChickenEggAttachedData;
 import org.ivangeevo.animageddon.data.attachments.CowMilkAttachedData;
 import org.ivangeevo.animageddon.data.ModDataAttachments;
-import org.ivangeevo.animageddon.data.attachments.hunger.AnimalHungerConstants;
 import org.ivangeevo.animageddon.entity.interfaces.AnimalEntityAdded;
 import org.ivangeevo.animageddon.util.ServerTimeHelper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -55,7 +53,6 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
         grazeProgressCounter = value;
     }
 
-
     // Prevents chickens from eating chicken feed again within the same egg-laying cycle.
     // Only affects adult chickens since babies cannot lay eggs.
     @ModifyReturnValue(method = "canEat", at = @At("RETURN"))
@@ -64,10 +61,7 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
             return original;
         }
 
-        ChickenEggAttachedData data = chicken.getAttachedOrCreate(
-                ModDataAttachments.CHICKEN_EGG_DATA,
-                () -> ChickenEggAttachedData.DEFAULT
-        );
+        var data = chicken.getAttached(ModDataAttachments.CHICKEN_EGG_DATA);
         if (data == null) return original;
 
         return original && !data.getHasBeenFed();
@@ -76,14 +70,61 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
     // Makes chickens not breed-able with other chickens
     @Inject(method = "canBreedWith", at = @At("HEAD"), cancellable = true)
     private void onLovePlayer(AnimalEntity other, CallbackInfoReturnable<Boolean> cir) {
-        if ((AnimalEntity)(Object)this instanceof ChickenEntity) {
-            cir.setReturnValue(false);
-        }
+        forAnimalSubclass(ChickenEntity.class, chicken -> cir.setReturnValue(false));
+    }
+
+    @Inject(method = "<init>", at = @At("RETURN"))
+    private void onInit(EntityType<?> entityType, World world, CallbackInfo ci) {
+        forAnimalSubclass(ChickenEntity.class, chicken -> {
+            var eggData = chicken.getAttachedOrCreate(ModDataAttachments.CHICKEN_EGG_DATA, ChickenEggAttachedData::forDefault);
+            chicken.setAttached(ModDataAttachments.CHICKEN_EGG_DATA, eggData);
+        });
+
+        forAnimalSubclass(CowEntity.class, cow -> {
+            var milkData = cow.getAttachedOrCreate(ModDataAttachments.MILK_DATA, CowMilkAttachedData::forDefault);
+            cow.setAttached(ModDataAttachments.MILK_DATA, milkData);
+        });
     }
 
     @Inject(method = "mobTick", at = @At("HEAD"))
     private void onMobTick(CallbackInfo ci) {
-        this.forAnimal(CowEntity.class, cow -> {
+
+        forAnimalSubclass(ChickenEntity.class, chicken -> {
+            var eggData = chicken.getAttached(ModDataAttachments.CHICKEN_EGG_DATA);
+            if (eggData == null) return;
+            World world = chicken.getWorld();
+
+            if (!world.isClient) {
+                // set the original variable for egg laying to max int value so it's practically never reached
+                chicken.eggLayTime = Integer.MAX_VALUE;
+
+                long currentTime = world.getTime();
+                if (!chicken.isBaby() /**&& isFullyFed()**/ && eggData.getTimeToLayEgg() > 0 && eggData.validateTimeToLayEgg(currentTime)) {
+                    if (world.getTimeOfDay() > eggData.getTimeToLayEgg()) {
+                        chicken.playSound(SoundEvents.ENTITY_SLIME_ATTACK);
+                        chicken.playSound(SoundEvents.ENTITY_CHICKEN_HURT);
+                        chicken.dropItem(Items.EGG);
+                        eggData.resetData();
+                    }
+                }
+            }
+
+        });
+
+        forAnimalSubclass(CowEntity.class, cow -> {
+            var milkData = cow.getAttached(ModDataAttachments.MILK_DATA);
+            if (milkData == null) return;
+
+            if (!cow.isBaby() && !cow.getWorld().isClient) {
+                milkData.tick();
+            }
+        });
+
+    }
+
+    //@Inject(method = "mobTick", at = @At("HEAD"))
+    private void onMobTick1(CallbackInfo ci) {
+        this.forAnimalSubclass(CowEntity.class, cow -> {
             if (!cow.getWorld().isClient) {
                 /**
                 var hungerData = cow.getAttachedOrCreate(
@@ -111,32 +152,20 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
                 }
                  **/
 
-                if (!cow.isBaby()) {
-                    var milkData = cow.getAttachedOrCreate(
-                            ModDataAttachments.MILK_DATA, () -> CowMilkAttachedData.DEFAULT
-                    );
-                    milkData.tick();
-                    cow.setAttached(ModDataAttachments.MILK_DATA, milkData);
-                }
             }
         });
 
-        this.forAnimal(ChickenEntity.class, chicken -> {
-            var eggData = chicken.getAttachedOrCreate(
-                    ModDataAttachments.CHICKEN_EGG_DATA, () -> ChickenEggAttachedData.DEFAULT
-            );
-            eggData.tick(chicken);
-            chicken.setAttached(ModDataAttachments.CHICKEN_EGG_DATA, eggData);
-        });
     }
 
     @Inject(method = "eat", at = @At("HEAD"))
     private void onEatChicken(PlayerEntity player, Hand hand, ItemStack stack, CallbackInfo ci) {
-        this.forAnimal(ChickenEntity.class, chicken -> {
+        this.forAnimalSubclass(ChickenEntity.class, chicken -> {
             // allow feeding only of adult chickens
             if (!chicken.isBaby()) {
                 long currentTime = ServerTimeHelper.getOverworldTimeOfDayServerOnly();
-                var eggData = chicken.getAttachedOrCreate(ModDataAttachments.CHICKEN_EGG_DATA, () -> ChickenEggAttachedData.DEFAULT);
+                var eggData = chicken.getAttached(ModDataAttachments.CHICKEN_EGG_DATA);
+
+                if (eggData == null) return;
 
                 // don't try to feed if already fed
                 if (eggData.getHasBeenFed()) return;
@@ -304,7 +333,7 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
 
             long currentTime = ServerTimeHelper.getOverworldTimeOfDayServerOnly();
             ChickenEggAttachedData data = cow.getAttachedOrCreate(
-                    ModDataAttachments.CHICKEN_EGG_DATA, () -> ChickenEggAttachedData.DEFAULT
+                    ModDataAttachments.CHICKEN_EGG_DATA, ChickenEggAttachedData::forDefault
             );
 
             // don't try to feed if already fed
@@ -316,9 +345,10 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
         }
     }
 
+    /** Helper method to instantiate subclasses of AnimalEntity more easily **/
     @Unique
     @SuppressWarnings("unchecked")
-    private <T extends AnimalEntity> void forAnimal(Class<T> type, Consumer<T> action) {
+    private <T extends AnimalEntity> void forAnimalSubclass(Class<T> type, Consumer<T> action) {
         if (type.isInstance(this)) {
             action.accept((T)(Object)this);
         }

@@ -26,7 +26,7 @@ public class ChickenFeedItem extends Item {
         }
 
         long currentTime = ServerTimeHelper.getOverworldTimeOfDayServerOnly();
-        ChickenEggAttachedData data = chicken.getAttachedOrCreate(ModDataAttachments.CHICKEN_EGG_DATA, () -> ChickenEggAttachedData.DEFAULT);
+        ChickenEggAttachedData data = chicken.getAttached(ModDataAttachments.CHICKEN_EGG_DATA);
         if (data == null) return super.useOnEntity(stack, user, entity, hand);
 
         // don't try to feed if already fed

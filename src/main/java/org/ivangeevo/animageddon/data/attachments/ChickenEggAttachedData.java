@@ -15,11 +15,13 @@ public class ChickenEggAttachedData {
     private long timeToLayEgg;
     private boolean hasBeenFed;
 
-    public static final ChickenEggAttachedData DEFAULT = new ChickenEggAttachedData(0, false);
-
     public ChickenEggAttachedData(long timeToLayEgg, boolean hasBeenFed) {
         this.timeToLayEgg = timeToLayEgg;
         this.hasBeenFed = hasBeenFed;
+    }
+
+    public static ChickenEggAttachedData forDefault() {
+        return new ChickenEggAttachedData(0, false);
     }
 
     public static final Codec<ChickenEggAttachedData> CODEC = RecordCodecBuilder.create(instance ->
@@ -47,24 +49,12 @@ public class ChickenEggAttachedData {
         hasBeenFed = value;
     }
 
-    public void tick(ChickenEntity chicken) {
-        chicken.eggLayTime = Integer.MAX_VALUE;
-
-        World world = chicken.getWorld();
-        if (!chicken.isBaby() /**&& isFullyFed()**/ && timeToLayEgg > 0 && validateTimeToLayEgg(world)) {
-            if (world.getTimeOfDay() > timeToLayEgg) {
-                chicken.playSound(SoundEvents.ENTITY_SLIME_ATTACK, 1.0f, chicken.getSoundPitch());
-                chicken.playSound(SoundEvents.ENTITY_CHICKEN_HURT, 1.0f, chicken.getSoundPitch());
-                chicken.dropItem(Items.EGG);
-                this.timeToLayEgg = 0;
-                this.hasBeenFed = false;
-            }
-        }
-
+    public void resetData() {
+        this.timeToLayEgg = 0;
+        this.hasBeenFed = false;
     }
 
-    private boolean validateTimeToLayEgg(World world) {
-        long currentTime = world.getTime();
+    public boolean validateTimeToLayEgg(long currentTime) {
         long deltaTime = timeToLayEgg - currentTime;
 
         if (deltaTime > 48000L) {

@@ -18,23 +18,17 @@ public class ModDataAttachments {
     public static final AttachmentType<CowMilkAttachedData> MILK_DATA = AttachmentRegistry.create(
             Identifier.of(AnimageddonMod.MOD_ID, "milk_data"),
             builder -> builder
-                    .initializer(() -> CowMilkAttachedData.DEFAULT)
+                    .initializer(CowMilkAttachedData::forDefault)
                     .persistent(CowMilkAttachedData.CODEC)
-                    .syncWith(
-                            CowMilkAttachedData.PACKET_CODEC,
-                            AttachmentSyncPredicate.all()
-                    )
+                    .syncWith(CowMilkAttachedData.PACKET_CODEC, AttachmentSyncPredicate.all())
     );
 
     public static final AttachmentType<ChickenEggAttachedData> CHICKEN_EGG_DATA = AttachmentRegistry.create(
             Identifier.of(AnimageddonMod.MOD_ID, "chicken_egg_data"),
             builder -> builder
-                    .initializer(() -> ChickenEggAttachedData.DEFAULT)
+                    .initializer(ChickenEggAttachedData::forDefault)
                     .persistent(ChickenEggAttachedData.CODEC)
-                    .syncWith(
-                            ChickenEggAttachedData.PACKET_CODEC,
-                            AttachmentSyncPredicate.all()
-                    )
+                    .syncWith(ChickenEggAttachedData.PACKET_CODEC, AttachmentSyncPredicate.all())
     );
 
     public static final AttachmentType<AnimalHungerAttachedData> ANIMAL_HUNGER_DATA = AttachmentRegistry.create(
@@ -42,10 +36,7 @@ public class ModDataAttachments {
             builder -> builder
                     .initializer(AnimalHungerAttachedData::forDefault)
                     .persistent(AnimalHungerAttachedData.CODEC)
-                    .syncWith(
-                            AnimalHungerAttachedData.PACKET_CODEC,
-                            AttachmentSyncPredicate.all()
-                    )
+                    .syncWith(AnimalHungerAttachedData.PACKET_CODEC, AttachmentSyncPredicate.all())
     );
 
     public static void register() {
