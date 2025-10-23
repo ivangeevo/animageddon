@@ -10,16 +10,15 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
-import org.ivangeevo.animageddon.data.ChickenEggAttachedData;
-import org.ivangeevo.animageddon.data.CowMilkAttachedData;
+import org.ivangeevo.animageddon.data.attachments.hunger.AnimalHungerAttachedData;
+import org.ivangeevo.animageddon.data.attachments.ChickenEggAttachedData;
+import org.ivangeevo.animageddon.data.attachments.CowMilkAttachedData;
 import org.ivangeevo.animageddon.data.ModDataAttachments;
 import org.ivangeevo.animageddon.entity.interfaces.AnimalEntityAdded;
 import org.ivangeevo.animageddon.util.ServerTimeHelper;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -49,7 +48,6 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
         return original && !data.getHasBeenFed();
     }
 
-
     // Makes chickens not breed-able with other chickens
     @Inject(method = "canBreedWith", at = @At("HEAD"), cancellable = true)
     private void onLovePlayer(AnimalEntity other, CallbackInfoReturnable<Boolean> cir) {
@@ -58,9 +56,21 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
         }
     }
 
-    // Tick animal attached data
     @Inject(method = "mobTick", at = @At("HEAD"))
     private void onMobTick(CallbackInfo ci) {
+        if ((AnimalEntity)(Object)this instanceof CowEntity cow) {
+            if (!this.getWorld().isClient) {
+                AnimalHungerAttachedData data = cow.getAttachedOrCreate(
+                        ModDataAttachments.ANIMAL_HUNGER_DATA,
+                        AnimalHungerAttachedData::forDefault
+                );
+                data.tick(cow);
+            }
+        }
+    }
+
+    @Inject(method = "mobTick", at = @At("HEAD"))
+    private void onMobTickCow(CallbackInfo ci) {
         if ((AnimalEntity)(Object)this instanceof CowEntity cow && !cow.isBaby()) {
             if (!cow.getWorld().isClient) {
                 CowMilkAttachedData data = cow.getAttachedOrCreate(
@@ -71,7 +81,10 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
                 cow.setAttached(ModDataAttachments.MILK_DATA, data);
             }
         }
+    }
 
+    @Inject(method = "mobTick", at = @At("HEAD"))
+    private void onMobTickChicken(CallbackInfo ci) {
         if ((AnimalEntity)(Object)this instanceof ChickenEntity chicken && !chicken.isBaby()) {
             if (!chicken.getWorld().isClient) {
                 ChickenEggAttachedData data = chicken.getAttachedOrCreate(
@@ -132,38 +145,6 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
             if (data != null && !data.getHasBeenFed()) {
 
                 if (stack.isIn(ItemTags.COW_FOOD)) {
-                }
-            }
-        }
-    }
-
-    //@Inject(method = "interactMob", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/AnimalEntity;eat(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Hand;Lnet/minecraft/item/ItemStack;)V"), cancellable = true)
-    private void onInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-
-        // allow feeding only of adult chickens
-        if ((AnimalEntity)(Object)this instanceof ChickenEntity chicken && !chicken.isBaby()) {
-
-            long currentTime = ServerTimeHelper.getOverworldTimeOfDayServerOnly();
-            ChickenEggAttachedData data = chicken.getAttachedOrCreate(
-                    ModDataAttachments.CHICKEN_EGG_DATA, () -> ChickenEggAttachedData.DEFAULT
-            );
-
-            // don't try to feed if already fed
-            if (data != null && !data.getHasBeenFed()) {
-                ItemStack stack = player.getStackInHand(hand);
-
-                if (stack.isIn(ItemTags.CHICKEN_FOOD)) {
-                    // the following morning, at least half a day from now
-                    long timeToLayEgg = (((currentTime + 12000L) / 24000L) + 1) * 24000L;
-
-                    // crack of dawn (22550) + 30-second random variance
-                    timeToLayEgg += -1450 + chicken.getRandom().nextInt(600);
-
-                    chicken.playSound(SoundEvents.ENTITY_CHICKEN_HURT, 1.0F, chicken.getRandom().nextFloat() * 0.2F + 1.5F);
-
-                    data.setTimeToLayEgg(timeToLayEgg);
-                    data.setHasBeenFed(true);
-                    chicken.setAttached(ModDataAttachments.CHICKEN_EGG_DATA, data);
                 }
             }
         }

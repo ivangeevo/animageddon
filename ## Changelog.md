@@ -1,4 +1,7 @@
 ## Changelog Animageddon
+# 0.???(dev)
+
+
 # v0.3
 + Changed cows to be milked only once a day and to initially spawn without milk. Part of this is temporary behavior until the change for animals requiring to eat food is implemented into the mod
 + Changed cows to run away(become scared) if they can't be milked

@@ -6,6 +6,9 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.util.Identifier;
 import org.ivangeevo.animageddon.AnimageddonMod;
+import org.ivangeevo.animageddon.data.attachments.hunger.AnimalHungerAttachedData;
+import org.ivangeevo.animageddon.data.attachments.ChickenEggAttachedData;
+import org.ivangeevo.animageddon.data.attachments.CowMilkAttachedData;
 
 public class ModDataAttachments {
 
@@ -30,6 +33,17 @@ public class ModDataAttachments {
                     .persistent(ChickenEggAttachedData.CODEC)
                     .syncWith(
                             ChickenEggAttachedData.PACKET_CODEC,
+                            AttachmentSyncPredicate.all()
+                    )
+    );
+
+    public static final AttachmentType<AnimalHungerAttachedData> ANIMAL_HUNGER_DATA = AttachmentRegistry.create(
+            Identifier.of(AnimageddonMod.MOD_ID, "animal_hunger_data"),
+            builder -> builder
+                    .initializer(AnimalHungerAttachedData::forDefault)
+                    .persistent(AnimalHungerAttachedData.CODEC)
+                    .syncWith(
+                            AnimalHungerAttachedData.PACKET_CODEC,
                             AttachmentSyncPredicate.all()
                     )
     );

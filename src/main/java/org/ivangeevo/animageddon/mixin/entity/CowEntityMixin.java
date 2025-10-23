@@ -14,6 +14,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import org.ivangeevo.animageddon.ai.goal.GrazeGoal;
 import org.ivangeevo.animageddon.data.ModDataAttachments;
 import org.ivangeevo.animageddon.entity.interfaces.CowEntityAdded;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,6 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(CowEntity.class)
 public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAdded {
+
     @Shadow public abstract ActionResult interactMob(PlayerEntity player, Hand hand);
 
     protected CowEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
@@ -42,6 +44,7 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
     @Inject(method = "initGoals", at = @At("TAIL"))
     private void injectedInitGoals(CallbackInfo ci) {
         this.goalSelector.add(3, new TemptGoal(this, 1.4, Ingredient.ofItems(Items.CAKE), false));
+        this.goalSelector.add(2, new GrazeGoal(this));
     }
 
     @Inject(method = "isBreedingItem", at = @At("HEAD"), cancellable = true)

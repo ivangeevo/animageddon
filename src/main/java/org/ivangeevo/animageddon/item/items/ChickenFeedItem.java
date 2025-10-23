@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import org.ivangeevo.animageddon.data.ChickenEggAttachedData;
+import org.ivangeevo.animageddon.data.attachments.ChickenEggAttachedData;
 import org.ivangeevo.animageddon.data.ModDataAttachments;
 import org.ivangeevo.animageddon.util.ServerTimeHelper;
 

@@ -20,14 +20,19 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
-import org.ivangeevo.animageddon.data.CowMilkAttachedData;
+import org.ivangeevo.animageddon.data.attachments.CowMilkAttachedData;
 import org.ivangeevo.animageddon.data.ModDataAttachments;
 
 public class ModEntityUseEvents {
 
     public static void register() {
+        onUseAnimalEntity();
         onUseCowEntity();
         onUseMushroomEntity();
+    }
+
+    private static void onUseAnimalEntity() {
+
     }
 
     private static void onUseCowEntity() {

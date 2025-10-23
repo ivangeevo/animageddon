@@ -1,4 +1,4 @@
-package org.ivangeevo.animageddon.data;
+package org.ivangeevo.animageddon.data.attachments;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
