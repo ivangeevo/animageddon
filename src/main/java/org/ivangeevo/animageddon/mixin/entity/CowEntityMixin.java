@@ -41,7 +41,7 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
     @Inject(method = "initGoals", at = @At("TAIL"))
     private void injectedInitGoals(CallbackInfo ci) {
         this.goalSelector.add(3, new TemptGoal(this, 1.4, Ingredient.ofItems(Items.CAKE), false));
-        this.goalSelector.add(6, new GrazeGoal(this));
+        //this.goalSelector.add(6, new GrazeGoal(this));
     }
 
     @Inject(method = "isBreedingItem", at = @At("HEAD"), cancellable = true)

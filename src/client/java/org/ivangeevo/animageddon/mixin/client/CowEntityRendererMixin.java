@@ -29,8 +29,7 @@ public abstract class CowEntityRendererMixin {
             AnimageddonMod.MOD_ID, "textures/entity/cow_starving.png"
     );
 
-    @Inject(method = "getTexture(Lnet/minecraft/entity/passive/CowEntity;)Lnet/minecraft/util/Identifier;",
-            at = @At("HEAD"), cancellable = true)
+    //@Inject(method = "getTexture(Lnet/minecraft/entity/passive/CowEntity;)Lnet/minecraft/util/Identifier;", at = @At("HEAD"), cancellable = true)
     private void injectedGetTexture(CowEntity cowEntity, CallbackInfoReturnable<Identifier> cir) {
         var hungerData = cowEntity.getAttachedOrCreate(ModDataAttachments.ANIMAL_HUNGER_DATA);
         if (hungerData == null) return;

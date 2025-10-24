@@ -3,14 +3,8 @@ package org.ivangeevo.animageddon.data.attachments.hunger;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
 import org.ivangeevo.animageddon.data.interfaces.AnimalHungerData;
 
 public class AnimalHungerAttachedData implements AnimalHungerData, AnimalHungerConstants {

@@ -11,8 +11,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -96,20 +98,30 @@ public class ModEntityUseEvents {
             );
 
             // Spawn 50 snowball-like particles at the cow
-            for (int i = 0; i < 50; i++) {
-                double particleX = cow.getPos().x + world.random.nextDouble() - 0.5;
-                double particleY = cow.getPos().y + 0.5; // adjust for cow body height
-                double particleZ = cow.getPos().z + world.random.nextDouble() - 0.5;
+            if (world instanceof ServerWorld serverWorld) {
 
-                double velX = (world.random.nextDouble() - 0.5) * 0.5;
-                double velY = world.random.nextDouble() * 0.25;
-                double velZ = (world.random.nextDouble() - 0.5) * 0.5;
+                double particleX = cow.getPos().x + serverWorld.random.nextDouble() - 0.5;
+                double particleY = cow.getPos().y + 0.5;
+                double particleZ = cow.getPos().z + serverWorld.random.nextDouble() - 0.5;
 
-                world.addParticle(ParticleTypes.ITEM_SNOWBALL, particleX, particleY, particleZ, velX, velY, velZ);
+                double velX = (serverWorld.random.nextDouble() - 0.5) * 0.5;
+                double velY = serverWorld.random.nextDouble() * 0.25;
+                double velZ = (serverWorld.random.nextDouble() - 0.5) * 0.5;
+
+                serverWorld.spawnParticles(
+                        ParticleTypes.ITEM_SNOWBALL,
+                        particleX,
+                        particleY,
+                        particleZ,
+                        50,
+                        velX,
+                        velY,
+                        velZ,
+                        0.1
+                );
             }
 
         }
-
     }
 
     /** Modifications for Mushroom Cow entities
