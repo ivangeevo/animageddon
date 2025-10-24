@@ -1,5 +1,5 @@
 ## Changelog Animageddon
-# 0.3.1(dev)
+# 0.3.1
 + Fixed a bug with chickens where feeding only one would make all other chickens be considered fed
 + Improved code for both chicken feeding and cow milking to work better
 
