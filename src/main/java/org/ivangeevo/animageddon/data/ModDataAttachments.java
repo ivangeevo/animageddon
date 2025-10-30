@@ -9,11 +9,14 @@ import org.ivangeevo.animageddon.AnimageddonMod;
 import org.ivangeevo.animageddon.data.attachments.hunger.AnimalHungerAttachedData;
 import org.ivangeevo.animageddon.data.attachments.ChickenEggAttachedData;
 import org.ivangeevo.animageddon.data.attachments.CowMilkAttachedData;
+import org.jetbrains.annotations.ApiStatus;
 
 public class ModDataAttachments {
 
-    static Identifier HAS_BAIT_ID = Identifier.of(AnimageddonMod.MOD_ID, "has_bait");
-    public static final AttachmentType<Boolean> HAS_BAIT = AttachmentRegistry.createPersistent(HAS_BAIT_ID, Codec.BOOL);
+    public static final AttachmentType<Boolean> HAS_BAIT = AttachmentRegistry.createPersistent(
+            Identifier.of(AnimageddonMod.MOD_ID, "has_bait"),
+            Codec.BOOL
+    );
 
     public static final AttachmentType<CowMilkAttachedData> MILK_DATA = AttachmentRegistry.create(
             Identifier.of(AnimageddonMod.MOD_ID, "milk_data"),

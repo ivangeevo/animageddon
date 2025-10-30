@@ -17,6 +17,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
 import org.ivangeevo.animageddon.data.ModDataAttachments;
 import org.ivangeevo.animageddon.data.attachments.hunger.AnimalHungerAttachedData;
+import org.ivangeevo.animageddon.tag.ModTags;
+import org.spongepowered.asm.mixin.Unique;
 
 public class GrazeGoal extends Goal {
 
@@ -41,7 +43,7 @@ public class GrazeGoal extends Goal {
 			return false;
 		}
 
-		if (animal.isSubjectToHunger()) {
+		if (isSubjectToHunger(animal)) {
 			return animal.isHungryEnoughToGraze() && animal.getGrazeBlockForPos() != null;
 		} else {
 			return animal.getRandom().nextInt(animal.isBaby() ? 50 : 1000) == 0 &&
@@ -50,6 +52,10 @@ public class GrazeGoal extends Goal {
 
 
 
+	}
+
+	private boolean isSubjectToHunger(AnimalEntity animal) {
+		return animal.getType().isIn(ModTags.EntityTypes.SUBJECT_TO_HUNGER_ANIMALS);
 	}
 
 	@Override

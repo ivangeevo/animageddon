@@ -1,7 +1,6 @@
 package org.ivangeevo.animageddon.mixin.entity;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -11,9 +10,6 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin implements EntityAdded {
@@ -42,34 +38,34 @@ public abstract class EntityMixin implements EntityAdded {
             startRiding(null);
         }
 
-        double dVelocityX = velocity.x;
-        double dVelocityZ = velocity.z;
+        double velX = velocity.x;
+        double velZ = velocity.z;
 
-        double dDeltaX = getX() - repulsingEntity.getX();
-        double dDeltaZ = getZ() - repulsingEntity.getZ();
+        double deltaX = getX() - repulsingEntity.getX();
+        double deltaZ = getZ() - repulsingEntity.getZ();
 
-        double dFlatDistToTargetSq = dDeltaX * dDeltaX + dDeltaZ * dDeltaZ;
+        double flatDistToTargetSq = deltaX * deltaX + deltaZ * deltaZ;
 
-        if (dFlatDistToTargetSq > 0.1D) {
-            double dFlatDistToTarget = MathHelper.square(dFlatDistToTargetSq);
+        if (flatDistToTargetSq > 0.1D) {
+            double dFlatDistToTarget = MathHelper.square(flatDistToTargetSq);
 
-            dVelocityX += (dDeltaX / dFlatDistToTarget) * 0.5D * dForceMultiplier;
-            dVelocityZ += (dDeltaZ / dFlatDistToTarget) * 0.5F * dForceMultiplier;
+            velX += (deltaX / dFlatDistToTarget) * 0.5D * dForceMultiplier;
+            velZ += (deltaZ / dFlatDistToTarget) * 0.5F * dForceMultiplier;
         }
 
         // Instead of setting isAirBorne, use the onGround property
         // If onGround is false, the entity is considered airborne
         onGround = false;
 
-        double dVelocityY = velocity.getY() + (0.25D * dForceMultiplier);
+        double velY = velocity.getY() + (0.25D * dForceMultiplier);
 
-        dVelocityX *= (random.nextDouble() * 0.2D) + 0.9;
-        dVelocityZ *= (random.nextDouble() * 0.2D) + 0.9;
+        velX *= (random.nextDouble() * 0.2D) + 0.9;
+        velZ *= (random.nextDouble() * 0.2D) + 0.9;
 
         this.setVelocity(new Vec3d(
-                MathHelper.clamp(dVelocityX, -1.0D, 1.0D),
-                MathHelper.clamp(dVelocityY, 0.0D, 0.75D),
-                MathHelper.clamp(dVelocityZ, -1.0D, 1.0D)
+                MathHelper.clamp(velX, -1.0D, 1.0D),
+                MathHelper.clamp(velY, 0.0D, 0.75D),
+                MathHelper.clamp(velZ, -1.0D, 1.0D)
         ));
     }
 

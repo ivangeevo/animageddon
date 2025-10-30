@@ -19,7 +19,9 @@ import net.minecraft.world.World;
 import org.ivangeevo.animageddon.data.attachments.ChickenEggAttachedData;
 import org.ivangeevo.animageddon.data.attachments.CowMilkAttachedData;
 import org.ivangeevo.animageddon.data.ModDataAttachments;
+import org.ivangeevo.animageddon.data.attachments.hunger.AnimalHungerAttachedData;
 import org.ivangeevo.animageddon.entity.interfaces.AnimalEntityAdded;
+import org.ivangeevo.animageddon.tag.ModTags;
 import org.ivangeevo.animageddon.util.ServerTimeHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -75,11 +77,20 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void onInit(EntityType<?> entityType, World world, CallbackInfo ci) {
+        /**
+        forAnimalSubclass(AnimalEntity.class, animal -> {
+            var hungerData = animal.getAttachedOrCreate(ModDataAttachments.ANIMAL_HUNGER_DATA, AnimalHungerAttachedData::forDefault);
+            animal.setAttached(ModDataAttachments.ANIMAL_HUNGER_DATA, hungerData);
+        });
+         **/
+
+        // Chicken attached data
         forAnimalSubclass(ChickenEntity.class, chicken -> {
             var eggData = chicken.getAttachedOrCreate(ModDataAttachments.CHICKEN_EGG_DATA, ChickenEggAttachedData::forDefault);
             chicken.setAttached(ModDataAttachments.CHICKEN_EGG_DATA, eggData);
         });
 
+        // Cow attached data
         forAnimalSubclass(CowEntity.class, cow -> {
             var milkData = cow.getAttachedOrCreate(ModDataAttachments.MILK_DATA, CowMilkAttachedData::forDefault);
             cow.setAttached(ModDataAttachments.MILK_DATA, milkData);
@@ -87,8 +98,45 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
     }
 
     @Inject(method = "mobTick", at = @At("HEAD"))
-    private void onMobTick(CallbackInfo ci) {
+    private void onMobTick1(CallbackInfo ci) {
+        /**
+        this.forAnimalSubclass(CowEntity.class, cow -> {
+            var hungerData = cow.getAttached(ModDataAttachments.ANIMAL_HUNGER_DATA);
 
+            if (!isSubjectToHunger(cow)) return;
+
+            int hungerLevel = hungerData.getHungerLevel();
+            int hungerCountdown = hungerData.getHungerCountdown();
+
+            hungerData.setHungerCountdown(hungerCountdown - (cow.isBaby() ? 2 : 1));
+
+            if (hungerCountdown <= 0) {
+                if (this.getWorld().isClient) return;
+
+                if (!cow.isBaby()) {
+                    if (hungerLevel == 0) {
+                        switch (hungerData.getHungerLevel()) {
+                            case 0 -> hungerData.onBecomeFamished();
+                            case 1 -> hungerData.onBecomeStarving();
+                            case 2 -> cow.onStarvingCountExpired();
+                        }
+                        hungerData.resetHungerCountdown();
+                    } else {
+                        // children can't survive being famished. they'll
+                        // just keep taking damage once their countdown expires
+                        cow.damage(cow.getDamageSources().starve(), 1);
+                    }
+                }
+            }
+        });
+         **/
+
+    }
+
+
+
+    @Inject(method = "mobTick", at = @At("HEAD"))
+    private void onMobTick(CallbackInfo ci) {
         forAnimalSubclass(ChickenEntity.class, chicken -> {
             var eggData = chicken.getAttached(ModDataAttachments.CHICKEN_EGG_DATA);
             if (eggData == null) return;
@@ -122,40 +170,6 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
 
     }
 
-    //@Inject(method = "mobTick", at = @At("HEAD"))
-    private void onMobTick1(CallbackInfo ci) {
-        this.forAnimalSubclass(CowEntity.class, cow -> {
-            if (!cow.getWorld().isClient) {
-                /**
-                var hungerData = cow.getAttachedOrCreate(
-                        ModDataAttachments.ANIMAL_HUNGER_DATA, AnimalHungerAttachedData::forDefault
-                );
-                if (!cow.isSubjectToHunger()) return;
-
-                int hungerCountdown = hungerData.getHungerCountdown();
-                //hungerCountdown -= animal.isBaby() ? 2 : 1;
-                hungerData.setHungerCountdown(hungerCountdown - (cow.isBaby() ? 2 : 1));
-
-                if (hungerCountdown <= 0) {
-                    if (!cow.isBaby()) {
-                        switch (hungerData.getHungerLevel()) {
-                            case 0 -> hungerData.onBecomeFamished();
-                            case 1 -> hungerData.onBecomeStarving();
-                            case 2 -> cow.onStarvingCountExpired();
-                        }
-                        hungerData.resetHungerCountdown();
-                    } else {
-                        // children can't survive being famished. they'll
-                        // just keep taking damage once their countdown expires
-                        cow.damage(cow.getDamageSources().starve(), 1);
-                    }
-                }
-                 **/
-
-            }
-        });
-
-    }
 
     @Inject(method = "eat", at = @At("HEAD"))
     private void onEatChicken(PlayerEntity player, Hand hand, ItemStack stack, CallbackInfo ci) {
@@ -222,9 +236,9 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
         AnimalEntity animal = (AnimalEntity)(Object)this;
 
         var data = animal.getAttached(ModDataAttachments.ANIMAL_HUNGER_DATA);
-        if (data == null) return;
+        if (!animal.hasAttached(ModDataAttachments.ANIMAL_HUNGER_DATA) || data == null) return;
 
-        if (animal.isSubjectToHunger()) {
+        if (isSubjectToHunger(animal)) {
             data.setHungerCountdown(FULL_HUNGER_COUNT - animal.getRandom().nextInt(data.getGrazeHungerGain()));
         }
     }
@@ -262,11 +276,6 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
         }
 
         return null;
-    }
-
-    @Override
-    public boolean isSubjectToHunger() {
-        return false;
     }
 
     @Override
@@ -343,6 +352,11 @@ public abstract class AnimalEntityMixin extends PassiveEntity implements AnimalE
                 }
             }
         }
+    }
+
+    @Unique
+    private boolean isSubjectToHunger(AnimalEntity animal) {
+        return animal.getType().isIn(ModTags.EntityTypes.SUBJECT_TO_HUNGER_ANIMALS);
     }
 
     /** Helper method to instantiate subclasses of AnimalEntity more easily **/

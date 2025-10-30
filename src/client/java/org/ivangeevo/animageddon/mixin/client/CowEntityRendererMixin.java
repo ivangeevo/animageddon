@@ -5,7 +5,6 @@ import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.util.Identifier;
 import org.ivangeevo.animageddon.AnimageddonMod;
 import org.ivangeevo.animageddon.data.ModDataAttachments;
-import org.ivangeevo.animageddon.data.attachments.hunger.AnimalHungerAttachedData;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,12 +30,12 @@ public abstract class CowEntityRendererMixin {
 
     //@Inject(method = "getTexture(Lnet/minecraft/entity/passive/CowEntity;)Lnet/minecraft/util/Identifier;", at = @At("HEAD"), cancellable = true)
     private void injectedGetTexture(CowEntity cowEntity, CallbackInfoReturnable<Identifier> cir) {
-        var hungerData = cowEntity.getAttachedOrCreate(ModDataAttachments.ANIMAL_HUNGER_DATA);
+        var hungerData = cowEntity.getAttached(ModDataAttachments.ANIMAL_HUNGER_DATA);
         if (hungerData == null) return;
-        cir.setReturnValue(hungerData.isFamished()
-                ? FAMISHED_TEXTURE
-                : hungerData.isStarving()
+        cir.setReturnValue(hungerData.isStarving()
                 ? STARVING_TEXTURE
+                : hungerData.isFamished()
+                ? FAMISHED_TEXTURE
                 : TEXTURE
         );
     }

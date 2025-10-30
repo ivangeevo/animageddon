@@ -11,7 +11,7 @@ public class AnimalHungerAttachedData implements AnimalHungerData, AnimalHungerC
 
     private int hungerLevel;
     private final int foodValueMultiplier;
-    private int grazeDuration;
+    private final int grazeDuration;
 
     private int hungerCountdown;
 
@@ -60,10 +60,6 @@ public class AnimalHungerAttachedData implements AnimalHungerData, AnimalHungerC
 
     public int getGrazeDuration() {
         return grazeDuration;
-    }
-
-    public void setGrazeDuration(int value) {
-        this.grazeDuration = value;
     }
 
     public void resetHungerCountdown() {

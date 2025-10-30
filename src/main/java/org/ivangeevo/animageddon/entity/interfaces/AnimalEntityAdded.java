@@ -1,6 +1,5 @@
 package org.ivangeevo.animageddon.entity.interfaces;
 
-import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.BlockPos;
 
 public interface AnimalEntityAdded  {
@@ -15,8 +14,6 @@ public interface AnimalEntityAdded  {
 
     default void addToHungerCount(int addedHunger) {}
 
-
-
     //-------------- Grazing related functionality ------------//
 
     default BlockPos getGrazeBlockForPos() {
@@ -28,10 +25,6 @@ public interface AnimalEntityAdded  {
     }
 
     default void onGrazeBlock(BlockPos pos) {}
-
-    default boolean isSubjectToHunger() {
-        return false;
-    }
 
     default boolean isHungryEnoughToGraze() {
         return false;
