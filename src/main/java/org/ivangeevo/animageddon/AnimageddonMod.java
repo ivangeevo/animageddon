@@ -12,12 +12,10 @@ import org.ivangeevo.animageddon.util.ServerTimeHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AnimageddonMod implements ModInitializer
-{
+public class AnimageddonMod implements ModInitializer {
 
     public static final String MOD_ID = "animageddon";
     public static final Logger LOGGER = LoggerFactory.getLogger("animageddon");
-
 
     @Override
     public void onInitialize() {
@@ -34,4 +32,5 @@ public class AnimageddonMod implements ModInitializer
 
         ModEntityUseEvents.register();
     }
+
 }

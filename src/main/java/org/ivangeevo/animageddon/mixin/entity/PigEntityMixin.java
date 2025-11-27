@@ -20,11 +20,11 @@ import org.ivangeevo.animageddon.tag.ModTags;
 @Mixin(PigEntity.class)
 public abstract class PigEntityMixin extends AnimalEntity {
 
+    @Unique private static final boolean isVegehennaLoaded = FabricLoader.getInstance().isModLoaded("vegehenna");
+
     protected PigEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }
-
-    @Unique private static final boolean isVegehennaLoaded = FabricLoader.getInstance().isModLoaded("vegehenna");
 
     // Temporary solution (permanent if it works) setting the breeding ingredient to one that Vegehenna mod provides -
     // which is the chocolate item from that mod, else use the default ingredient.

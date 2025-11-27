@@ -41,4 +41,5 @@ public class ModBlocks {
             entries.add(WEB_BLOCK);
         });
     }
+
 }

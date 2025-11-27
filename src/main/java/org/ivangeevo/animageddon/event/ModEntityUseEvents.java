@@ -2,16 +2,15 @@ package org.ivangeevo.animageddon.event;
 
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.passive.MooshroomEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
@@ -19,24 +18,53 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.ivangeevo.animageddon.data.attachments.CowMilkAttachedData;
 import org.ivangeevo.animageddon.data.ModDataAttachments;
+import org.jetbrains.annotations.Nullable;
 
 public class ModEntityUseEvents {
 
     public static void register() {
+        UseEntityCallback.EVENT.register(ModEntityUseEvents::onInteractCow);
         onUseAnimalEntity();
-        onUseCowEntity();
         onUseMushroomEntity();
+    }
+
+    private static ActionResult onInteractCow(PlayerEntity player, World world, Hand hand, Entity entity, @Nullable EntityHitResult hitResult) {
+        // Only handle cows that are alive and not babies
+        if (entity instanceof CowEntity cow && cow.isAlive() && !cow.isBaby()) {
+            // Ignore spectators
+            if (player.isSpectator()) return ActionResult.PASS;
+
+            ItemStack stack = player.getStackInHand(hand);
+            boolean isBucket = stack.isOf(Items.BUCKET) || stack.isIn(ConventionalItemTags.BUCKETS);
+
+            // Only intercept bucket interactions
+            if (isBucket) {
+                CowMilkAttachedData data = cow.getAttached(ModDataAttachments.MILK_DATA);
+                if (data == null) return ActionResult.PASS;
+                tryMilking(cow, data, stack, player, data.getCanBeMilked());
+                return ActionResult.SUCCESS;
+            }
+        }
+
+        // Let other interactions happen
+        return ActionResult.PASS;
+    }
+
+    private static UseEntityCallback invoker() {
+        return UseEntityCallback.EVENT.invoker();
     }
 
     private static void onUseAnimalEntity() {}
 
+    /**
     private static void onUseCowEntity() {
-            UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
+        UseEntityCallback.EVENT.register(ModEntityUseEvents::onInteractCow);
+            UseEntityCallback.EVENT.register((PlayerEntity player, World world, Hand hand, Entity entity, @Nullable EntityHitResult hitResult) -> {
 
             // Only handle cows that are alive and not babies
             if (entity instanceof CowEntity cow && cow.isAlive() && !cow.isBaby()) {
@@ -44,7 +72,7 @@ public class ModEntityUseEvents {
                 if (player.isSpectator()) return ActionResult.PASS;
 
                 ItemStack stack = player.getStackInHand(hand);
-                boolean isBucket = stack.getItem() instanceof BucketItem || stack.isIn(ConventionalItemTags.BUCKETS);
+                boolean isBucket = stack.isOf(Items.BUCKET) || stack.isIn(ConventionalItemTags.BUCKETS);
 
                 // Only intercept bucket interactions
                 if (isBucket) {
@@ -59,6 +87,7 @@ public class ModEntityUseEvents {
             return ActionResult.PASS;
         });
     }
+     **/
 
     private static void tryMilking(CowEntity cow, CowMilkAttachedData data, ItemStack stack, PlayerEntity player, boolean canMilk) {
         World world = cow.getWorld();
@@ -72,7 +101,8 @@ public class ModEntityUseEvents {
                 );
                 cow.damage(damageSource, 0);
             }
-        } else {
+        }
+        else {
             // Cow "attack" animation flicker for milking
             cow.hurtTime = 10;
 
@@ -83,7 +113,8 @@ public class ModEntityUseEvents {
 
                 if (stack.isEmpty()) {
                     player.setStackInHand(hand, milkBucket);
-                } else if (!player.getInventory().insertStack(milkBucket)) {
+                }
+                else if (!player.getInventory().insertStack(milkBucket)) {
                     player.dropItem(milkBucket, false);
                 }
 
@@ -150,4 +181,5 @@ public class ModEntityUseEvents {
             return ActionResult.PASS;
         });
     }
+
 }

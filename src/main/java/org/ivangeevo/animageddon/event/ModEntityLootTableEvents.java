@@ -55,7 +55,6 @@ public class ModEntityLootTableEvents {
         modifySpecificItemWithOnFireCondition(SALMON.getLootTableId(), Items.COOKED_SALMON, ModItems.BURNED_MEAT);
          **/
 
-
         // TODO: add meats?:
         // dolphin
         // donkey
@@ -69,7 +68,6 @@ public class ModEntityLootTableEvents {
         // trader llama
         // turtle
         // wolf
-
     }
 
     private static void modifySpecificItem(RegistryKey<LootTable> registryKey, Item target, Item toReplace) {

@@ -19,6 +19,4 @@ public abstract class SwordItemMixin {
         args.set(0, ToolComponent.Rule.ofAlwaysDropping(BTWRConventionalTags.Blocks.WEB_BLOCKS, 15.0F));
     }
 
-
-
 }

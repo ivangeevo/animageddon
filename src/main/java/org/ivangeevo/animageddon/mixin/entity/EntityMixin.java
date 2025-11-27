@@ -53,7 +53,6 @@ public abstract class EntityMixin implements EntityAdded {
             velZ += (deltaZ / dFlatDistToTarget) * 0.5F * dForceMultiplier;
         }
 
-        // Instead of setting isAirBorne, use the onGround property
         // If onGround is false, the entity is considered airborne
         onGround = false;
 
@@ -68,6 +67,5 @@ public abstract class EntityMixin implements EntityAdded {
                 MathHelper.clamp(velZ, -1.0D, 1.0D)
         ));
     }
-
 
 }

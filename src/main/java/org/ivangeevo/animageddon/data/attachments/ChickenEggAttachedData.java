@@ -66,4 +66,5 @@ public class ChickenEggAttachedData {
 
         return true;
     }
+
 }

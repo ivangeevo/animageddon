@@ -19,11 +19,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModRecipeProvider extends FabricRecipeProvider {
 
-
     public ModRecipeProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
         super(output, registriesFuture);
     }
-
 
     @Override
     public void generate(RecipeExporter exporter) {
@@ -55,7 +53,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .criterion("has_nitre", conditionsFromItem(ModItems.NITRE))
                 .offerTo(exporter);
 
-
-
     }
+
 }

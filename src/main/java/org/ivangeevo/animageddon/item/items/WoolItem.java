@@ -14,7 +14,6 @@ public class WoolItem extends Item {
     static private final List<List<Integer>> colorConversionArray = new LinkedList<>();
     private static final Map<WoolType, Integer> colorMap = new HashMap<>();
 
-
     public WoolItem(Settings settings) {
         super(settings);
     }
@@ -23,9 +22,6 @@ public class WoolItem extends Item {
             0x101010, 0xb3312c, 0x3b511a, 0x51301a, 0x253192, 0x7b2fbe, 0x287697, 0x838383, 0x434343, 0xd88198,
             0x41cd34, 0xdecf2a, 0x6689d3, 0xc354cd, 0xeb8844, 0xffffff
     };
-
-
-
 
     //------------- Class Specific Methods ------------//
 
@@ -104,8 +100,7 @@ public class WoolItem extends Item {
         colorConversionArray.get(iToColorIndex).add(iBlendedColor);
     }
 
-    static public int getClosestColorIndex(int iColor)
-    {
+    static public int getClosestColorIndex(int iColor) {
         int iClosestIndex = -1;
         int iClosestColorDistanceSq = 0;
 
@@ -117,7 +112,7 @@ public class WoolItem extends Item {
             initColorConversionArray();
         }
 
-        if ( MathHelper.abs( iColorRed - iColorGreen ) > 5 || MathHelper.abs( iColorRed - iColorBlue ) > 5 ) // skip straight to grey scale if there isn't much difference between colors
+        if (MathHelper.abs( iColorRed - iColorGreen ) > 5 || MathHelper.abs( iColorRed - iColorBlue ) > 5) // skip straight to grey scale if there isn't much difference between colors
         {
             for (int iTempIndex = 0; iTempIndex < 16; iTempIndex++) {
                 List<Integer> tempColorList = colorConversionArray.get(iTempIndex);
@@ -183,8 +178,6 @@ public class WoolItem extends Item {
         colorMap.put(WoolType.RED, 0XB02E26);
         colorMap.put(WoolType.BLACK, 0X1E1B1B);
     }
-
-
 
     @Override
     public int getHerbivoreFoodValue(int iItemDamage) {

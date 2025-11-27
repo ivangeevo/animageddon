@@ -11,14 +11,12 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
-
     public ModBlockTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg) {
-
         getOrCreateTagBuilder(BlockTags.FALL_DAMAGE_RESETTING)
                 .add(ModBlocks.WEB_BLOCK);
 
@@ -28,4 +26,5 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         getOrCreateTagBuilder(BlockTags.INCORRECT_FOR_WOODEN_TOOL)
                 .addOptionalTag(BTWRConventionalTags.Blocks.WEB_BLOCKS);
     }
+
 }

@@ -27,24 +27,26 @@ public class ChickenFeedItem extends Item {
 
         long currentTime = ServerTimeHelper.getOverworldTimeOfDayServerOnly();
         ChickenEggAttachedData data = chicken.getAttached(ModDataAttachments.CHICKEN_EGG_DATA);
-        if (data == null) return super.useOnEntity(stack, user, entity, hand);
+        if (data != null) {
+            // don't try to feed if already fed
+            if (data.getHasBeenFed()) return ActionResult.PASS;
 
-        // don't try to feed if already fed
-        if (data.getHasBeenFed()) return ActionResult.PASS;
+            // the following morning, at least half a day from now
+            long timeToLayEgg = (((currentTime + 12000L) / 24000L) + 1) * 24000L;
 
-        // the following morning, at least half a day from now
-        long timeToLayEgg = (((currentTime + 12000L) / 24000L) + 1) * 24000L;
+            // crack of dawn (22550) + 30-second random variance
+            timeToLayEgg += -1450 + chicken.getRandom().nextInt(600);
 
-        // crack of dawn (22550) + 30-second random variance
-        timeToLayEgg += -1450 + chicken.getRandom().nextInt(600);
+            chicken.playSound(SoundEvents.ENTITY_CHICKEN_HURT, 1.0F, chicken.getRandom().nextFloat() * 0.2F + 1.5F);
 
-        chicken.playSound(SoundEvents.ENTITY_CHICKEN_HURT, 1.0F, chicken.getRandom().nextFloat() * 0.2F + 1.5F);
+            data.setTimeToLayEgg(timeToLayEgg);
+            data.setHasBeenFed(true);
+            chicken.setAttached(ModDataAttachments.CHICKEN_EGG_DATA, data);
 
-        data.setTimeToLayEgg(timeToLayEgg);
-        data.setHasBeenFed(true);
-        chicken.setAttached(ModDataAttachments.CHICKEN_EGG_DATA, data);
+            return ActionResult.SUCCESS;
+        }
 
-        return ActionResult.SUCCESS;
+        return ActionResult.PASS;
     }
 
 }

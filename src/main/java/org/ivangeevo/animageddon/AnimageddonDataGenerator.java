@@ -17,7 +17,6 @@ public class AnimageddonDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(ModEntityTypeTagProvider::new);
 
         //pack.addProvider(ModModelGenerator::new);
-
     }
 
 }

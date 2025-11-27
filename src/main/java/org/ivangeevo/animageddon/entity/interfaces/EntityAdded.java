@@ -6,5 +6,4 @@ public interface EntityAdded {
 
     void onKickedByCow(CowEntity cow);
 
-
 }

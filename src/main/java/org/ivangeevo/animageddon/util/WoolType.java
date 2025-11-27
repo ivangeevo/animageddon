@@ -1,4 +1,3 @@
-// WoolType.java
 package org.ivangeevo.animageddon.util;
 
 public enum WoolType {

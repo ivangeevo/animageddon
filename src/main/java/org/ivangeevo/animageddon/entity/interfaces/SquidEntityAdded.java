@@ -8,6 +8,4 @@ public interface SquidEntityAdded {
 
     void animageddon$onClientNotifiedOfTentacleAttack(double dTargetX, double dTargetY, double dTargetZ);
 
-
-
 }

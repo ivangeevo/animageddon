@@ -2,12 +2,11 @@ package org.ivangeevo.animageddon.tag;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import org.ivangeevo.animageddon.AnimageddonMod;
-import org.ivangeevo.animageddon.data.attachments.hunger.AnimalHungerAttachedData;
+import org.ivangeevo.animageddon.data.attachments.hunger.LivingEntityHungerData;
 
 public class ModTags {
 
@@ -36,7 +35,7 @@ public class ModTags {
     }
 
     public static class EntityTypes {
-        /** Holds all animal entities that can be subject to hunger using the {@link AnimalHungerAttachedData} **/
+        /** Holds all animal entities that can be subject to hunger using the {@link LivingEntityHungerData} **/
         public static final TagKey<EntityType<?>> SUBJECT_TO_HUNGER_ANIMALS = createTag("subject_to_hunger_animals");
 
         public static final TagKey<EntityType<?>> GRAZING_ANIMALS = createTag("grazing_animals");
@@ -45,4 +44,5 @@ public class ModTags {
             return TagKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(AnimageddonMod.MOD_ID, name));
         }
     }
+
 }

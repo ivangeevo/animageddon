@@ -30,7 +30,7 @@ public abstract class CowEntityRendererMixin {
 
     //@Inject(method = "getTexture(Lnet/minecraft/entity/passive/CowEntity;)Lnet/minecraft/util/Identifier;", at = @At("HEAD"), cancellable = true)
     private void injectedGetTexture(CowEntity cowEntity, CallbackInfoReturnable<Identifier> cir) {
-        var hungerData = cowEntity.getAttached(ModDataAttachments.ANIMAL_HUNGER_DATA);
+        var hungerData = cowEntity.getAttached(ModDataAttachments.LIVING_ENTITY_HUNGER_DATA);
         if (hungerData == null) return;
         cir.setReturnValue(hungerData.isStarving()
                 ? STARVING_TEXTURE
@@ -39,4 +39,5 @@ public abstract class CowEntityRendererMixin {
                 : TEXTURE
         );
     }
+
 }

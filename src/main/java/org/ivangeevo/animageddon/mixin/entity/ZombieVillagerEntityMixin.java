@@ -29,8 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.function.Predicate;
 
 @Mixin(ZombieVillagerEntity.class)
-public abstract class ZombieVillagerEntityMixin extends HostileEntity
-{
+public abstract class ZombieVillagerEntityMixin extends HostileEntity {
 
     @Unique
     private static final Predicate<Difficulty> DOOR_BREAK_DIFFICULTY_CHECKER = (difficulty) -> difficulty == Difficulty.HARD;;
@@ -50,6 +49,18 @@ public abstract class ZombieVillagerEntityMixin extends HostileEntity
 
     }
 
+    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
+    private void onWriteCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
+        nbt.putBoolean("CanBreakDoors", this.canBreakDoors());
+
+    }
+
+    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
+    private void onReadCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
+        this.setCanBreakDoors(nbt.getBoolean("CanBreakDoors"));
+
+    }
+
     protected void applyAttributeModifiers(float chanceMultiplier) {
         //this.initAttributes();
         if (this.random.nextFloat() < chanceMultiplier * 0.05f) {
@@ -58,12 +69,9 @@ public abstract class ZombieVillagerEntityMixin extends HostileEntity
 
     }
 
-
-
     public boolean canBreakDoors() {
         return this.canBreakDoors;
     }
-
 
     public void setCanBreakDoors(boolean canBreakDoors) {
         if (this.shouldBreakDoors() && NavigationConditions.hasMobNavigation(this)) {
@@ -86,8 +94,6 @@ public abstract class ZombieVillagerEntityMixin extends HostileEntity
         return true;
     }
 
-
-
     protected ZombieVillagerEntityMixin(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -99,18 +105,6 @@ public abstract class ZombieVillagerEntityMixin extends HostileEntity
         this.targetSelector.add(2, new ActiveTargetGoal<SheepEntity>((MobEntity) this, SheepEntity.class, true));
         this.targetSelector.add(2, new ActiveTargetGoal<CowEntity>((MobEntity) this, CowEntity.class, true));
         this.targetSelector.add(2, new ActiveTargetGoal<PigEntity>((MobEntity) this, PigEntity.class, true));
-
-    }
-
-    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    private void onWriteCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
-        nbt.putBoolean("CanBreakDoors", this.canBreakDoors());
-
-    }
-
-    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    private void onReadCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
-        this.setCanBreakDoors(nbt.getBoolean("CanBreakDoors"));
 
     }
 

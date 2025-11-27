@@ -91,7 +91,8 @@ public abstract class FishingBobberEntityMixin extends ProjectileEntity implemen
                 this.fishTravelCountdown = 0;
                 this.getDataTracker().set(CAUGHT_FISH, false);
             }
-        } else if (this.fishTravelCountdown > 0) {
+        }
+        else if (this.fishTravelCountdown > 0) {
             this.fishTravelCountdown -= i;
 
             if (this.fishTravelCountdown > 0) {
@@ -115,7 +116,8 @@ public abstract class FishingBobberEntityMixin extends ProjectileEntity implemen
                     serverWorld.spawnParticles(ParticleTypes.FISHING, d, e, j, 0, -l, 0.01, k, 1.0);
                 }
 
-            } else {
+            }
+            else {
                 this.playSound(SoundEvents.ENTITY_FISHING_BOBBER_SPLASH, 0.25f, 1.0f + (this.random.nextFloat() - this.random.nextFloat()) * 0.4f);
                 double m = this.getY() + 0.5;
                 serverWorld.spawnParticles(ParticleTypes.BUBBLE, this.getX(), m, this.getZ(), (int)(1.0f + this.getWidth() * 20.0f), this.getWidth(), 0.0, this.getWidth(), 0.2f);
@@ -124,15 +126,18 @@ public abstract class FishingBobberEntityMixin extends ProjectileEntity implemen
                 this.getDataTracker().set(CAUGHT_FISH, true);
                 this.setHasBaitComponent(rodStack, true);
             }
-        } else if (this.waitCountdown > 0) {
+        }
+        else if (this.waitCountdown > 0) {
             this.waitCountdown -= i;
             float f = 0.15f;
 
             if (this.waitCountdown < 20) {
                 f += (float)(20 - this.waitCountdown) * 0.05f;
-            } else if (this.waitCountdown < 40) {
+            }
+            else if (this.waitCountdown < 40) {
                 f += (float)(40 - this.waitCountdown) * 0.02f;
-            } else if (this.waitCountdown < 60) {
+            }
+            else if (this.waitCountdown < 60) {
                 f += (float)(60 - this.waitCountdown) * 0.01f;
             }
 
@@ -153,7 +158,8 @@ public abstract class FishingBobberEntityMixin extends ProjectileEntity implemen
                 this.fishAngle = MathHelper.nextFloat(this.random, 0.0f, 360.0f);
                 this.fishTravelCountdown = MathHelper.nextInt(this.random, 20, 80);
             }
-        } else {
+        }
+        else {
             this.waitCountdown = MathHelper.nextInt(this.random, 100, 600);
             this.waitCountdown -= this.waitTimeReductionTicks;
         }

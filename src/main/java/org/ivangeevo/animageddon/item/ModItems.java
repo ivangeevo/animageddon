@@ -9,8 +9,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.ivangeevo.animageddon.AnimageddonMod;
 
-public class ModItems
-{
+public class ModItems {
 
     public static final Item CHICKEN_FEED = registerItem( "chicken_feed", new Item(new Item.Settings()));
     public static final Item NITRE = registerItem( "nitre", new Item(new Item.Settings()));
@@ -34,7 +33,6 @@ public class ModItems
         {
             entries.addAfter(Items.GUNPOWDER, NITRE);
         });
-
     }
 
 }

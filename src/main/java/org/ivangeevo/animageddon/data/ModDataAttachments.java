@@ -4,12 +4,18 @@ import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
+import net.fabricmc.fabric.impl.attachment.AttachmentRegistryImpl;
 import net.minecraft.util.Identifier;
 import org.ivangeevo.animageddon.AnimageddonMod;
-import org.ivangeevo.animageddon.data.attachments.hunger.AnimalHungerAttachedData;
+import org.ivangeevo.animageddon.data.attachments.SpiderWebData;
+import org.ivangeevo.animageddon.data.attachments.hunger.LivingEntityHungerData;
 import org.ivangeevo.animageddon.data.attachments.ChickenEggAttachedData;
 import org.ivangeevo.animageddon.data.attachments.CowMilkAttachedData;
-import org.jetbrains.annotations.ApiStatus;
+
+import java.util.function.Supplier;
+
+import static org.ivangeevo.animageddon.data.interfaces.HungerData.DEFAULT_FOOD_MULTIPLIER;
+import static org.ivangeevo.animageddon.data.interfaces.HungerData.DEFAULT_GRAZE_DURATION;
 
 public class ModDataAttachments {
 
@@ -34,12 +40,20 @@ public class ModDataAttachments {
                     .syncWith(ChickenEggAttachedData.PACKET_CODEC, AttachmentSyncPredicate.all())
     );
 
-    public static final AttachmentType<AnimalHungerAttachedData> ANIMAL_HUNGER_DATA = AttachmentRegistry.create(
-            Identifier.of(AnimageddonMod.MOD_ID, "animal_hunger_data"),
+    public static final AttachmentType<LivingEntityHungerData> LIVING_ENTITY_HUNGER_DATA = AttachmentRegistry.create(
+            Identifier.of(AnimageddonMod.MOD_ID, "living_entity_hunger_data"),
             builder -> builder
-                    .initializer(AnimalHungerAttachedData::forDefault)
-                    .persistent(AnimalHungerAttachedData.CODEC)
-                    .syncWith(AnimalHungerAttachedData.PACKET_CODEC, AttachmentSyncPredicate.all())
+                    .initializer(() -> new LivingEntityHungerData(DEFAULT_FOOD_MULTIPLIER, DEFAULT_GRAZE_DURATION))
+                    .persistent(LivingEntityHungerData.CODEC)
+                    .syncWith(LivingEntityHungerData.PACKET_CODEC, AttachmentSyncPredicate.all())
+    );
+
+    public static final AttachmentType<SpiderWebData> SPIDER_WEB_DATA = AttachmentRegistry.create(
+            Identifier.of(AnimageddonMod.MOD_ID, "spider_web_data"),
+            builder -> builder
+                    .initializer(() -> new SpiderWebData(false, SpiderWebData.TIME_BETWEEN_WEBS))
+                    .persistent(SpiderWebData.CODEC)
+                    .syncWith(SpiderWebData.PACKET_CODEC, AttachmentSyncPredicate.all())
     );
 
     public static void register() {
@@ -47,4 +61,5 @@ public class ModDataAttachments {
         // Technically this method can stay empty, but some developers like to notify
         // the console, that certain parts of the mod have been successfully initialized
     }
+
 }

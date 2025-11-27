@@ -17,8 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ZombifiedPiglinEntity.class)
-public abstract class ZombifiedPiglinEntityMixin extends ZombieEntity
-{
+public abstract class ZombifiedPiglinEntityMixin extends ZombieEntity {
 
     public ZombifiedPiglinEntityMixin(EntityType<? extends ZombieEntity> entityType, World world) {
         super(entityType, world);
@@ -26,14 +25,12 @@ public abstract class ZombifiedPiglinEntityMixin extends ZombieEntity
 
     // Make zombie piglins only have a 30% chance to spawn with golden swords.
     @Inject(method = "initEquipment", at = @At("HEAD"), cancellable = true)
-    private void onInitEquipment(Random random, LocalDifficulty localDifficulty, CallbackInfo ci)
-    {
+    private void onInitEquipment(Random random, LocalDifficulty localDifficulty, CallbackInfo ci) {
         ItemStack goldSword = new ItemStack(Items.GOLDEN_SWORD);
         // TODO: Probably also a good idea to set a custom damage, so they aren't all full durability.
         //sword.setDamage(1);
 
-        if (random.nextFloat() < 0.3f)
-        {
+        if (random.nextFloat() < 0.3f) {
             this.equipStack(EquipmentSlot.MAINHAND, goldSword);
         }
 
@@ -42,10 +39,8 @@ public abstract class ZombifiedPiglinEntityMixin extends ZombieEntity
     }
 
     @Unique
-    private int getSwordDamageRandom(Random random)
-    {
+    private int getSwordDamageRandom(Random random) {
         return random.nextFloat() < 0.7f ? 4 : ToolMaterials.GOLD.getDurability();
     }
-
 
 }

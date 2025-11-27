@@ -5,8 +5,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.ivangeevo.animageddon.item.interfaces.ItemAdded;
 
 @Mixin(Item.class)
-public abstract class ItemMixin implements ItemAdded
-{
+public abstract class ItemMixin implements ItemAdded {
+
     private static final int BASE_HERBIVORE_ITEM_FOOD_VALUE = (200 * 32 );
     private int herbivoreFoodValue = 0;
 
@@ -25,4 +25,5 @@ public abstract class ItemMixin implements ItemAdded
     public Item setAsBasicHerbivoreFood() {
         return setHerbivoreFoodValue(BASE_HERBIVORE_ITEM_FOOD_VALUE);
     }
+
 }

@@ -37,7 +37,5 @@ public abstract class ItemStackMixin {
             tooltip.add(Text.literal("§8 - " + component.getClass().getSimpleName() + ": " + component.toString()));
         });
     }
+
 }
-
-
-

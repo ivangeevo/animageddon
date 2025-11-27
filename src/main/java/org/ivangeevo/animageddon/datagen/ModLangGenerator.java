@@ -20,7 +20,6 @@ public class ModLangGenerator extends FabricLanguageProvider {
         translationBuilder.add(ModItems.NITRE, "Nitre");
         translationBuilder.add(ModItems.CURED_MEAT, "Cured Meat");
         translationBuilder.add(ModItems.BURNED_MEAT, "Burned Meat");
-
         translationBuilder.add(ModBlocks.WEB_BLOCK, "Partially Broken Cobweb");
     }
 

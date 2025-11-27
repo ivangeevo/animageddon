@@ -26,8 +26,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FishingRodItem.class)
-public abstract class FishingRodItemMixin extends Item implements BaitableFishingRod
-{
+public abstract class FishingRodItemMixin extends Item implements BaitableFishingRod {
 
     public FishingRodItemMixin(Settings settings) {
         super(settings);
@@ -91,7 +90,8 @@ public abstract class FishingRodItemMixin extends Item implements BaitableFishin
                     SoundEvents.ENTITY_FISHING_BOBBER_RETRIEVE, SoundCategory.NEUTRAL,
                     1.0f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f));
             user.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH);
-        } else {
+        }
+        else {
             // Casting: throw the bobber
             world.playSound(null, user.getX(), user.getY(), user.getZ(),
                     SoundEvents.ENTITY_FISHING_BOBBER_THROW, SoundCategory.NEUTRAL,
@@ -109,6 +109,7 @@ public abstract class FishingRodItemMixin extends Item implements BaitableFishin
             user.incrementStat(Stats.USED.getOrCreateStat(this));
             user.emitGameEvent(GameEvent.ITEM_INTERACT_START);
         }
+
         cir.setReturnValue(TypedActionResult.success(rodStack, world.isClient()));
     }
 
@@ -129,6 +130,5 @@ public abstract class FishingRodItemMixin extends Item implements BaitableFishin
         this.setHasBaitComponent(stack, true);
         this.setHasBaitBobber(bobber, true);
     }
-
 
 }

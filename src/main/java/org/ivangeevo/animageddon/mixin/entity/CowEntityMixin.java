@@ -49,4 +49,9 @@ public abstract class CowEntityMixin extends AnimalEntity implements CowEntityAd
         cir.setReturnValue(stack.isOf(Items.CAKE));
     }
 
+    @Override
+    public boolean isSubjectToHunger() {
+        return true;
+    }
+
 }

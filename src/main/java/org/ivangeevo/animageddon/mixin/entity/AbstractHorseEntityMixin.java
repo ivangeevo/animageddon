@@ -17,28 +17,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class AbstractHorseEntityMixin extends AnimalEntity {
 
     @Shadow protected abstract boolean getHorseFlag(int bitmask);
-
     @Shadow protected abstract void setHorseFlag(int bitmask, boolean flag);
 
     @Unique private int fedLevel = 0;
-
     @Unique protected final int maxFedLevel = 3000;
-
     @Unique private final int rideableFedLevel = 600;
-
     @Unique private final int untamedFedLevel = maxFedLevel / 8; // 400
-
-
     // holds the value of whether the horse is fed enough to be ridden
     @Unique private static final int FED_FLAG = 128;
-
-
     @Unique public boolean isFed() {
         return this.getHorseFlag(FED_FLAG);
     }
-
-    @Unique
-    public void setFed(boolean fed) {
+    @Unique public void setFed(boolean fed) {
         this.setHorseFlag(FED_FLAG, fed);
     }
 
@@ -68,6 +58,5 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity {
             setFed(true);
         }
     }
-
 
 }

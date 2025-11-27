@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Environment(EnvType.CLIENT)
 @Mixin(CowEntityModel.class)
 public abstract class CowEntityModelMixin<T extends Entity> {
 
@@ -87,4 +86,5 @@ public abstract class CowEntityModelMixin<T extends Entity> {
 
         return TexturedModelData.of(modelData, 64, 32);
     }
+
 }

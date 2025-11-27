@@ -20,6 +20,4 @@ public interface CowEntityAdded {
     double KICK_ATTACK_TIP_COLLISION_HEIGHT = 2D;
     double KICK_ATTACK_TIP_COLLISION_HALF_HEIGHT = (KICK_ATTACK_TIP_COLLISION_HEIGHT / 2D );
 
-
-
 }

@@ -24,10 +24,9 @@ import org.jetbrains.annotations.Nullable;
 import static btwr.btwr_sl.tag.BTWRConventionalTags.Items.MODERN_CHISELS;
 import static btwr.btwr_sl.tag.BTWRConventionalTags.Items.PRIMITIVE_CHISELS;
 
-public class WebBlock extends CobwebBlock
-{
-    public static final MapCodec<CobwebBlock> CODEC = WebBlock.createCodec(WebBlock::new);
+public class WebBlock extends CobwebBlock {
 
+    public static final MapCodec<CobwebBlock> CODEC = WebBlock.createCodec(WebBlock::new);
     public static final IntProperty BREAK_LEVEL = IntProperty.of("break_level", 0, 2);
 
     @Override
@@ -39,7 +38,6 @@ public class WebBlock extends CobwebBlock
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(BREAK_LEVEL, 0));
     }
-
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
@@ -87,4 +85,5 @@ public class WebBlock extends CobwebBlock
         boolean isChiselTool = stack.isIn(PRIMITIVE_CHISELS) || stack.isIn(MODERN_CHISELS);
         return isChiselTool && state.isIn(BlockTags.INCORRECT_FOR_WOODEN_TOOL);
     }
+
 }

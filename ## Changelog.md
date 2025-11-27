@@ -1,7 +1,8 @@
 ## Changelog Animageddon
 
-# v0.???(dev)
-
+# v0.3.2(dev)
++ Fixed a bug with cows being able to be milked with a filled milk bucket(and probably other similar variants) They are now milkable only by the exact bucket item or bucket items from the Fabric Conventional Tag "buckets"
++ Updated the mod to BTWR: Shared Library 0.6.4
 
 # v0.3.1
 + Fixed a bug with chickens where feeding only one would make all other chickens be considered fed

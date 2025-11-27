@@ -12,13 +12,10 @@ import net.minecraft.predicate.block.BlockStatePredicate;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldEvents;
 import org.ivangeevo.animageddon.data.ModDataAttachments;
-import org.ivangeevo.animageddon.data.attachments.hunger.AnimalHungerAttachedData;
+import org.ivangeevo.animageddon.data.attachments.hunger.LivingEntityHungerData;
 import org.ivangeevo.animageddon.tag.ModTags;
-import org.spongepowered.asm.mixin.Unique;
 
 public class GrazeGoal extends Goal {
 
@@ -49,9 +46,6 @@ public class GrazeGoal extends Goal {
 			return animal.getRandom().nextInt(animal.isBaby() ? 50 : 1000) == 0 &&
 					animal.getGrazeBlockForPos() != null;
 		}
-
-
-
 	}
 
 	private boolean isSubjectToHunger(AnimalEntity animal) {
@@ -61,7 +55,7 @@ public class GrazeGoal extends Goal {
 	@Override
 	public void start() {
 		this.grazeCooldown = 10;
-		AnimalHungerAttachedData hungerData = animal.getAttached(ModDataAttachments.ANIMAL_HUNGER_DATA);
+		LivingEntityHungerData hungerData = animal.getAttached(ModDataAttachments.LIVING_ENTITY_HUNGER_DATA);
         assert hungerData != null;
         this.grazeProgressCounter = this.getTickCount(hungerData.getGrazeDuration());
 		this.world.sendEntityStatus(this.animal, EntityStatuses.SET_SHEEP_EAT_GRASS_TIMER_OR_PRIME_TNT_MINECART);
@@ -101,8 +95,6 @@ public class GrazeGoal extends Goal {
 			}
 		}
 
-
-
 		/**
 		AnimalHungerAttachedData hungerData = animal.getAttached(ModDataAttachments.ANIMAL_HUNGER_DATA);
 		this.grazeProgressCounter = Math.max(0, this.grazeProgressCounter - 1);
@@ -129,6 +121,6 @@ public class GrazeGoal extends Goal {
 			}
 		}
 		 **/
-
 	}
+
 }

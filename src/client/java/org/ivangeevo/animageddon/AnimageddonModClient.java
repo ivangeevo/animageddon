@@ -28,7 +28,6 @@ public class AnimageddonModClient implements ClientModInitializer {
                     return hasBait != null && hasBait ? 1.0F : 0.0F;
                 }
         );
-
-
     }
+
 }

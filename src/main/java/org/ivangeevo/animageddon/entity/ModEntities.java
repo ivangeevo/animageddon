@@ -1,13 +1,11 @@
 package org.ivangeevo.animageddon.entity;
 
-public class ModEntities
-{
-    public static class Blocks
-    {
+public class ModEntities {
+
+    public static class Blocks {
         //public static BlockEntityType<CobwebEntity> OVEN_BRICK;
 
-        public static void registerBlockEntities()
-        {
+        public static void registerBlockEntities() {
             /**
             OVEN_BRICK = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(AnimageddonMod.MOD_ID,
                     "oven_brick"), FabricBlockEntityTypeBuilder.create(BrickOvenBlockEntity::new,
@@ -17,8 +15,7 @@ public class ModEntities
         }
     }
 
-    public static class Projectiles
-    {
+    public static class Projectiles {
         /**
         public static final EntityType<CobwebEntity> COBWEB_PROJECTILE =
                 Registry.register(Registries.ENTITY_TYPE,
@@ -27,6 +24,5 @@ public class ModEntities
                         .dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build());
          **/
     }
-
 
 }

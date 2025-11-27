@@ -51,4 +51,5 @@ public class CowMilkAttachedData {
             ticks = 0;
         }
     }
+
 }

@@ -1,80 +1,73 @@
 package org.ivangeevo.animageddon.mixin.entity;
 
 
-import net.minecraft.entity.Entity;
+import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.RabbitEntity;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.ivangeevo.animageddon.data.ModDataAttachments;
+import org.ivangeevo.animageddon.data.attachments.SpiderWebData;
+import org.ivangeevo.animageddon.entity.ai.goal.NewCobwebShootGoal;
 import org.ivangeevo.animageddon.entity.interfaces.SpiderEntityAdded;
-import org.ivangeevo.animageddon.entity.projectile.CobwebEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.function.Consumer;
+
 @Mixin(SpiderEntity.class)
 public abstract class SpiderEntityMixin extends HostileEntity implements SpiderEntityAdded {
-
-    @Unique
-    private static final TrackedData<Boolean> SHOOTING = DataTracker.registerData(SpiderEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    @Unique
-    private static final TrackedData<Integer> TIME_TO_NEXT_WEB = DataTracker.registerData(SpiderEntity.class, TrackedDataHandlerRegistry.INTEGER);
-
-    @Unique
-    private static final int TIME_BETWEEN_WEBS = 20 * 60 * 20; // 1 minute in ticks
 
     protected SpiderEntityMixin(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
     }
 
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void initDataTracker(EntityType entityType, World world, CallbackInfo ci) {
+        injectFor(SpiderEntity.class, spider -> {
+            spider.setAttached(ModDataAttachments.SPIDER_WEB_DATA, new SpiderWebData(false, SpiderWebData.TIME_BETWEEN_WEBS));
+        });
+    }
+
+    @Inject(method = "initGoals", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V", ordinal = 4))
+    private void injectCobwebGoal(CallbackInfo ci) {
+        injectFor(SpiderEntity.class, spider -> {
+            this.goalSelector.add(2, new NewCobwebShootGoal(spider));
+        });
+    }
+
     @Inject(method = "initGoals", at = @At("TAIL"))
     private void injectedInitGoals(CallbackInfo ci) {
-        this.targetSelector.add(4, new SpiderEntity.TargetGoal<>((SpiderEntity) (Object) this, ChickenEntity.class));
-        this.targetSelector.add(4, new SpiderEntity.TargetGoal<>((SpiderEntity) (Object) this, RabbitEntity.class));
+        injectFor(SpiderEntity.class, spider -> {
+            this.targetSelector.add(2, new SpiderEntity.TargetGoal<>(spider, ChickenEntity.class));
+            this.targetSelector.add(2, new SpiderEntity.TargetGoal<>(spider, RabbitEntity.class));
+        });
     }
 
-    @Inject(method = "initDataTracker", at = @At("RETURN"))
-    private void initDataTracker(DataTracker.Builder builder, CallbackInfo ci) {
-        builder.add(SHOOTING, false);
-        builder.add(TIME_TO_NEXT_WEB, 0);
-    }
-
-    @Override public void setShooting(boolean shooting) {
-        this.dataTracker.set(SHOOTING, shooting);
-    }
-
-    @Override public int getTimeToNextWeb() {
-        return this.dataTracker.get(TIME_TO_NEXT_WEB);
-    }
-
-    @Override public void setTimeToNextWeb(int timeToNextWeb) {
-        this.dataTracker.set(TIME_TO_NEXT_WEB, timeToNextWeb);
-    }
-
-    @Override public boolean hasWeb() { return this.dataTracker.get(TIME_TO_NEXT_WEB) <= 0; }
-
-    @Override
-    public void spitWeb(Entity targetEntity) {
-
-        if (!getWorld().isClient()) {
-            if (this.getTimeToNextWeb() <= 0) {
-                Vec3d vec3d = this.getRotationVec(1.0F);
-                double f = targetEntity.getX() - (this.getX() + vec3d.x * 4.0);
-                double g = targetEntity.getBodyY(0.5) - (0.5 + this.getBodyY(0.5));
-                double h = targetEntity.getZ() - (this.getZ() + vec3d.z * 4.0);
-                CobwebEntity cobwebEntity = new CobwebEntity(getWorld(), this, f, g, h);
-                getWorld().spawnEntity(cobwebEntity);
-                this.setTimeToNextWeb(TIME_BETWEEN_WEBS); // Set cooldown
+    @Inject(method = "tick", at = @At("TAIL"))
+    private void onEndTick(CallbackInfo ci) {
+        injectFor(SpiderEntity.class, spider -> {
+            var webData = spider.getAttached(ModDataAttachments.SPIDER_WEB_DATA);
+            if (webData != null) {
+                if (webData.timeToNextWeb() > 0) {
+                    webData.decrementTimeToNextWeb();
+                }
             }
+        });
+    }
+
+    @Unique
+    @SuppressWarnings("unchecked")
+    private <T extends LivingEntity> void injectFor(Class<T> type, Consumer<T> action) {
+        if (type.isInstance(this)) {
+            action.accept((T) this);
         }
     }
-}
 
+}

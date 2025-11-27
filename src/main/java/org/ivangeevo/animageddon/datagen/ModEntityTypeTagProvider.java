@@ -22,7 +22,6 @@ public class ModEntityTypeTagProvider extends FabricTagProvider.EntityTypeTagPro
 
         getOrCreateTagBuilder(ModTags.EntityTypes.GRAZING_ANIMALS)
                 .add(EntityType.COW);
-
-
     }
+
 }

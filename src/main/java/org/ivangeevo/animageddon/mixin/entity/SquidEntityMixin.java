@@ -14,14 +14,9 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(SquidEntity.class)
 public abstract class SquidEntityMixin extends WaterCreatureEntity implements SquidEntityAdded {
 
-    @Unique
-    private static final int TENTACLE_ATTACK_TICKS_TO_COOLDOWN = 100;
-
-    @Unique
-    private int tentacleAttackCooldownTimer = TENTACLE_ATTACK_TICKS_TO_COOLDOWN;
-
-    @Unique
-    private int tentacleAttackInProgressCounter  = -1;
+    @Unique private static final int TENTACLE_ATTACK_TICKS_TO_COOLDOWN = 100;
+    @Unique private int tentacleAttackCooldownTimer = TENTACLE_ATTACK_TICKS_TO_COOLDOWN;
+    @Unique private int tentacleAttackInProgressCounter  = -1;
 
     @Override
     public int animageddon$tentacleAttackInProgressCounter() {
@@ -73,6 +68,6 @@ public abstract class SquidEntityMixin extends WaterCreatureEntity implements Sq
 
             this.getWorld().playSound(null, this.getBlockPos(), SoundEvents.ENTITY_GENERIC_SPLASH, SoundCategory.HOSTILE, 1F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.4F);
         }
-
     }
+
 }

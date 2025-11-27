@@ -1,6 +1,7 @@
-package org.ivangeevo.animageddon.data.attachments.hunger;
+package org.ivangeevo.animageddon.data.interfaces;
 
-public interface AnimalHungerConstants {
+public interface HungerData {
+
     /** Core game-time constants **/
     int FULL_HUNGER_COUNT = 24000;
     int LEVEL_UP_HUNGER_COUNT = FULL_HUNGER_COUNT + (FULL_HUNGER_COUNT / 16);
@@ -13,5 +14,14 @@ public interface AnimalHungerConstants {
     int DEFAULT_GRAZE_DURATION = 40;
     int PIG_GRAZE_DURATION = 80;
     int CHICKEN_GRAZE_DURATION = 20;
+
+    /** State queries **/
+    boolean isFullyFed();
+    boolean isFamished();
+    boolean isStarving();
+
+    /** Configuration **/
+    int getFoodValueMultiplier();
+    int getGrazeHungerGain();
 
 }

@@ -1,6 +1,7 @@
 package org.ivangeevo.animageddon.entity.interfaces;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.mob.SpiderEntity;
 
 public interface SpiderEntityAdded
 {
@@ -15,10 +16,7 @@ public interface SpiderEntityAdded
 
     boolean hasWeb();
 
-    void spitWeb(Entity targetEntity);
-
-
-
+    void spitWeb(SpiderEntity spiderEntity, Entity targetEntity);
 
 }
 

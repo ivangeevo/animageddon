@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ZombieAttackGoal.class)
 public abstract class ZombieAttackGoalMixin extends MeleeAttackGoal {
+
     @Shadow private int ticks;
 
     public ZombieAttackGoalMixin(ZombieEntity zombie, double speed, boolean pauseWhenMobIdle) {
@@ -50,4 +51,5 @@ public abstract class ZombieAttackGoalMixin extends MeleeAttackGoal {
 
         this.mob.handleAttack(player);
     }
+
 }

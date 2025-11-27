@@ -5,8 +5,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Items;
 
-public class ModFoodComponents
-{
+public class ModFoodComponents {
 
     public static final FoodComponent CURED_MEAT =
             new FoodComponent.Builder()

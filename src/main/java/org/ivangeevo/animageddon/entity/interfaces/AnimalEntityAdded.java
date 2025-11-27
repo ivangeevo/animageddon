@@ -4,10 +4,14 @@ import net.minecraft.util.math.BlockPos;
 
 public interface AnimalEntityAdded  {
 
-
     boolean getWearingBreedingHarness();
 
     //-------------- Hunger related functionality ------------//
+
+    default boolean isSubjectToHunger() {
+        return false;
+    }
+
     default void initHungerWithVariance() {}
 
     default void onStarvingCountExpired() {}

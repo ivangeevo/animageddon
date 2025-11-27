@@ -19,7 +19,6 @@ import java.util.List;
 @Mixin(MobNavigation.class)
 public abstract class MobNavigationMixin extends EntityNavigation {
 
-
     public MobNavigationMixin(MobEntity entity, World world) {
         super(entity, world);
     }
@@ -47,4 +46,5 @@ public abstract class MobNavigationMixin extends EntityNavigation {
             cir.setReturnValue(newPath);
         }
     }
+
 }

@@ -1,6 +1,5 @@
 package org.ivangeevo.animageddon.mixin.entity.ai;
 
-
 import net.minecraft.entity.ai.goal.WanderAroundGoal;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
@@ -23,4 +22,5 @@ public abstract class WanderAroundGoalMixin {
             mob.setDespawnCounter(0);
         }
     }
+
 }

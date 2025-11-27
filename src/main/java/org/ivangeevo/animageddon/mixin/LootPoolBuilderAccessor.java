@@ -11,6 +11,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface LootPoolBuilderAccessor {
 
     @Accessor ImmutableList.Builder<LootPoolEntry> getEntries();
-
     @Accessor @Mutable void setEntries(ImmutableList.Builder<LootPoolEntry> entries);
+
 }
