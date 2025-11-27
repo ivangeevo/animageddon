@@ -3,4 +3,4 @@
 /build/
 /run/
 /.idea/
-generated/.cache
+src/main/generated/.cache

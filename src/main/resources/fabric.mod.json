@@ -12,15 +12,9 @@
   "icon": "assets/animageddon/icon.png",
   "environment": "*",
   "entrypoints": {
-    "client": [
-      "org.ivangeevo.animageddon.AnimageddonModClient"
-    ],
-    "main": [
-      "org.ivangeevo.animageddon.AnimageddonMod"
-    ],
-    "fabric-datagen": [
-      "org.ivangeevo.animageddon.AnimageddonDataGenerator"
-    ]
+    "client": ["org.btwr.animageddon.AnimageddonModClient"],
+    "main": ["org.btwr.animageddon.AnimageddonMod"],
+    "fabric-datagen": ["org.btwr.animageddon.AnimageddonDataGenerator"]
   },
   "mixins": [
     "animageddon.mixins.json",
@@ -35,25 +29,18 @@
     "minecraft": "${minecraft_version}",
     "btwr_sl": ">=${btwr_sl_version}"
   },
-
-  "accessWidener" : "animageddon.accesswidener",
-
-  "custom":
-  {
-    "loom:injected_interfaces":
-    {
-
-      "net/minecraft/class_560": ["org/ivangeevo/animageddon/entity/interfaces/CowEntityModelAdded"],
-
-      "net/minecraft/class_1297": ["org/ivangeevo/animageddon/entity/interfaces/EntityAdded"],
-      "net/minecraft/class_1428": ["org/ivangeevo/animageddon/entity/interfaces/ChickenEntityAdded"],
-      "net/minecraft/class_1429": ["org/ivangeevo/animageddon/entity/interfaces/AnimalEntityAdded"],
-      "net/minecraft/class_1430": ["org/ivangeevo/animageddon/entity/interfaces/CowEntityAdded"],
-      "net/minecraft/class_1477": ["org/ivangeevo/animageddon/entity/interfaces/SquidEntityAdded"],
-      "net/minecraft/class_1536": ["org/ivangeevo/animageddon/item/interfaces/BaitableFishingRod"],
-      "net/minecraft/class_1787": ["org/ivangeevo/animageddon/item/interfaces/BaitableFishingRod"],
-      "net/minecraft/class_1792": ["org/ivangeevo/animageddon/item/interfaces/ItemAdded"]
-
+  "custom": {
+    "loom:injected_interfaces": {
+      "net/minecraft/class_560": ["org/btwr/animageddon/entity/interfaces/CowEntityModelAdded"],
+      "net/minecraft/class_1297": ["org/btwr/animageddon/entity/interfaces/EntityAdded"],
+      "net/minecraft/class_1428": ["org/btwr/animageddon/entity/interfaces/ChickenEntityAdded"],
+      "net/minecraft/class_1429": ["org/btwr/animageddon/entity/interfaces/AnimalEntityAdded"],
+      "net/minecraft/class_1430": ["org/btwr/animageddon/entity/interfaces/CowEntityAdded"],
+      "net/minecraft/class_1477": ["org/btwr/animageddon/entity/interfaces/SquidEntityAdded"],
+      "net/minecraft/class_1536": ["org/btwr/animageddon/item/interfaces/BaitableFishingRod"],
+      "net/minecraft/class_1787": ["org/btwr/animageddon/item/interfaces/BaitableFishingRod"],
+      "net/minecraft/class_1792": ["org/btwr/animageddon/item/interfaces/ItemAdded"]
     }
-  }
+  },
+  "accessWidener" : "animageddon.accesswidener"
 }

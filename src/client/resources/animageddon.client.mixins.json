@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "org.ivangeevo.animageddon.mixin.client",
+  "package": "org.btwr.animageddon.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
     "CowEntityModelMixin",
