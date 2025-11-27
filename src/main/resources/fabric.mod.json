@@ -4,7 +4,7 @@
   "version": "${version}",
   "name": "Animageddon",
   "description": "Overhaul of mobs while preserving the vanilla style of the game",
-  "authors": [],
+  "authors": ["ivangeevo"],
   "contact": {
     "repo": "https://github.com/ivangeevo/animageddon.git"
   },
@@ -31,7 +31,6 @@
   },
   "custom": {
     "loom:injected_interfaces": {
-      "net/minecraft/class_560": ["org/btwr/animageddon/entity/interfaces/CowEntityModelAdded"],
       "net/minecraft/class_1297": ["org/btwr/animageddon/entity/interfaces/EntityAdded"],
       "net/minecraft/class_1428": ["org/btwr/animageddon/entity/interfaces/ChickenEntityAdded"],
       "net/minecraft/class_1429": ["org/btwr/animageddon/entity/interfaces/AnimalEntityAdded"],

@@ -3,8 +3,6 @@
   "package": "org.btwr.animageddon.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "CowEntityModelMixin",
-    "CowEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
