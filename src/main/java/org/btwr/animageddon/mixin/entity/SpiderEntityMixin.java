@@ -10,7 +10,7 @@ import net.minecraft.entity.passive.RabbitEntity;
 import net.minecraft.world.World;
 import org.btwr.animageddon.data.ModDataAttachments;
 import org.btwr.animageddon.data.attachments.SpiderWebData;
-import org.btwr.animageddon.entity.ai.goal.NewCobwebShootGoal;
+import org.btwr.animageddon.entity.ai.goal.CobwebShootGoal;
 import org.btwr.animageddon.entity.interfaces.SpiderEntityAdded;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -37,7 +37,7 @@ public abstract class SpiderEntityMixin extends HostileEntity implements SpiderE
     @Inject(method = "initGoals", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V", ordinal = 4))
     private void injectCobwebGoal(CallbackInfo ci) {
         injectFor(SpiderEntity.class, spider -> {
-            this.goalSelector.add(2, new NewCobwebShootGoal(spider));
+            this.goalSelector.add(2, new CobwebShootGoal(spider));
         });
     }
 

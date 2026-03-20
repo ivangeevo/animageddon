@@ -1,24 +1,78 @@
 package org.btwr.animageddon.entity.projectile;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.btwr.animageddon.entity.ModEntities;
 
 public class SpiderWebEntity extends ProjectileEntity implements FlyingItemEntity {
 
-    public SpiderWebEntity(World world, LivingEntity owner, double velocityX, double velocityY, double velocityZ) {
-        super(EntityType.FIREBALL, world);
+    public SpiderWebEntity(World world, LivingEntity owner, Entity target) {
+        super(ModEntities.SPIDER_WEB, world);
         this.setOwner(owner);
-        this.setVelocity(velocityX, velocityY, velocityZ);
+        this.refreshPositionAndAngles(owner.getX(), owner.getEyeY(), owner.getZ(), owner.getYaw(), owner.getPitch());
+
+        Vec3d vec3d = owner.getPos();
+
+        vec3d = vec3d.subtract(
+                MathHelper.cos(this.getYaw() / 180.0F * (float)Math.PI) * 0.16F,
+                0.2D,
+                MathHelper.sin(this.getYaw() / 180.0F * (float)Math.PI) * 0.16F
+        );
+
+        this.setPosition(vec3d);
+
+        double deltaX = target.getX() - this.getX();
+        double deltaY = target.getY() - this.getY();
+        double deltaZ = target.getZ() - this.getZ();
+
+        //this.setVelocity(deltaX, deltaY, deltaZ);
+        this.setVelocity(deltaX, deltaY, deltaZ, 0.8f, 1.0f);
+    }
+
+    public SpiderWebEntity(EntityType<SpiderWebEntity> type, World world) {
+        super(type, world);
+    }
+
+    @Override
+    public EntityType<?> getType() {
+        return ModEntities.SPIDER_WEB;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        Vec3d velocity = this.getVelocity();
+
+        // move entity
+        this.setPosition(
+                this.getX() + velocity.x,
+                this.getY() + velocity.y,
+                this.getZ() + velocity.z
+        );
+
+        // apply velocity
+        this.setVelocity(velocity);
+
+        // collision check
+        HitResult hitResult = ProjectileUtil.getCollision(this, this::canHit);
+        if (hitResult.getType() != HitResult.Type.MISS) {
+            this.onCollision(hitResult);
+        }
     }
 
     @Override
@@ -29,7 +83,6 @@ public class SpiderWebEntity extends ProjectileEntity implements FlyingItemEntit
             case ENTITY -> {
                 EntityHitResult ehr = (EntityHitResult) hit;
                 Entity e = ehr.getEntity();
-                e.damage(e.getDamageSources().thrown(this, getOwner()), 0);
 
                 if (e instanceof LivingEntity living) {
                     handleEntityImpact(living);
@@ -54,24 +107,23 @@ public class SpiderWebEntity extends ProjectileEntity implements FlyingItemEntit
         ));
     }
 
-    private boolean canReplace(BlockPos pos) {
-        var state = getWorld().getBlockState(pos);
-        return state.isAir() /**|| state.getBlock() instanceof YourReplaceableWebBlock**/;
+    private boolean canWebReplaceBlock(BlockPos pos) {
+        BlockState state = getWorld().getBlockState(pos);
+        return state.isAir();
     }
 
     private void handleEntityImpact(LivingEntity target) {
-        BlockPos posFeet = new BlockPos((int) target.getX(), (int) (target.getY() - 0.01), (int) target.getZ());
         BlockPos posBody = target.getBlockPos();
 
-        if (tryPlace(posFeet)) return;
-        if (tryPlace(posBody)) return;
-
-        spawnTangledWebItem(posBody);
+        if (!attemptToPlaceWebInBlock(posBody.down()) && !attemptToPlaceWebInBlock(posBody)) {
+            spawnTangledWebItem(posBody);
+        }
     }
 
-    private boolean tryPlace(BlockPos pos) {
-        if (canReplace(pos)) {
-            getWorld().setBlockState(pos, Blocks.COBWEB.getDefaultState());
+
+    private boolean attemptToPlaceWebInBlock(BlockPos pos) {
+        if (canWebReplaceBlock(pos)) {
+            this.getWorld().setBlockState(pos, Blocks.COBWEB.getDefaultState());
             return true;
         }
         return false;
@@ -80,8 +132,8 @@ public class SpiderWebEntity extends ProjectileEntity implements FlyingItemEntit
     private void handleBlockImpact(BlockHitResult hit) {
         BlockPos pos = hit.getBlockPos().offset(hit.getSide());
 
-        if (!tryPlace(pos)) {
-            spawnTangledWebItem(pos);
+        if (!attemptToPlaceWebInBlock(pos)) {
+            this.spawnTangledWebItem(pos);
         }
     }
 
@@ -98,7 +150,9 @@ public class SpiderWebEntity extends ProjectileEntity implements FlyingItemEntit
     }
 
     @Override
-    public ItemStack getStack() {return Items.COBWEB.getDefaultStack();}
+    public ItemStack getStack() {
+        return Items.COBWEB.getDefaultStack();
+    }
 
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {}

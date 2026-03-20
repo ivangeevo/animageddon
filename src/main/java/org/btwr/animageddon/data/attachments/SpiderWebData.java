@@ -3,12 +3,22 @@ package org.btwr.animageddon.data.attachments;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import org.btwr.animageddon.block.ModBlocks;
 import org.btwr.animageddon.data.ModDataAttachments;
+import org.btwr.animageddon.entity.ModEntities;
 import org.btwr.animageddon.entity.projectile.SpiderWebEntity;
 
 public class SpiderWebData {
@@ -16,8 +26,8 @@ public class SpiderWebData {
     boolean isShooting;
     int timeToNextWeb;
 
-    //public static final int TIME_BETWEEN_WEBS = (20 * 60 * 20); // a full day
-    public static final int TIME_BETWEEN_WEBS = 20;
+    public static final int TIME_BETWEEN_WEBS = (20 * 60 * 20); // a full day
+    //public static final int TIME_BETWEEN_WEBS = 60;
 
     public SpiderWebData(boolean isShooting, int timeToNextWeb) {
         this.isShooting = isShooting;
@@ -62,16 +72,61 @@ public class SpiderWebData {
             var webData = spiderEntity.getAttached(ModDataAttachments.SPIDER_WEB_DATA);
             assert webData != null;
 
-            if (webData.hasWeb()) {
-                Vec3d vec3d = spiderEntity.getRotationVec(1.0F);
-                double f = targetEntity.getX() - (spiderEntity.getX() + vec3d.x * 4.0);
-                double g = targetEntity.getBodyY(0.5) - (0.5 + spiderEntity.getBodyY(0.5));
-                double h = targetEntity.getZ() - (spiderEntity.getZ() + vec3d.z * 4.0);
-                SpiderWebEntity cobwebEntity = new SpiderWebEntity(spiderEntity.getWorld(), spiderEntity, f, g, h);
-                spiderEntity.getWorld().spawnEntity(cobwebEntity);
+            World world = spiderEntity.getWorld();
+
+            boolean isInWeb = isTargetInBlock(targetEntity, Blocks.COBWEB) || isTargetInBlock(targetEntity, ModBlocks.WEB_BLOCK);
+            boolean canShootAtTarget = spiderEntity.getWorld().getRandom().nextInt(10) == 0 && !(targetEntity.getType() == EntityType.SPIDER);
+
+            if (!isInWeb && canShootAtTarget) {
+                SpiderWebEntity webEntity = new SpiderWebEntity(ModEntities.SPIDER_WEB, world);
+                Vec3d look = spiderEntity.getRotationVec(1.0F);
+
+                webEntity.setPosition(
+                        spiderEntity.getX() + look.x,
+                        spiderEntity.getEyeY() - 0.1,
+                        spiderEntity.getZ() + look.z
+                );
+
+                Vec3d dir = targetEntity.getPos().subtract(spiderEntity.getEyePos()).normalize();
+
+                webEntity.setVelocity(dir.x, dir.y, dir.z, 1.5f, 0f);
+
+                world.spawnEntity(webEntity);
+
+                webData.setShooting(true);
                 webData.setTimeToNextWeb(SpiderWebData.TIME_BETWEEN_WEBS); // Set cooldown
             }
         }
+    }
+
+    public static boolean isTargetInBlock(Entity entity, Block targetBlock) {
+        Box box = entity.getBoundingBox();
+
+        int minX = MathHelper.floor(box.minX);
+        int maxX = MathHelper.floor(box.maxX);
+        int minY = MathHelper.floor(box.minY);
+        int maxY = MathHelper.floor(box.maxY);
+        int minZ = MathHelper.floor(box.minZ);
+        int maxZ = MathHelper.floor(box.maxZ);
+
+        BlockPos.Mutable pos = new BlockPos.Mutable();
+        World world = entity.getWorld();
+
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
+                for (int z = minZ; z <= maxZ; z++) {
+
+                    pos.set(x, y, z);
+                    BlockState state = world.getBlockState(pos);
+
+                    if (state.isOf(targetBlock)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
 }

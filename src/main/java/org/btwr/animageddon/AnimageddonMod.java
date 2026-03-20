@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import org.btwr.animageddon.block.ModBlocks;
 import org.btwr.animageddon.data.ModDataAttachments;
+import org.btwr.animageddon.entity.ModEntities;
 import org.btwr.animageddon.event.ModEntityLootTableEvents;
 import org.btwr.animageddon.event.ModEntityUseEvents;
 import org.btwr.animageddon.item.ModComponents;
@@ -21,6 +22,7 @@ public class AnimageddonMod implements ModInitializer {
     public void onInitialize() {
         ModBlocks.registerModBlocksAndAddToGroups();
         ModItems.registerModItemsAndAddToGroups();
+        ModEntities.register();
         ModComponents.register();
         ModDataAttachments.register();
 

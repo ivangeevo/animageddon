@@ -1,28 +1,30 @@
 package org.btwr.animageddon.entity;
 
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
+import org.btwr.animageddon.AnimageddonMod;
+import org.btwr.animageddon.entity.projectile.SpiderWebEntity;
+
 public class ModEntities {
 
-    public static class Blocks {
-        //public static BlockEntityType<CobwebEntity> OVEN_BRICK;
+    public static final EntityType<SpiderWebEntity> SPIDER_WEB = Registry.register(
+            Registries.ENTITY_TYPE,
+            Identifier.of(AnimageddonMod.MOD_ID, "spider_web"),
+            EntityType.Builder.create(
+                            (EntityType.EntityFactory<SpiderWebEntity>)SpiderWebEntity::new,
+                            SpawnGroup.MISC
+                    )
+                    .dimensions(0.25f, 0.25f)
+                    .maxTrackingRange(4)
+                    .trackingTickInterval(10)
+                    .build("spider_web")
+    );
 
-        public static void registerBlockEntities() {
-            /**
-            OVEN_BRICK = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(AnimageddonMod.MOD_ID,
-                    "oven_brick"), FabricBlockEntityTypeBuilder.create(BrickOvenBlockEntity::new,
-                    ModBlocks.OVEN_BRICK).build(null));
-             **/
 
-        }
+    public static void register() {
+
     }
-
-    public static class Projectiles {
-        /**
-        public static final EntityType<CobwebEntity> COBWEB_PROJECTILE =
-                Registry.register(Registries.ENTITY_TYPE,
-                new Identifier(AnimageddonMod.MOD_ID, "cobweb_projectile"),
-                FabricEntityTypeBuilder.<CobwebEntity>create(SpawnGroup.MISC, CobwebEntity::new)
-                        .dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build());
-         **/
-    }
-
 }
