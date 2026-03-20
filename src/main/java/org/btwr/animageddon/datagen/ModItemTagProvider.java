@@ -8,7 +8,7 @@ import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import org.btwr.animageddon.item.ModItems;
 import org.btwr.animageddon.tag.ModTags;
-import org.btwr.shared_library.tag.BTWRConventionalTags;
+import org.btwr.shared_library.api.tag.BTWRConventionalTags;
 
 import java.util.concurrent.CompletableFuture;
 

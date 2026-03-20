@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.CowEntity;
 import org.btwr.animageddon.data.ModDataAttachments;
-import org.btwr.shared_library.data.EntityAttachmentBase;
+import org.btwr.shared_library.api.data.EntityAttachmentBase;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;

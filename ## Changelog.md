@@ -1,4 +1,7 @@
 ## v???(dev)
++ Updated the mod to Fabric API 0.116.9, Fabric Loader 0.18.4 & BTWR: Shared Library 0.8.2
+
+## v0.3.3
 + Updated the mod to BTWR: Shared Library 0.6.5
 
 # v0.3.2

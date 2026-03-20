@@ -8,7 +8,7 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import org.btwr.animageddon.data.interfaces.HungerData;
-import org.btwr.shared_library.data.EntityAttachmentBase;
+import org.btwr.shared_library.api.data.EntityAttachmentBase;
 
 public class LivingEntityHungerData implements EntityAttachmentBase<LivingEntity>, HungerData {
 

@@ -2,7 +2,7 @@ package org.btwr.animageddon.mixin.item;
 
 import net.minecraft.component.type.ToolComponent;
 import net.minecraft.item.SwordItem;
-import org.btwr.shared_library.tag.BTWRConventionalTags;
+import org.btwr.shared_library.api.tag.BTWRConventionalTags;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;

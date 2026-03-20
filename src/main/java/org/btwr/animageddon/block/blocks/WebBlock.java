@@ -21,8 +21,8 @@ import net.minecraft.world.World;
 import org.btwr.animageddon.block.ModBlocks;
 import org.jetbrains.annotations.Nullable;
 
-import static org.btwr.shared_library.tag.BTWRConventionalTags.Items.MODERN_CHISELS;
-import static org.btwr.shared_library.tag.BTWRConventionalTags.Items.PRIMITIVE_CHISELS;
+import static org.btwr.shared_library.api.tag.BTWRConventionalTags.Items.MODERN_CHISELS;
+import static org.btwr.shared_library.api.tag.BTWRConventionalTags.Items.PRIMITIVE_CHISELS;
 
 public class WebBlock extends CobwebBlock {
 
@@ -70,12 +70,11 @@ public class WebBlock extends CobwebBlock {
             }
         }
 
-
     }
 
     private void changeState(int breakLevel, World world, PlayerEntity player, BlockPos pos) {
         if (!world.isClient()) {
-            player.incrementStat(Stats.MINED.getOrCreateStat((Block)(Object)this));
+            player.incrementStat(Stats.MINED.getOrCreateStat(this));
             player.addExhaustion(0.005f);
             world.setBlockState(pos, ModBlocks.WEB_BLOCK.getDefaultState().with(BREAK_LEVEL, breakLevel),4,0);
         }
