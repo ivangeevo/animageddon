@@ -1,0 +1,21 @@
+{
+  "type": "btwr_sl:crafting_shapeless_extended",
+  "additional_drops": [],
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "c:tools/shear"
+    },
+    {
+      "item": "animageddon:tangled_web"
+    }
+  ],
+  "result": {
+    "components": {
+      "minecraft:damage": 599
+    },
+    "count": 1,
+    "id": "animageddon:web_untangling"
+  },
+  "tool_damage": 1
+}

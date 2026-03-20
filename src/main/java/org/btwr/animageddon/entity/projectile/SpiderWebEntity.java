@@ -17,6 +17,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.btwr.animageddon.entity.ModEntities;
+import org.btwr.animageddon.item.ModItems;
 
 public class SpiderWebEntity extends ProjectileEntity implements FlyingItemEntity {
 
@@ -98,7 +99,7 @@ public class SpiderWebEntity extends ProjectileEntity implements FlyingItemEntit
     }
 
     private void spawnTangledWebItem(BlockPos pos) {
-        ItemStack stack = new ItemStack(Items.REDSTONE);
+        ItemStack stack = new ItemStack(ModItems.TANGLED_WEB);
         getWorld().spawnEntity(new ItemEntity(getWorld(),
                 pos.getX() + getWorld().random.nextFloat() * 0.7 + 0.15,
                 pos.getY() + getWorld().random.nextFloat() * 0.7 + 0.15,

@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.RecipeProvider;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
@@ -14,6 +15,8 @@ import org.btwr.animageddon.AnimageddonMod;
 import org.btwr.animageddon.block.ModBlocks;
 import org.btwr.animageddon.item.ModItems;
 import org.btwr.animageddon.tag.ModTags;
+import org.btwr.shared_library.api.item.ProgressiveCraftingItem;
+import org.btwr.shared_library.recipe.ExtendedShapelessRecipe;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -53,6 +56,16 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .criterion("has_nitre", conditionsFromItem(ModItems.NITRE))
                 .offerTo(exporter);
 
+        // Web Untangling
+        ItemStack webUntanglingResult = new ItemStack(ModItems.WEB_UNTANGLING);
+        webUntanglingResult.setDamage(ProgressiveCraftingItem.DEFAULT_MAX_DAMAGE - 1);
+
+        ExtendedShapelessRecipe.JsonBuilder.create(RecipeCategory.MISC, webUntanglingResult)
+                .withToolDamage()
+                .input(ConventionalItemTags.SHEAR_TOOLS)
+                .input(ModItems.TANGLED_WEB)
+                .criterion(hasItem(ModItems.TANGLED_WEB), conditionsFromItem(ModItems.TANGLED_WEB))
+                .offerTo(exporter);
     }
 
 }

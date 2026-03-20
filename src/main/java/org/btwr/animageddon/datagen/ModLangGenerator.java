@@ -16,11 +16,21 @@ public class ModLangGenerator extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
-        translationBuilder.add(ModItems.CHICKEN_FEED, "Chicken Feed");
-        translationBuilder.add(ModItems.NITRE, "Nitre");
-        translationBuilder.add(ModItems.CURED_MEAT, "Cured Meat");
-        translationBuilder.add(ModItems.BURNED_MEAT, "Burned Meat");
-        translationBuilder.add(ModBlocks.WEB_BLOCK, "Partially Broken Cobweb");
+        this.generateBlockTranslations(translationBuilder);
+        this.generateItemTranslations(translationBuilder);
+    }
+
+    private void generateBlockTranslations(TranslationBuilder tb) {
+        tb.add(ModBlocks.WEB_BLOCK, "Partially Broken Cobweb");
+    }
+
+    private void generateItemTranslations(TranslationBuilder tb) {
+        tb.add(ModItems.CHICKEN_FEED, "Chicken Feed");
+        tb.add(ModItems.NITRE, "Nitre");
+        tb.add(ModItems.CURED_MEAT, "Cured Meat");
+        tb.add(ModItems.BURNED_MEAT, "Burned Meat");
+        tb.add(ModItems.TANGLED_WEB, "Tangled Web");
+        tb.add(ModItems.WEB_UNTANGLING, "Web Untangling");
     }
 
 }
