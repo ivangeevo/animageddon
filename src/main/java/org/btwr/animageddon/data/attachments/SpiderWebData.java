@@ -8,9 +8,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -27,7 +29,6 @@ public class SpiderWebData {
     int timeToNextWeb;
 
     public static final int TIME_BETWEEN_WEBS = (20 * 60 * 20); // a full day
-    //public static final int TIME_BETWEEN_WEBS = 60;
 
     public SpiderWebData(boolean isShooting, int timeToNextWeb) {
         this.isShooting = isShooting;
@@ -78,25 +79,30 @@ public class SpiderWebData {
             boolean canShootAtTarget = spiderEntity.getWorld().getRandom().nextInt(10) == 0 && !(targetEntity.getType() == EntityType.SPIDER);
 
             if (!isInWeb && canShootAtTarget) {
-                SpiderWebEntity webEntity = new SpiderWebEntity(ModEntities.SPIDER_WEB, world);
-                Vec3d look = spiderEntity.getRotationVec(1.0F);
-
-                webEntity.setPosition(
-                        spiderEntity.getX() + look.x,
-                        spiderEntity.getEyeY() - 0.1,
-                        spiderEntity.getZ() + look.z
-                );
-
-                Vec3d dir = targetEntity.getPos().subtract(spiderEntity.getEyePos()).normalize();
-
-                webEntity.setVelocity(dir.x, dir.y, dir.z, 1.5f, 0f);
-
-                world.spawnEntity(webEntity);
-
+                this.shootWeb(world, spiderEntity, targetEntity);
                 webData.setShooting(true);
                 webData.setTimeToNextWeb(SpiderWebData.TIME_BETWEEN_WEBS); // Set cooldown
             }
         }
+    }
+
+    private void shootWeb(World world, SpiderEntity spiderEntity, Entity targetEntity) {
+        SpiderWebEntity webEntity = new SpiderWebEntity(ModEntities.SPIDER_WEB, world);
+        Vec3d look = spiderEntity.getRotationVec(1.0F);
+
+        webEntity.setPosition(spiderEntity.getX() + look.x, spiderEntity.getEyeY() - 0.1, spiderEntity.getZ() + look.z);
+
+        Vec3d dir = targetEntity.getPos().subtract(spiderEntity.getEyePos()).normalize();
+
+        webEntity.setVelocity(dir.x, dir.y, dir.z, 1.5f, 0f);
+
+        world.spawnEntity(webEntity);
+
+        spiderEntity.playSound(
+                SoundEvents.ENTITY_SLIME_ATTACK,
+                1.0F,
+                (world.getRandom().nextFloat() - world.getRandom().nextFloat()) * 0.2F + 0.6F
+        );
     }
 
     public static boolean isTargetInBlock(Entity entity, Block targetBlock) {

@@ -30,7 +30,7 @@ public abstract class SpiderEntityMixin extends HostileEntity implements SpiderE
     @Inject(method = "<init>", at = @At("TAIL"))
     private void initDataTracker(EntityType entityType, World world, CallbackInfo ci) {
         injectFor(SpiderEntity.class, spider -> {
-            spider.setAttached(ModDataAttachments.SPIDER_WEB_DATA, new SpiderWebData(false, SpiderWebData.TIME_BETWEEN_WEBS));
+            spider.setAttached(ModDataAttachments.SPIDER_WEB_DATA, new SpiderWebData(false, 0));
         });
     }
 

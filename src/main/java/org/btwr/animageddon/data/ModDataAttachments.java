@@ -48,7 +48,7 @@ public class ModDataAttachments {
     public static final AttachmentType<SpiderWebData> SPIDER_WEB_DATA = AttachmentRegistry.create(
             Identifier.of(AnimageddonMod.MOD_ID, "spider_web_data"),
             builder -> builder
-                    .initializer(() -> new SpiderWebData(false, SpiderWebData.TIME_BETWEEN_WEBS))
+                    .initializer(() -> new SpiderWebData(false, 0))
                     .persistent(SpiderWebData.CODEC)
                     .syncWith(SpiderWebData.PACKET_CODEC, AttachmentSyncPredicate.all())
     );
