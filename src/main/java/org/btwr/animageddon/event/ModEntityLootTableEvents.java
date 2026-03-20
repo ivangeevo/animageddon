@@ -11,8 +11,10 @@ import net.minecraft.loot.condition.EntityPropertiesLootCondition;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.entry.LootPoolEntry;
+import net.minecraft.loot.function.EnchantedCountIncreaseLootFunction;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.entity.EntityEquipmentPredicate;
 import net.minecraft.predicate.entity.EntityFlagsPredicate;
@@ -26,6 +28,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.EnchantmentTags;
+import org.btwr.animageddon.data.loot.SpiderWebCondition;
 import org.btwr.animageddon.item.ModItems;
 import org.btwr.animageddon.mixin.item.ItemEntryAccessor;
 import org.btwr.animageddon.mixin.LootPoolBuilderAccessor;
@@ -68,6 +71,9 @@ public class ModEntityLootTableEvents {
         // trader llama
         // turtle
         // wolf
+
+        // spiders cobweb loot table modification
+        modifySpiderString();
     }
 
     private static void modifySpecificItem(RegistryKey<LootTable> registryKey, Item target, Item toReplace) {
@@ -143,6 +149,31 @@ public class ModEntityLootTableEvents {
 
                 ((LootPoolBuilderAccessor) builder).setEntries(ImmutableList.<LootPoolEntry>builder().addAll(l));
 
+            });
+        });
+    }
+
+    private static void modifySpiderString() {
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+
+            // Check if the key is for target's loot table
+            if (SPIDER.getLootTableId() != key) return;
+
+            tableBuilder.modifyPools(builder -> {
+                List<LootPoolEntry> l = new ArrayList<>(((LootPoolBuilderAccessor) builder).getEntries().build());
+                l.replaceAll(entry -> {
+                    if (!(entry instanceof ItemEntry itemEntry)) return entry;
+
+                    if (((ItemEntryAccessor) itemEntry).getItem().value() != Items.STRING)
+                        return entry;
+
+                   return ItemEntry.builder(Items.STRING)
+                           .conditionally(SpiderWebCondition.builder())
+                           .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(0.0F, 2.0F)))
+                           .apply(EnchantedCountIncreaseLootFunction.builder(registries, UniformLootNumberProvider.create(0.0F, 1.0F))).build();
+                });
+
+                ((LootPoolBuilderAccessor) builder).setEntries(ImmutableList.<LootPoolEntry>builder().addAll(l));
             });
         });
     }
