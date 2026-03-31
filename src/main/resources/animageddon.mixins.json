@@ -14,6 +14,7 @@
     "entity.EntityTypeMixin",
     "entity.PigEntityMixin",
     "entity.SheepEntityMixin",
+    "entity.SlimeEntityMixin",
     "entity.SpiderEntityMixin",
     "entity.SquidEntityMixin",
     "entity.ZombieEntityMixin",
