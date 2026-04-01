@@ -13,10 +13,7 @@ public class ModEntities {
     public static final EntityType<SpiderWebEntity> SPIDER_WEB = Registry.register(
             Registries.ENTITY_TYPE,
             Identifier.of(AnimageddonMod.MOD_ID, "spider_web"),
-            EntityType.Builder.create(
-                            (EntityType.EntityFactory<SpiderWebEntity>)SpiderWebEntity::new,
-                            SpawnGroup.MISC
-                    )
+            EntityType.Builder.create((EntityType.EntityFactory<SpiderWebEntity>)SpiderWebEntity::new, SpawnGroup.MISC)
                     .dimensions(0.25f, 0.25f)
                     .maxTrackingRange(4)
                     .trackingTickInterval(10)
