@@ -1,4 +1,5 @@
 ## v???(dev)
++ [WIP] Added jungle spiders!
 + [WIP] Added spiders shooting cobwebs at their target. They will drop string only if they haven't already shot their cobweb.
 + Changed small slimes to also be able to attack entities
 + Updated the mod to Fabric API 0.116.9, Fabric Loader 0.18.4 & BTWR: Shared Library 0.8.3

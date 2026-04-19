@@ -1,17 +1,10 @@
 package org.btwr.animageddon;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.SpawnLocationTypes;
-import net.minecraft.entity.SpawnRestriction;
-import net.minecraft.registry.tag.BiomeTags;
-import net.minecraft.world.Heightmap;
 import org.btwr.animageddon.block.ModBlocks;
 import org.btwr.animageddon.data.ModDataAttachments;
 import org.btwr.animageddon.data.loot.ModLootConditions;
-import org.btwr.animageddon.entity.JungleSpiderEntity;
 import org.btwr.animageddon.entity.ModEntities;
 import org.btwr.animageddon.event.ModEntityLootTableEvents;
 import org.btwr.animageddon.event.ModEntityUseEvents;
@@ -43,6 +36,7 @@ public class AnimageddonMod implements ModInitializer {
 
         ModEntityUseEvents.register();
 
+        /**
         SpawnRestriction.register(
                 ModEntities.JUNGLE_SPIDER,
                 SpawnLocationTypes.UNRESTRICTED,
@@ -58,6 +52,7 @@ public class AnimageddonMod implements ModInitializer {
                 1,
                 1
         );
+         **/
     }
 
 }
