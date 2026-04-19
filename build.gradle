@@ -53,7 +53,7 @@ dependencies {
 
     // BTWR Shared Library
     modImplementation("maven.modrinth:btwr-shared-library:${project.btwr_sl_version}")
-    //modImplementation files("libs/btwr-shared-lib-${project.btwr_sl_version}.jar")
+    //modImplementation files("libs/btwr-shared-library-${project.btwr_sl_version}.jar")
 
     //modImplementation "maven.modrinth:vegehenna:${project.vegehenna_version}"
     modApi "com.terraformersmc:modmenu:${project.mod_menu_version}"
