@@ -35,6 +35,10 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
         getOrCreateTagBuilder(ItemTags.SHEEP_FOOD)
                 .add(Items.SHORT_GRASS);
+
+        getOrCreateTagBuilder(ItemTags.MEAT)
+                .add(ModItems.CHEVAL)
+                .add(ModItems.COOKED_CHEVAL);
     }
 
     private void addToModTags() {
