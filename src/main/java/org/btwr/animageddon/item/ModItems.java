@@ -21,6 +21,8 @@ public class ModItems {
     public static final Item WEB_UNTANGLING = registerItem("web_untangling",
             new WebUntanglingItem(new Item.Settings().maxDamage(ProgressiveCraftingItem.DEFAULT_MAX_DAMAGE))
     );
+    public static final Item CHEVAL = registerItem("cheval", new Item(new Item.Settings().food(ModFoodComponents.CHEVAL)));
+    public static final Item COOKED_CHEVAL = registerItem("cooked_cheval", new Item(new Item.Settings().food(ModFoodComponents.COOKED_CHEVAL)));
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, Identifier.of(AnimageddonMod.MOD_ID, name), item);
@@ -33,6 +35,8 @@ public class ModItems {
         {
             entries.addBefore(Items.ROTTEN_FLESH, CURED_MEAT, BURNED_MEAT);
             entries.addAfter(Items.RABBIT_STEW, CHICKEN_FEED);
+            entries.addAfter(Items.COOKED_BEEF, CHEVAL);
+            entries.addAfter(CHEVAL, COOKED_CHEVAL);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries ->

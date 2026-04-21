@@ -5,9 +5,11 @@ import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.AnyOfLootCondition;
 import net.minecraft.loot.condition.EntityPropertiesLootCondition;
+import net.minecraft.loot.condition.InvertedLootCondition;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.entry.LootPoolEntry;
@@ -42,6 +44,8 @@ public class ModEntityLootTableEvents {
 
     // Register loot table changes
     public static void register() {
+        addItemToLootTableWithSmelt(HORSE.getLootTableId(), ModItems.CHEVAL, ModItems.COOKED_CHEVAL, 1.0f, 3.0f);
+
         modifySpecificItem(CREEPER.getLootTableId(), Items.GUNPOWDER, ModItems.NITRE);
 
         // TODO: Make it so that when the mob dies on fire it drops burned meat instead of cooked.
@@ -76,6 +80,39 @@ public class ModEntityLootTableEvents {
         modifySpiderString();
     }
 
+    private static void addItemToLootTable(RegistryKey<LootTable> registryKey, Item toAdd, float min, float max) {
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+            if (registryKey != key) return;
+
+            tableBuilder.pool(net.minecraft.loot.LootPool.builder()
+                    .rolls(ConstantLootNumberProvider.create(1))
+                    .with(ItemEntry.builder(toAdd)
+                            .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(min, max))))
+            );
+        });
+    }
+
+    private static void addItemToLootTableWithSmelt(RegistryKey<LootTable> registryKey, Item rawItem, Item cookedItem, float min, float max) {
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+            if (registryKey != key) return;
+
+            // Raw drop when not on fire
+            tableBuilder.pool(LootPool.builder()
+                    .rolls(ConstantLootNumberProvider.create(1))
+                    .with(ItemEntry.builder(rawItem)
+                            .conditionally(InvertedLootCondition.builder(createSmeltLootCondition(registries)))
+                            .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(min, max))))
+            );
+
+            // Cooked drop when on fire
+            tableBuilder.pool(LootPool.builder()
+                    .rolls(ConstantLootNumberProvider.create(1))
+                    .with(ItemEntry.builder(cookedItem)
+                            .conditionally(createSmeltLootCondition(registries))
+                            .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(min, max))))
+            );
+        });
+    }
     private static void modifySpecificItem(RegistryKey<LootTable> registryKey, Item target, Item toReplace) {
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
 

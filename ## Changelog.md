@@ -1,4 +1,5 @@
 ## v???(dev)
++ Added cheval food item from horses!
 + [WIP] Added jungle spiders!
 + [WIP] Added spiders shooting cobwebs at their target. They will drop string only if they haven't already shot their cobweb.
 + Changed small slimes to also be able to attack entities

@@ -27,9 +27,12 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.CHICKEN_FEED, Models.GENERATED);
         itemModelGenerator.register(ModItems.CURED_MEAT, Models.GENERATED);
         itemModelGenerator.register(ModItems.NITRE, Models.GENERATED);
-        // couldn't figure out how to register the web_block item model (registered manually; look in resources)
+        itemModelGenerator.register(ModItems.CHEVAL, Models.GENERATED);
+        itemModelGenerator.register(ModItems.COOKED_CHEVAL, Models.GENERATED);
         itemModelGenerator.register(ModItems.TANGLED_WEB, Models.GENERATED);
 
+        // couldn't figure out how to register the web_block item model (registered manually; look in resources)
+        
         // animageddon web untangling model
         itemModelGenerator.register(ModItems.WEB_UNTANGLING, Models.HANDHELD);
 
