@@ -33,7 +33,7 @@ public class ModBlocks {
                 new BlockItem(block, new Item.Settings()));
     }
 
-    public static void registerModBlocksAndAddToGroups() {
+    public static void register() {
         AnimageddonMod.LOGGER.debug("Registering ModBlocks for " + AnimageddonMod.MOD_ID);
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries ->

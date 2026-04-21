@@ -21,8 +21,8 @@ public class AnimageddonMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ModBlocks.registerModBlocksAndAddToGroups();
-        ModItems.registerModItemsAndAddToGroups();
+        ModBlocks.register();
+        ModItems.register();
         ModEntities.register();
         ModComponents.register();
         ModDataAttachments.register();

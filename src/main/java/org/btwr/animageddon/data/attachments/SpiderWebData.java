@@ -8,7 +8,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -19,7 +18,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.btwr.animageddon.block.ModBlocks;
-import org.btwr.animageddon.data.ModDataAttachments;
 import org.btwr.animageddon.entity.ModEntities;
 import org.btwr.animageddon.entity.projectile.SpiderWebEntity;
 
@@ -70,18 +68,15 @@ public class SpiderWebData {
 
     public void tick(SpiderEntity spiderEntity, Entity targetEntity) {
         if (!spiderEntity.getWorld().isClient()) {
-            var webData = spiderEntity.getAttached(ModDataAttachments.SPIDER_WEB_DATA);
-            assert webData != null;
-
             World world = spiderEntity.getWorld();
 
             boolean isInWeb = isTargetInBlock(targetEntity, Blocks.COBWEB) || isTargetInBlock(targetEntity, ModBlocks.WEB_BLOCK);
             boolean canShootAtTarget = spiderEntity.getWorld().getRandom().nextInt(10) == 0 && !(targetEntity.getType() == EntityType.SPIDER);
 
             if (!isInWeb && canShootAtTarget) {
-                this.shootWeb(world, spiderEntity, targetEntity);
-                webData.setShooting(true);
-                webData.setTimeToNextWeb(SpiderWebData.TIME_BETWEEN_WEBS); // Set cooldown
+                shootWeb(world, spiderEntity, targetEntity);
+                setShooting(true);
+                setTimeToNextWeb(SpiderWebData.TIME_BETWEEN_WEBS); // Set cooldown
             }
         }
     }
@@ -95,9 +90,7 @@ public class SpiderWebData {
         Vec3d dir = targetEntity.getPos().subtract(spiderEntity.getEyePos()).normalize();
 
         webEntity.setVelocity(dir.x, dir.y, dir.z, 1.5f, 0f);
-
         world.spawnEntity(webEntity);
-
         spiderEntity.playSound(
                 SoundEvents.ENTITY_SLIME_ATTACK,
                 1.0F,

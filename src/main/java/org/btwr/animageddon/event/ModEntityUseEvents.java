@@ -28,12 +28,11 @@ import org.jetbrains.annotations.Nullable;
 public class ModEntityUseEvents {
 
     public static void register() {
-        UseEntityCallback.EVENT.register(ModEntityUseEvents::onInteractCow);
-        onUseAnimalEntity();
-        onUseMushroomEntity();
+        UseEntityCallback.EVENT.register(ModEntityUseEvents::onUseCowEntity);
+        UseEntityCallback.EVENT.register(ModEntityUseEvents::onUseMooshroomEntity);
     }
 
-    private static ActionResult onInteractCow(PlayerEntity player, World world, Hand hand, Entity entity, @Nullable EntityHitResult hitResult) {
+    private static ActionResult onUseCowEntity(PlayerEntity player, World world, Hand hand, Entity entity, @Nullable EntityHitResult hitResult) {
         // Only handle cows that are alive and not babies
         if (entity instanceof CowEntity cow && cow.isAlive() && !cow.isBaby()) {
             // Ignore spectators
@@ -54,40 +53,6 @@ public class ModEntityUseEvents {
         // Let other interactions happen
         return ActionResult.PASS;
     }
-
-    private static UseEntityCallback invoker() {
-        return UseEntityCallback.EVENT.invoker();
-    }
-
-    private static void onUseAnimalEntity() {}
-
-    /**
-    private static void onUseCowEntity() {
-        UseEntityCallback.EVENT.register(ModEntityUseEvents::onInteractCow);
-            UseEntityCallback.EVENT.register((PlayerEntity player, World world, Hand hand, Entity entity, @Nullable EntityHitResult hitResult) -> {
-
-            // Only handle cows that are alive and not babies
-            if (entity instanceof CowEntity cow && cow.isAlive() && !cow.isBaby()) {
-                // Ignore spectators
-                if (player.isSpectator()) return ActionResult.PASS;
-
-                ItemStack stack = player.getStackInHand(hand);
-                boolean isBucket = stack.isOf(Items.BUCKET) || stack.isIn(ConventionalItemTags.BUCKETS);
-
-                // Only intercept bucket interactions
-                if (isBucket) {
-                    CowMilkAttachedData data = cow.getAttached(ModDataAttachments.MILK_DATA);
-                    if (data == null) return ActionResult.PASS;
-                    tryMilking(cow, data, stack, player, data.getCanBeMilked());
-                    return ActionResult.SUCCESS;
-                }
-            }
-
-            // Let other interactions happen
-            return ActionResult.PASS;
-        });
-    }
-     **/
 
     private static void tryMilking(CowEntity cow, CowMilkAttachedData data, ItemStack stack, PlayerEntity player, boolean canMilk) {
         World world = cow.getWorld();
@@ -158,28 +123,25 @@ public class ModEntityUseEvents {
     /** Modifications for Mushroom Cow entities
      * <p>1. Disable creating of Mushroom Stew
      * <p>2. Adds support for shearing them with all Conventional Tag Shear Tools from Fabric **/
-    private static void onUseMushroomEntity() {
-        UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
-            ItemStack stack = player.getStackInHand(hand);
+    private static ActionResult onUseMooshroomEntity(PlayerEntity player, World world, Hand hand, Entity entity, EntityHitResult hit) {
+        ItemStack stack = player.getStackInHand(hand);
 
-            if (entity instanceof MooshroomEntity shroomCow) {
-                if (shroomCow.isAlive() && stack.isOf(Items.BOWL)) {
-                    return ActionResult.FAIL;
-                }
-
-                if (shroomCow.isShearable() && shroomCow.isAlive() &&
-                        player.getStackInHand(hand).isIn(ConventionalItemTags.SHEAR_TOOLS) && !player.isSpectator()) {
-                    shroomCow.sheared(SoundCategory.PLAYERS);
-                    shroomCow.emitGameEvent(GameEvent.SHEAR, player);
-                    if (!shroomCow.getWorld().isClient) {
-                        stack.damage(1, player, EquipmentSlot.MAINHAND);
-                    }
-                    return ActionResult.success(shroomCow.getWorld().isClient);
-                }
+        if (entity instanceof MooshroomEntity shroomCow) {
+            if (shroomCow.isAlive() && stack.isOf(Items.BOWL)) {
+                return ActionResult.FAIL;
             }
 
-            return ActionResult.PASS;
-        });
+            if (shroomCow.isShearable() && shroomCow.isAlive() &&
+                    player.getStackInHand(hand).isIn(ConventionalItemTags.SHEAR_TOOLS) && !player.isSpectator()) {
+                shroomCow.sheared(SoundCategory.PLAYERS);
+                shroomCow.emitGameEvent(GameEvent.SHEAR, player);
+                if (!shroomCow.getWorld().isClient) {
+                    stack.damage(1, player, EquipmentSlot.MAINHAND);
+                }
+                return ActionResult.success(shroomCow.getWorld().isClient);
+            }
+        }
+        return ActionResult.PASS;
     }
 
 }
