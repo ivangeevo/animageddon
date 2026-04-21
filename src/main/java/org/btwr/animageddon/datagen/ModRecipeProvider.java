@@ -62,7 +62,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
         ExtendedShapelessRecipe.JsonBuilder.create(RecipeCategory.MISC, webUntanglingResult)
                 .withToolDamage()
-                .input(ConventionalItemTags.SHEAR_TOOLS)
                 .input(ModItems.TANGLED_WEB)
                 .criterion(hasItem(ModItems.TANGLED_WEB), conditionsFromItem(ModItems.TANGLED_WEB))
                 .offerTo(exporter);

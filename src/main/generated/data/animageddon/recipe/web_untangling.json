@@ -4,9 +4,6 @@
   "category": "misc",
   "ingredients": [
     {
-      "tag": "c:tools/shear"
-    },
-    {
       "item": "animageddon:tangled_web"
     }
   ],
