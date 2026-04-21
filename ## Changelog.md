@@ -1,7 +1,10 @@
+## UNUSED CURRENTLY:
++ [WIP] Added jungle spiders!
+
 ## v???(dev)
 + Added cheval food item from horses!
-+ [WIP] Added jungle spiders!
-+ [WIP] Added spiders shooting cobwebs at their target. They will drop string only if they haven't already shot their cobweb.
++ Added spiders shooting cobwebs at their target. They will drop string only if they haven't already shot their cobweb.
++ Added new items: Tangled Web & Web Untangling. Tangled Web drops when a spider isn't able to shoot a cobweb block on a solid block and can be crafted into "Web Untangling", which is then further used to get a string from
 + Changed small slimes to also be able to attack entities
 + Updated the mod to Fabric API 0.116.9, Fabric Loader 0.18.4 & BTWR: Shared Library 0.8.3
 
