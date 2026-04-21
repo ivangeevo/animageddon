@@ -13,6 +13,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -123,11 +124,17 @@ public class SpiderWebEntity extends ProjectileEntity implements FlyingItemEntit
 
 
     private boolean attemptToPlaceWebInBlock(BlockPos pos) {
-        if (canWebReplaceBlock(pos)) {
-            this.getWorld().setBlockState(pos, Blocks.COBWEB.getDefaultState());
-            return true;
-        }
-        return false;
+        World world = this.getWorld();
+
+        if (!world.getBlockState(pos).isAir()) return false;
+
+        BlockPos below = pos.down();
+        BlockState belowState = world.getBlockState(below);
+
+        if (!belowState.isSideSolidFullSquare(world, below, Direction.UP)) return false;
+
+        world.setBlockState(pos, Blocks.COBWEB.getDefaultState());
+        return true;
     }
 
     private void handleBlockImpact(BlockHitResult hit) {
@@ -135,18 +142,6 @@ public class SpiderWebEntity extends ProjectileEntity implements FlyingItemEntit
 
         if (!attemptToPlaceWebInBlock(pos)) {
             this.spawnTangledWebItem(pos);
-        }
-    }
-
-    private void placeCobweb(BlockPos blockPos) {
-        if (this.getWorld().getBlockState(blockPos.down()).isFullCube(this.getWorld(), blockPos.down())) {
-            this.getWorld().setBlockState(blockPos, Blocks.COBWEB.getDefaultState());
-        }
-    }
-
-    private void placeCobwebAtEntity(BlockPos blockPos, LivingEntity targetEntity) {
-        if (this.getWorld().getBlockState(blockPos.down()).isFullCube(this.getWorld(), blockPos.down())) {
-            this.getWorld().setBlockState(BlockPos.ofFloored(targetEntity.getBlockPos().toBottomCenterPos()), Blocks.COBWEB.getDefaultState());
         }
     }
 
