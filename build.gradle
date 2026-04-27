@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.7-SNAPSHOT'
+    id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
     id 'maven-publish'
 }
 
@@ -64,7 +64,6 @@ dependencies {
     modCompileOnly "dev.emi:emi-fabric:${emi_version}"
 
     //modLocalRuntime "dev.emi:emi-fabric:${emi_version}"
-
 }
 
 processResources {
@@ -99,8 +98,10 @@ java {
 }
 
 jar {
+    inputs.property "projectName", project.name
+
     from("LICENSE") {
-        rename { "${it}_${project.base.archivesName.get()}"}
+        rename { "${it}_${project.name}"}
     }
 }
 
