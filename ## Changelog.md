@@ -1,7 +1,7 @@
 ## UNUSED CURRENTLY:
 + [WIP] Added jungle spiders!
 
-## v???(dev)
+## v0.4
 + Added cheval food item from horses!
 + Added spiders shooting cobwebs at their target. They will drop string only if they haven't already shot their cobweb.
 + Added new items: Tangled Web & Web Untangling. Tangled Web drops when a spider isn't able to shoot a cobweb block on a solid block and can be crafted into "Web Untangling", which is then further used to get a string from
