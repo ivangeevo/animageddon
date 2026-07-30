@@ -2,6 +2,7 @@
 + [WIP] Added jungle spiders!
 
 ## v???(dev)
++ Updated the mod to Fabric API 0.116.15, Fabric Loader 0.19.3 & BTWR: Shared Library 0.8.5
 
 ## v0.4
 + Added cheval food item from horses!
