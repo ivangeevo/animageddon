@@ -88,7 +88,7 @@ public class ModEntityUseEvents {
 
             // Play sound at the cow
             cow.playSound(
-                    SoundEvents.ENTITY_SLIME_ATTACK,
+                    SoundEvents.ENTITY_COW_MILK,
                     1.0F,
                     (world.random.nextFloat() - world.random.nextFloat()) * 0.2F + 0.6F
             );
