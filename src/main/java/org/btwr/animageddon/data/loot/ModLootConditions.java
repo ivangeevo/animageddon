@@ -15,4 +15,5 @@ public class ModLootConditions {
     );
 
     public static void register() {}
+
 }

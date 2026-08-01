@@ -36,7 +36,6 @@ public class SpiderWebData {
     public boolean isShooting() {
         return isShooting;
     }
-
     public void setShooting(boolean value) {
         isShooting = value;
     }
@@ -44,17 +43,14 @@ public class SpiderWebData {
     public int timeToNextWeb() {
         return timeToNextWeb;
     }
-
     public void setTimeToNextWeb(int value) {
         timeToNextWeb = value;
     }
-
-    public boolean hasWeb() {
-        return timeToNextWeb <= 0;
-    }
-
     public void decrementTimeToNextWeb() {
         timeToNextWeb--;
+    }
+    public boolean hasWeb() {
+        return timeToNextWeb <= 0;
     }
 
     public static Codec<SpiderWebData> CODEC = RecordCodecBuilder.create(instance ->

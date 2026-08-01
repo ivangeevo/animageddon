@@ -16,7 +16,6 @@ public class ModEntityTypeTagProvider extends FabricTagProvider.EntityTypeTagPro
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-
         getOrCreateTagBuilder(ModTags.EntityTypes.SUBJECT_TO_HUNGER_ANIMALS)
                 .addTag(ModTags.EntityTypes.GRAZING_ANIMALS);
 

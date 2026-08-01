@@ -17,7 +17,17 @@ import org.btwr.animageddon.block.blocks.WebBlock;
 
 public class ModBlocks {
 
-    public static final Block WEB_BLOCK = registerBlock("web_block", new WebBlock(AbstractBlock.Settings.create().mapColor(MapColor.WHITE_GRAY).sounds(BlockSoundGroup.COBWEB).solid().noCollision().requiresTool().strength(4.0f).pistonBehavior(PistonBehavior.DESTROY)));
+    public static final Block WEB_BLOCK = registerBlock("web_block", new WebBlock(
+            AbstractBlock.Settings.create()
+                    .mapColor(MapColor.WHITE_GRAY)
+                    .sounds(BlockSoundGroup.COBWEB)
+                    .solid()
+                    .noCollision()
+                    .requiresTool()
+                    .strength(4.0f)
+                    .pistonBehavior(PistonBehavior.DESTROY)
+            )
+    );
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
@@ -36,8 +46,7 @@ public class ModBlocks {
     public static void register() {
         AnimageddonMod.LOGGER.debug("Registering ModBlocks for " + AnimageddonMod.MOD_ID);
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries ->
-        {
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {
             entries.add(WEB_BLOCK);
         });
     }

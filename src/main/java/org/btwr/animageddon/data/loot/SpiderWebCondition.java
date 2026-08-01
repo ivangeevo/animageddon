@@ -11,8 +11,7 @@ import org.btwr.animageddon.data.ModDataAttachments;
 
 public record SpiderWebCondition() implements LootCondition {
 
-    public static final MapCodec<SpiderWebCondition> CODEC =
-            MapCodec.unit(new SpiderWebCondition());
+    public static final MapCodec<SpiderWebCondition> CODEC = MapCodec.unit(new SpiderWebCondition());
 
     @Override
     public boolean test(LootContext context) {

@@ -32,7 +32,6 @@ public class ChickenEggAttachedData {
     public long getTimeToLayEgg() {
         return timeToLayEgg;
     }
-
     public void setTimeToLayEgg(long value) {
         timeToLayEgg = value;
     }
@@ -40,7 +39,6 @@ public class ChickenEggAttachedData {
     public boolean getHasBeenFed() {
         return hasBeenFed;
     }
-
     public void setHasBeenFed(boolean value) {
         hasBeenFed = value;
     }

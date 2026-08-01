@@ -45,11 +45,9 @@ public class LivingEntityHungerData implements EntityAttachmentBase<LivingEntity
         return new LivingEntityHungerData(DEFAULT_FOOD_MULTIPLIER, DEFAULT_GRAZE_DURATION);
     }
 
-
     public int getHungerLevel() {
         return hungerLevel;
     }
-
     public void setHungerLevel(int hungerLevel) {
         this.hungerLevel = hungerLevel;
     }
@@ -57,31 +55,26 @@ public class LivingEntityHungerData implements EntityAttachmentBase<LivingEntity
     public int getHungerCountdown() {
         return hungerCountdown;
     }
-
     public void setHungerCountdown(int value) {
         this.hungerCountdown = value;
     }
-
     public void decrementHungerCountdown(int value) {
         this.hungerCountdown -= value;
+    }
+    public void resetHungerCountdown() {
+        hungerCountdown = FULL_HUNGER_COUNT;
     }
 
     public int getGrazeDuration() {
         return grazeDuration;
     }
 
-    public void resetHungerCountdown() {
-        hungerCountdown = FULL_HUNGER_COUNT;
-    }
-
     public boolean isFullyFed() {
         return getHungerLevel() == 0;
     }
-
     public boolean isFamished() {
         return getHungerLevel() == 1;
     }
-
     public boolean isStarving()
     {
         return getHungerLevel() >= 2;
@@ -90,7 +83,6 @@ public class LivingEntityHungerData implements EntityAttachmentBase<LivingEntity
     public void onBecomeFamished() {
         this.hungerLevel = 1;
     }
-
     public void onBecomeStarving() {
         this.hungerLevel = 2;
     }
