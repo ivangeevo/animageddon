@@ -2,6 +2,7 @@ package org.btwr.animageddon.block.blocks;
 
 import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CobwebBlock;
@@ -52,9 +53,12 @@ public class WebBlock extends CobwebBlock {
     public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack tool) {
         if (player.getMainHandStack() != null) {
 
-            // You need either a chisel item or a sword to start breaking the web in increments
-            if (isSuitableChiselForState(state, tool) || tool.isIn(ItemTags.SWORDS)) {
+            boolean isTELoaded = FabricLoader.getInstance().isModLoaded("tough_environment");
+            boolean canSwordHarvest = !isTELoaded && tool.isIn(ItemTags.SWORDS);
 
+            // You need either a chisel item or a sword to start breaking the web in increments
+            // Swords work only if Tough Environment is not loaded (aka chisels not present)
+            if (isSuitableChiselForState(state, tool) || canSwordHarvest) {
                 if (state.get(BREAK_LEVEL) < 1) {
                     changeState(1, world, player, pos);
                 } else if (state.get(BREAK_LEVEL) == 1) {
@@ -69,7 +73,6 @@ public class WebBlock extends CobwebBlock {
                 ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), ModBlocks.WEB_BLOCK.asItem().getDefaultStack());
             }
         }
-
     }
 
     private void changeState(int breakLevel, World world, PlayerEntity player, BlockPos pos) {
