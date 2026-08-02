@@ -45,6 +45,8 @@ public class ModEntityLootTableEvents {
     // Register loot table changes
     public static void register() {
         addItemToLootTableWithSmelt(HORSE.getLootTableId(), ModItems.CHEVAL, ModItems.COOKED_CHEVAL, 1.0f, 3.0f);
+        addItemToLootTableWithSmelt(DONKEY.getLootTableId(), ModItems.CHEVAL, ModItems.COOKED_CHEVAL, 1.0f, 3.0f);
+        addItemToLootTableWithSmelt(MULE.getLootTableId(), ModItems.CHEVAL, ModItems.COOKED_CHEVAL, 1.0f, 3.0f);
 
         modifySpecificItem(CREEPER.getLootTableId(), Items.GUNPOWDER, ModItems.NITRE);
 
