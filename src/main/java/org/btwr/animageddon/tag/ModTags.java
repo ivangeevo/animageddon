@@ -11,7 +11,6 @@ import org.btwr.animageddon.data.attachments.hunger.LivingEntityHungerData;
 public class ModTags {
 
     public static class Items {
-
         // Tempt items are only used for luring animals and cannot be fed to them
         public static final TagKey<Item> CHICKEN_TEMPT_ITEMS = createTag("chicken_tempt_items");
         public static final TagKey<Item> COW_TEMPT_ITEMS = createTag("cow_tempt_items");
@@ -22,7 +21,7 @@ public class ModTags {
         public static final TagKey<Item> COW_FOOD_ITEMS = createTag("cow_food_items");
         public static final TagKey<Item> PIG_FOOD_ITEMS = createTag("pig_food_items");
 
-        // Breeding items (Now this is probably not needed, because we consider breeding items to be only items likr
+        // Breeding items (Now this is probably not needed, because we consider breeding items to be only items like
         // e.g ItemTags.COW_FOOD, ItemTags.CHICKEN_FOOD, etc..
         public static final TagKey<Item> PIG_BREEDING_ITEMS = createTag("pig_breeding_items");
 

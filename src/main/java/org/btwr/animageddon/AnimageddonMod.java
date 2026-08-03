@@ -8,6 +8,7 @@ import org.btwr.animageddon.data.loot.ModLootConditions;
 import org.btwr.animageddon.entity.ModEntities;
 import org.btwr.animageddon.event.ModEntityLootTableEvents;
 import org.btwr.animageddon.event.ModEntityUseEvents;
+import org.btwr.animageddon.event.ModItemUseEvents;
 import org.btwr.animageddon.item.ModComponents;
 import org.btwr.animageddon.item.ModItems;
 import org.btwr.animageddon.util.ServerTimeHelper;
@@ -28,10 +29,11 @@ public class AnimageddonMod implements ModInitializer {
         ModDataAttachments.register();
         ModLootConditions.register();
 
+        ModItemUseEvents.register();
         ModEntityLootTableEvents.register();
         //ModPlayerBlockBreakEvents.register();
 
-        // Initialize the helper class for keeping track of current time of day on the server world only
+        // Initialize the helper class for keeping track of the current time of day on the server world only
         ServerLifecycleEvents.SERVER_STARTING.register(ServerTimeHelper::setServerInstance);
 
         ModEntityUseEvents.register();

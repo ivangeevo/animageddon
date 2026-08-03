@@ -161,6 +161,11 @@ public abstract class AnimalEntityMixin extends PassiveEntity {
                 if (eggData.getHasBeenFed()) return;
 
                 if (stack.isIn(ItemTags.CHICKEN_FOOD)) {
+                    // TODO: Check if this works better
+                    //MinecraftServer server = player.getServer();
+                    //if (server == null) return;
+                    //long currentTime = server.getOverworld().getTimeOfDay();
+
                     // the following morning, at least half a day from now
                     long timeToLayEgg = (((currentTime + 12000L) / 24000L) + 1) * 24000L;
 
