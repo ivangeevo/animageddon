@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cheval": {
+      "conditions": {
+        "items": [
+          {
+            "items": "animageddon:cheval"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "animageddon:cooked_cheval_from_smoking"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cheval"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "animageddon:cooked_cheval_from_smoking"
+    ]
+  }
+}

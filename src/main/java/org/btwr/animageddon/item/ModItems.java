@@ -23,6 +23,7 @@ public class ModItems {
     );
     public static final Item CHEVAL = registerItem("cheval", new Item(new Item.Settings().food(ModFoodComponents.CHEVAL)));
     public static final Item COOKED_CHEVAL = registerItem("cooked_cheval", new Item(new Item.Settings().food(ModFoodComponents.COOKED_CHEVAL)));
+    public static final Item BAT_WING = registerItem("bat_wing", new Item(new Item.Settings().food(ModFoodComponents.BAT_WING)));
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, Identifier.of(AnimageddonMod.MOD_ID, name), item);
@@ -37,6 +38,7 @@ public class ModItems {
             entries.addAfter(Items.RABBIT_STEW, CHICKEN_FEED);
             entries.addAfter(Items.COOKED_BEEF, CHEVAL);
             entries.addAfter(CHEVAL, COOKED_CHEVAL);
+            entries.add(BAT_WING);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries ->

@@ -33,6 +33,7 @@ public class ModLangGenerator extends FabricLanguageProvider {
         tb.add(ModItems.WEB_UNTANGLING, "Web Untangling");
         tb.add(ModItems.CHEVAL, "Raw Cheval");
         tb.add(ModItems.COOKED_CHEVAL, "Cooked Cheval");
+        tb.add(ModItems.BAT_WING, "Bat Wing");
     }
 
 }

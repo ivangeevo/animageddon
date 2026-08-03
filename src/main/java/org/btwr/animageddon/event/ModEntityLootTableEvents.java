@@ -7,13 +7,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
-import net.minecraft.loot.condition.AnyOfLootCondition;
-import net.minecraft.loot.condition.EntityPropertiesLootCondition;
-import net.minecraft.loot.condition.InvertedLootCondition;
+import net.minecraft.loot.condition.*;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.entry.LootPoolEntry;
 import net.minecraft.loot.function.EnchantedCountIncreaseLootFunction;
+import net.minecraft.loot.function.LootFunction;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
@@ -37,6 +36,7 @@ import org.btwr.animageddon.mixin.LootPoolBuilderAccessor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static net.minecraft.entity.EntityType.*;
 
@@ -47,6 +47,8 @@ public class ModEntityLootTableEvents {
         addItemToLootTableWithSmelt(HORSE.getLootTableId(), ModItems.CHEVAL, ModItems.COOKED_CHEVAL, 1.0f, 3.0f);
         addItemToLootTableWithSmelt(DONKEY.getLootTableId(), ModItems.CHEVAL, ModItems.COOKED_CHEVAL, 1.0f, 3.0f);
         addItemToLootTableWithSmelt(MULE.getLootTableId(), ModItems.CHEVAL, ModItems.COOKED_CHEVAL, 1.0f, 3.0f);
+
+        addItemToLootTableWithLooting(BAT.getLootTableId(), ModItems.BAT_WING, 0f, 0.25f);
 
         modifySpecificItem(CREEPER.getLootTableId(), Items.GUNPOWDER, ModItems.NITRE);
 
@@ -82,6 +84,23 @@ public class ModEntityLootTableEvents {
         modifySpiderString();
     }
 
+    private static void addLoot(
+            RegistryKey<LootTable> table,
+            Consumer<LootBuilder> consumer
+    ) {
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+
+            if (key != table)
+                return;
+
+            LootBuilder builder = LootBuilder.pool().registries(registries);
+
+            consumer.accept(builder);
+
+            tableBuilder.pool(builder.build());
+        });
+    }
+
     private static void addItemToLootTable(RegistryKey<LootTable> registryKey, Item toAdd, float min, float max) {
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
             if (registryKey != key) return;
@@ -90,6 +109,33 @@ public class ModEntityLootTableEvents {
                     .rolls(ConstantLootNumberProvider.create(1))
                     .with(ItemEntry.builder(toAdd)
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(min, max))))
+            );
+        });
+    }
+
+    private static void addItemToLootTableWithLooting(RegistryKey<LootTable> registryKey, Item toAdd, float baseChance, float lootingBonus) {
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+            if (registryKey != key) return;
+
+            // Base drop
+            tableBuilder.pool(
+                    LootPool.builder()
+                            .rolls(ConstantLootNumberProvider.create(1))
+                            .with(ItemEntry.builder(toAdd))
+            );
+
+            // Looting bonus drop
+            tableBuilder.pool(
+                    LootPool.builder()
+                            .rolls(ConstantLootNumberProvider.create(1))
+                            .with(ItemEntry.builder(toAdd))
+                            .conditionally(
+                                    RandomChanceWithEnchantedBonusLootCondition.builder(
+                                            registries,
+                                            baseChance,
+                                            lootingBonus
+                                    )
+                            )
             );
         });
     }
@@ -220,6 +266,77 @@ public class ModEntityLootTableEvents {
     protected static AnyOfLootCondition.Builder createSmeltLootCondition(RegistryWrapper.WrapperLookup registryLookup) {
         RegistryWrapper.Impl<Enchantment> impl = registryLookup.getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
         return AnyOfLootCondition.builder(EntityPropertiesLootCondition.builder(LootContext.EntityTarget.THIS, EntityPredicate.Builder.create().flags(EntityFlagsPredicate.Builder.create().onFire(true))), EntityPropertiesLootCondition.builder(LootContext.EntityTarget.DIRECT_ATTACKER, EntityPredicate.Builder.create().equipment(EntityEquipmentPredicate.Builder.create().mainhand(ItemPredicate.Builder.create().subPredicate(ItemSubPredicateTypes.ENCHANTMENTS, EnchantmentsPredicate.enchantments(List.of(new EnchantmentPredicate(impl.getOrThrow(EnchantmentTags.SMELTS_LOOT), NumberRange.IntRange.ANY))))))));
+    }
+
+    public static class LootBuilder {
+
+        private final LootPool.Builder pool;
+        private RegistryWrapper.WrapperLookup registries;
+
+        private LootBuilder() {
+            pool = LootPool.builder()
+                    .rolls(ConstantLootNumberProvider.create(1));
+        }
+
+        public LootBuilder registries(RegistryWrapper.WrapperLookup registries) {
+            this.registries = registries;
+            return this;
+        }
+
+        public static LootBuilder pool() {
+            return new LootBuilder();
+        }
+
+        public LootBuilder item(Item item) {
+            pool.with(ItemEntry.builder(item));
+            return this;
+        }
+
+        public LootBuilder count(float min, float max) {
+            pool.apply(SetCountLootFunction.builder(
+                    UniformLootNumberProvider.create(min, max)
+            ));
+            return this;
+        }
+
+        public LootBuilder constantCount(int count) {
+            pool.apply(SetCountLootFunction.builder(
+                    ConstantLootNumberProvider.create(count)
+            ));
+            return this;
+        }
+
+        public LootBuilder chance(float chance) {
+            pool.conditionally(
+                    RandomChanceLootCondition.builder(chance)
+            );
+            return this;
+        }
+
+        public LootBuilder fortune(float baseChance, float fortuneBonus) {
+            pool.conditionally(
+                    RandomChanceWithEnchantedBonusLootCondition.builder(
+                            registries,
+                            baseChance,
+                            fortuneBonus
+                    )
+            );
+            return this;
+        }
+
+        public LootBuilder condition(LootCondition.Builder condition) {
+            pool.conditionally(condition);
+            return this;
+        }
+
+        public LootBuilder function(LootFunction.Builder function) {
+            pool.apply(function);
+            return this;
+        }
+
+        public LootPool build() {
+            return pool.build();
+        }
     }
 
 }

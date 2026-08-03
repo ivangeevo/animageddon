@@ -1,6 +1,8 @@
 package org.btwr.animageddon.item;
 
 import net.minecraft.component.type.FoodComponent;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 
 public class ModFoodComponents {
 
@@ -26,6 +28,13 @@ public class ModFoodComponents {
             new FoodComponent.Builder()
                     .nutrition(8)
                     .saturationModifier(0.8f)
+                    .build();
+
+    public static final FoodComponent BAT_WING =
+            new FoodComponent.Builder()
+                    .nutrition(1)
+                    .saturationModifier(0.8f)
+                    .statusEffect(new StatusEffectInstance(StatusEffects.POISON, 60, 0), 0.5f)
                     .build();
 
 }
