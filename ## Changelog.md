@@ -3,6 +3,7 @@
 
 ## v???(dev)
 + Overhauled fishing! It now works exactly the same way as in Better Than Wolves: CE
++ Added a new item: "Bat Wing"! It drops from killing bats and scales with fortune and is a valid bait item for the new fishing system
 + Added/fixed donkeys and mules to also drop cheval upon death
 + Added/fixed missing recipes for cooking cheval in campfire, furnace and smoker
 + Fixed partially broken cobwebs being able to be harvested with swords when Tough Environment is present (chisels present)
