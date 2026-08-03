@@ -12,6 +12,7 @@
     "entity.CreeperEntityMixin",
     "entity.EntityMixin",
     "entity.EntityTypeMixin",
+    "entity.FishingBobberEntityMixin",
     "entity.PigEntityMixin",
     "entity.SheepEntityMixin",
     "entity.SlimeEntityMixin",

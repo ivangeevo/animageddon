@@ -1,0 +1,21 @@
+{
+  "type": "btwr_sl:crafting_shapeless_extended",
+  "additional_drops": [],
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:fishing_rod"
+    },
+    {
+      "tag": "animageddon:fish_baits"
+    }
+  ],
+  "result": {
+    "components": {
+      "animageddon:has_bait": true
+    },
+    "count": 1,
+    "id": "minecraft:fishing_rod"
+  },
+  "tool_damage": 0
+}

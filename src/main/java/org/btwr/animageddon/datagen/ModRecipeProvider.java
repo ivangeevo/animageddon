@@ -8,11 +8,13 @@ import net.minecraft.data.server.recipe.RecipeProvider;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.recipe.*;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import org.btwr.animageddon.AnimageddonMod;
 import org.btwr.animageddon.block.ModBlocks;
+import org.btwr.animageddon.item.ModComponents;
 import org.btwr.animageddon.item.ModItems;
 import org.btwr.animageddon.tag.ModTags;
 import org.btwr.shared_library.api.item.ProgressiveCraftingItem;
@@ -65,6 +67,25 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .input(ModItems.TANGLED_WEB)
                 .criterion(hasItem(ModItems.TANGLED_WEB), conditionsFromItem(ModItems.TANGLED_WEB))
                 .offerTo(exporter);
+
+        // Fishing rod baiting
+        ItemStack fishingRodResult = new ItemStack(Items.FISHING_ROD);
+        fishingRodResult.set(ModComponents.HAS_BAIT_COMPONENT, true);
+
+        ExtendedShapelessRecipe.JsonBuilder.create(RecipeCategory.MISC, fishingRodResult)
+                .input(Items.FISHING_ROD)
+                .input(ModTags.Items.FISH_BAITS)
+                .criterion(hasItem(Items.FISHING_ROD), conditionsFromItem(Items.FISHING_ROD))
+                .offerTo(exporter, Identifier.of(AnimageddonMod.MOD_ID, "baited_fishing_rod"));
+
+        // Cooking recipes
+        generateCookingRecipes(exporter, "campfire_cooking", RecipeSerializer.CAMPFIRE_COOKING, CampfireCookingRecipe::new, 600);
+        generateCookingRecipes(exporter, "smelting", RecipeSerializer.SMELTING, SmeltingRecipe::new, 200);
+        generateCookingRecipes(exporter, "smoking", RecipeSerializer.SMOKING, SmokingRecipe::new, 100);
+    }
+
+    public static <T extends AbstractCookingRecipe> void generateCookingRecipes(RecipeExporter exporter, String cooker, RecipeSerializer<T> serializer, AbstractCookingRecipe.RecipeFactory<T> recipeFactory, int cookingTime) {
+        RecipeProvider.offerFoodCookingRecipe(exporter, cooker, serializer, recipeFactory, cookingTime, ModItems.CHEVAL, ModItems.COOKED_CHEVAL, 0.35f);
     }
 
 }

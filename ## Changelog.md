@@ -2,7 +2,9 @@
 + [WIP] Added jungle spiders!
 
 ## v???(dev)
++ Overhauled fishing! It now works exactly the same way as in Better Than Wolves: CE
 + Added/fixed donkeys and mules to also drop cheval upon death
++ Added/fixed missing recipes for cooking cheval in campfire, furnace and smoker
 + Fixed partially broken cobwebs being able to be harvested with swords when Tough Environment is present (chisels present)
 + Fixed milking cows using the wrong sound event (and subtitles if enabled). The sound was correct, but the wrong event showed wrong subtitles
 + Updated the mod to Fabric API 0.116.15, Fabric Loader 0.19.3 & BTWR: Shared Library 0.8.5
