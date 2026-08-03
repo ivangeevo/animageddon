@@ -1,0 +1,21 @@
+{
+  "parent": "item/handheld_rod",
+  "textures": {
+    "layer0": "item/fishing_rod"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "animageddon:has_bait": 1,
+        "cast": 0
+      },
+      "model": "animageddon:item/fishing_rod_baited"
+    },
+    {
+      "predicate": {
+        "cast": 1
+      },
+      "model": "minecraft:item/fishing_rod_cast"
+    }
+  ]
+}
