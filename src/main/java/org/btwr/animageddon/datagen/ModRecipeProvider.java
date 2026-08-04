@@ -1,11 +1,13 @@
 package org.btwr.animageddon.datagen;
 
+import com.google.gson.JsonPrimitive;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.RecipeProvider;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.*;
@@ -16,10 +18,14 @@ import org.btwr.animageddon.AnimageddonMod;
 import org.btwr.animageddon.block.ModBlocks;
 import org.btwr.animageddon.item.ModComponents;
 import org.btwr.animageddon.item.ModItems;
+import org.btwr.animageddon.item.util.ComponentConstrainedIngredient;
+import org.btwr.animageddon.item.util.ComponentExclusion;
 import org.btwr.animageddon.tag.ModTags;
 import org.btwr.shared_library.api.item.ProgressiveCraftingItem;
 import org.btwr.shared_library.recipe.ExtendedShapelessRecipe;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class ModRecipeProvider extends FabricRecipeProvider {
@@ -68,15 +74,20 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(ModItems.TANGLED_WEB), conditionsFromItem(ModItems.TANGLED_WEB))
                 .offerTo(exporter);
 
-        // Fishing rod baiting
+        // Fishing rod baiting. The exclusion prevents baited fishing rods from working with the recipe
         ItemStack fishingRodResult = new ItemStack(Items.FISHING_ROD);
         fishingRodResult.set(ModComponents.HAS_BAIT_COMPONENT, true);
+        ComponentExclusion exclusion = new ComponentExclusion(
+                Identifier.of(AnimageddonMod.MOD_ID, "has_bait"),
+                Optional.of(new JsonPrimitive(true))
+        );
 
         ExtendedShapelessRecipe.JsonBuilder.create(RecipeCategory.MISC, fishingRodResult)
-                .input(Items.FISHING_ROD)
+                .input(constrained(Items.FISHING_ROD, exclusion))
                 .input(ModTags.Items.FISH_BAITS)
                 .criterion(hasItem(Items.FISHING_ROD), conditionsFromItem(Items.FISHING_ROD))
                 .offerTo(exporter, Identifier.of(AnimageddonMod.MOD_ID, "baited_fishing_rod"));
+
 
         // Cooking recipes
         generateCookingRecipes(exporter, "campfire_cooking", RecipeSerializer.CAMPFIRE_COOKING, CampfireCookingRecipe::new, 600);
@@ -86,6 +97,10 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
     public static <T extends AbstractCookingRecipe> void generateCookingRecipes(RecipeExporter exporter, String cooker, RecipeSerializer<T> serializer, AbstractCookingRecipe.RecipeFactory<T> recipeFactory, int cookingTime) {
         RecipeProvider.offerFoodCookingRecipe(exporter, cooker, serializer, recipeFactory, cookingTime, ModItems.CHEVAL, ModItems.COOKED_CHEVAL, 0.35f);
+    }
+
+    public static Ingredient constrained(Item base, ComponentExclusion... exclusions) {
+        return new ComponentConstrainedIngredient(Ingredient.ofItems(base), List.of(exclusions)).toVanilla();
     }
 
 }
