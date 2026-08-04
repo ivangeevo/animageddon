@@ -11,4 +11,5 @@ public class WorldUtils {
         FluidState fluidState = world.getFluidState(pos);
         return fluidState.isIn(FluidTags.WATER) && fluidState.isStill();
     }
+
 }
