@@ -15,6 +15,7 @@ Animageddon enhances Minecraft’s survival experience by making the world more 
 ### 🛠️ New Items & Crafting Changes
 - **Nitre** 💥 – Dropped by Creepers instead of Gunpowder (Gunpowder is now craftable).
 - **Cured Meat** 🍖 – A new food item.
+- **Bat Wing** 🦇 - A new drop from bats.
 
 ---
 
@@ -23,16 +24,25 @@ Breeding has been rebalanced to require more effort:
 - **🐷 Pigs** – Unchanged -> If the Vegehenna mod is present, then it's changed to 🍫Chocolate from it.
 - **🐄 Cows** – Now require **Cake** 🎂.
 - **🐑 Sheep** – Now require **Pumpkin Pie** 🥧.
+- **🐔 Chicken Breeding removed** ❌ – Instead, feeding **Chicken Feed** will make them produce eggs on the next morning.
 - Animals now **run faster** 🏃 towards their breeding items.
 
-### 🐔 Chicken Breeding Overhaul
-- **Breeding removed** ❌ – Instead, feeding **Chicken Feed** will make them produce eggs on the next morning.
+---
+
+### ️ 🕷️ General animal changes
+- **Spiders shooting cobwebs!** - Spiders will now shoot cobwebs at entities it targets.
+
+---
+
+### 🎣 Fishing Overhaul
+- **No more single water block fishing** 🎣❌ – Requires a **big enough water source**.
+- **Fishing now requires bait** 🦐 - Has to be applied after every successful catch.
 
 ---
 
 ### 🔥 Survival & Combat Changes
 - **Cobwebs now break in stages** 🕸️, rather than instantly. They can be harvested fully with Shears and un-crafted to get 2 strings instead of 1.
-- **Creepers** no longer explode 💣 instantly  after falling near the player and taking damage.
+- **Creepers** no longer explode 💣 instantly after falling near the player and taking damage.
 - **Zombified Piglins** 🧟‍♂️ now have only a **30% chance** of spawning with golden tools.
 - **Zombies now prioritize attacking players** 👥.
 - **Zombie AI improvements**:
@@ -48,18 +58,12 @@ Breeding has been rebalanced to require more effort:
 - **Animals will require food** 🍽️ to survive—if not fed, they will **starve and die**.
 
 ### 🕷️ Spider Changes
-- **Spiders shooting cobwebs!** - Spiders will now shoot cobwebs at entities it targets.
 - **New mob - Jungle Spider** It will only spawn in the jungle. Works the same as Cave Spider, but smaller and venomous.
-
 
 ### 🏚️ Smarter Hostile Mobs
 - **Zombie Villagers** 🚪 will be able to **open doors**.
 - **Squids** 🦑 will get a **tentacle grab attack** and become **more aggressive at night**, staying in deep water during the day.
 - **Cows**, **Horses**, **Donkeys** & **Mules** will have a **"defensive kick" attack** 🦵 when scared, knocking back attackers.
-
-### 🎣 Fishing Overhaul
-- **No more AFK fishing** 🎣❌ – Requires a **substantial water source**.
-- **Fishing now requires bait** 🪱.
 
 ### 🍖 Cooking & Food Adjustments
 - Animals set on fire will drop **Burned Meat** 🔥 instead of cooked meat.
