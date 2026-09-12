@@ -1,7 +1,7 @@
 ## UNUSED CURRENTLY:
 + [WIP] Added jungle spiders!
 
-### v???(dev)
+### v0.5.1
 + Added witch wart as a drop from witches. They don't have a use in the mod itself, but will be used in the BTWR modpack
 + Updated the mod to Fabric API 0.116.17, Fabric Loader 0.19.5
 
