@@ -29,6 +29,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.COOKED_CHEVAL, Models.GENERATED);
         itemModelGenerator.register(ModItems.TANGLED_WEB, Models.GENERATED);
         itemModelGenerator.register(ModItems.BAT_WING, Models.GENERATED);
+        itemModelGenerator.register(ModItems.WITCH_WART, Models.GENERATED);
 
         // couldn't figure out how to register the web_block item model (registered manually; look in resources)
         

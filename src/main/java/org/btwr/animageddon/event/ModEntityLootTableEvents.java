@@ -48,7 +48,8 @@ public class ModEntityLootTableEvents {
         addItemToLootTableWithSmelt(DONKEY.getLootTableId(), ModItems.CHEVAL, ModItems.COOKED_CHEVAL, 1.0f, 3.0f);
         addItemToLootTableWithSmelt(MULE.getLootTableId(), ModItems.CHEVAL, ModItems.COOKED_CHEVAL, 1.0f, 3.0f);
 
-        addItemToLootTableWithLooting(BAT.getLootTableId(), ModItems.BAT_WING, 0f, 0.25f);
+        addGuaranteedItemToLootTableWithLooting(BAT.getLootTableId(), ModItems.BAT_WING, 0f, 0.25f);
+        addItemToLootTableWithLooting(WITCH.getLootTableId(), ModItems.WITCH_WART, 0.382f, 0.038f);
 
         modifySpecificItem(CREEPER.getLootTableId(), Items.GUNPOWDER, ModItems.NITRE);
 
@@ -117,7 +118,27 @@ public class ModEntityLootTableEvents {
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
             if (registryKey != key) return;
 
-            // Base drop
+            tableBuilder.pool(
+                    LootPool.builder()
+                            .rolls(ConstantLootNumberProvider.create(1))
+                            .with(ItemEntry.builder(toAdd))
+                            .conditionally(
+                                    RandomChanceWithEnchantedBonusLootCondition.builder(
+                                            registries,
+                                            baseChance,
+                                            lootingBonus
+                                    )
+                            )
+            );
+        });
+    }
+
+    // Adds a drop with an always guaranteed drop in addition to the looting bonus
+    private static void addGuaranteedItemToLootTableWithLooting(RegistryKey<LootTable> registryKey, Item toAdd, float baseChance, float lootingBonus) {
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+            if (registryKey != key) return;
+
+            // Guaranteed drop
             tableBuilder.pool(
                     LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))

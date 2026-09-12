@@ -34,6 +34,7 @@ public class ModLangGenerator extends FabricLanguageProvider {
         tb.add(ModItems.CHEVAL, "Raw Cheval");
         tb.add(ModItems.COOKED_CHEVAL, "Cooked Cheval");
         tb.add(ModItems.BAT_WING, "Bat Wing");
+        tb.add(ModItems.WITCH_WART, "Witch Wart");
     }
 
 }

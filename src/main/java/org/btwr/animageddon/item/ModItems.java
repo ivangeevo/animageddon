@@ -24,6 +24,7 @@ public class ModItems {
     public static final Item CHEVAL = registerItem("cheval", new Item(new Item.Settings().food(ModFoodComponents.CHEVAL)));
     public static final Item COOKED_CHEVAL = registerItem("cooked_cheval", new Item(new Item.Settings().food(ModFoodComponents.COOKED_CHEVAL)));
     public static final Item BAT_WING = registerItem("bat_wing", new Item(new Item.Settings().food(ModFoodComponents.BAT_WING)));
+    public static final Item WITCH_WART = registerItem("witch_wart", new Item(new Item.Settings()));
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, Identifier.of(AnimageddonMod.MOD_ID, name), item);
