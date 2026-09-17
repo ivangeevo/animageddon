@@ -18,11 +18,14 @@ import org.btwr.animageddon.AnimageddonMod;
 import org.btwr.animageddon.block.ModBlocks;
 import org.btwr.animageddon.item.ModComponents;
 import org.btwr.animageddon.item.ModItems;
+import org.btwr.animageddon.item.items.BoneCarvingItem;
 import org.btwr.animageddon.item.util.ComponentConstrainedIngredient;
 import org.btwr.animageddon.item.util.ComponentExclusion;
 import org.btwr.animageddon.tag.ModTags;
 import org.btwr.shared_library.api.item.ProgressiveCraftingItem;
+import org.btwr.shared_library.api.tag.BTWRConventionalTags;
 import org.btwr.shared_library.recipe.ExtendedShapelessRecipe;
+import org.btwr.shared_library.recipe.util.ShapedRecipeWithStackJsonBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +39,21 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
     @Override
     public void generate(RecipeExporter exporter) {
+        this.generateVanillaRecipes(exporter);
+        this.generateModRecipes(exporter);
+    }
+
+    private void generateVanillaRecipes(RecipeExporter exporter) {
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.TOOLS, Items.FISHING_ROD)
+                .input(Items.STICK)
+                .input(BTWRConventionalTags.Items.STRING_TOOL_MATERIALS)
+                .input(BTWRConventionalTags.Items.STRING_TOOL_MATERIALS)
+                .input(ModTags.Items.FISH_HOOKS)
+                .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
+                .offerTo(exporter, Identifier.ofVanilla("fishing_rod"));
+    }
+
+    private void generateModRecipes(RecipeExporter exporter) {
         ShapelessRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.CHICKEN_FEED)
                 .input(ModTags.Items.SEEDS_FOR_CHICKEN)
                 .input(Items.BONE_MEAL)
@@ -88,11 +106,25 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(Items.FISHING_ROD), conditionsFromItem(Items.FISHING_ROD))
                 .offerTo(exporter, Identifier.of(AnimageddonMod.MOD_ID, "baited_fishing_rod"));
 
+        // Bone carving
+        // Diagonal & shaped recipe, because it would conflict with the existing vanilla bone meal recipe
+        // Should be replaced in BTWR-DS with the single shapeless bone item recipe
+        ItemStack boneCarvingResult = new ItemStack(ModItems.BONE_CARVING);
+        boneCarvingResult.setDamage(BoneCarvingItem.DEFAULT_MAX_DAMAGE - 1);
+
+        ShapedRecipeWithStackJsonBuilder.create(RecipeCategory.MISC, boneCarvingResult)
+                .input('#', Items.BONE)
+                .pattern("# ")
+                .pattern(" #")
+                .criterion(hasItem(Items.BONE), conditionsFromItem(Items.BONE))
+                .offerTo(exporter);
+
 
         // Cooking recipes
         generateCookingRecipes(exporter, "campfire_cooking", RecipeSerializer.CAMPFIRE_COOKING, CampfireCookingRecipe::new, 600);
         generateCookingRecipes(exporter, "smelting", RecipeSerializer.SMELTING, SmeltingRecipe::new, 200);
         generateCookingRecipes(exporter, "smoking", RecipeSerializer.SMOKING, SmokingRecipe::new, 100);
+
     }
 
     public static <T extends AbstractCookingRecipe> void generateCookingRecipes(RecipeExporter exporter, String cooker, RecipeSerializer<T> serializer, AbstractCookingRecipe.RecipeFactory<T> recipeFactory, int cookingTime) {

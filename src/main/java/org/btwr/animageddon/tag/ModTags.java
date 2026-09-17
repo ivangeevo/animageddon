@@ -27,6 +27,7 @@ public class ModTags {
 
         public static final TagKey<Item> SEEDS_FOR_CHICKEN = createTag("seeds_for_chicken");
         public static final TagKey<Item> FISH_BAITS = createTag("fish_baits");
+        public static final TagKey<Item> FISH_HOOKS = createTag("fish_hooks");
 
         private static TagKey<Item> createTag (String name) {
             return TagKey.of(RegistryKeys.ITEM, Identifier.of(AnimageddonMod.MOD_ID, name));

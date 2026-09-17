@@ -1,15 +1,22 @@
 ## UNUSED CURRENTLY:
 + [WIP] Added jungle spiders!
 
+### v???(dev)
++ Added two new items: "Bone carving" and "Fish hook". Bone carving is crafted with bones and is used to make a fish hook
++ Added a new mod item tag "fish_hooks". By default, those are the new fish hook item and an iron nugget
++ Added a missing recipe change for the fishing rod since last update's changes to fishing. The fishing rod recipe can now be crafted in 2x2, with two strings, a stick, and an item from the new "fish_hooks" item tag
++ Added witch wart as valid bait for fishing
++ Fixed witch wart missing from the creative inventory tabs
+
 ### v0.5.1
 + Added witch wart as a drop from witches. They don't have a use in the mod itself, but will be used in the BTWR modpack
 + Updated the mod to Fabric API 0.116.17, Fabric Loader 0.19.5
 
 ## v0.5
 + Overhauled fishing! It now works exactly the same way as in Better Than Wolves: CE
-+ Added a new item: "Bat Wing"! It drops from killing bats, scales with fortune and is a valid bait item for the new fishing system
++ Added a new item: "Bat Wing"! It drops from killing bats, scales with fortune, and is a valid bait item for the new fishing system
 + Added/fixed donkeys and mules to also drop cheval upon death
-+ Added/fixed missing recipes for cooking cheval in campfire, furnace and smoker
++ Added/fixed missing recipes for cooking cheval in campfire, furnace, and smoker
 + Fixed partially broken cobwebs being able to be harvested with swords when Tough Environment is present (chisels present)
 + Fixed milking cows using the wrong sound event (and subtitles if enabled). The sound was correct, but the wrong event showed wrong subtitles
 + Updated the mod to Fabric API 0.116.15, Fabric Loader 0.19.3 & BTWR: Shared Library 0.8.5

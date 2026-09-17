@@ -8,6 +8,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.btwr.animageddon.AnimageddonMod;
+import org.btwr.animageddon.item.items.BoneCarvingItem;
 import org.btwr.animageddon.item.items.WebUntanglingItem;
 import org.btwr.shared_library.api.item.ProgressiveCraftingItem;
 
@@ -25,6 +26,8 @@ public class ModItems {
     public static final Item COOKED_CHEVAL = registerItem("cooked_cheval", new Item(new Item.Settings().food(ModFoodComponents.COOKED_CHEVAL)));
     public static final Item BAT_WING = registerItem("bat_wing", new Item(new Item.Settings().food(ModFoodComponents.BAT_WING)));
     public static final Item WITCH_WART = registerItem("witch_wart", new Item(new Item.Settings()));
+    public static final Item BONE_CARVING = registerItem("bone_carving", new BoneCarvingItem(new Item.Settings().maxDamage(BoneCarvingItem.DEFAULT_MAX_DAMAGE)));
+    public static final Item BONE_FISH_HOOK = registerItem("bone_fish_hook", new Item(new Item.Settings()));
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, Identifier.of(AnimageddonMod.MOD_ID, name), item);
@@ -45,6 +48,9 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries ->
         {
             entries.addAfter(Items.GUNPOWDER, NITRE);
+            entries.add(WITCH_WART);
+            entries.addAfter(Items.BONE, BONE_CARVING);
+            entries.addAfter(BONE_CARVING, BONE_FISH_HOOK);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {

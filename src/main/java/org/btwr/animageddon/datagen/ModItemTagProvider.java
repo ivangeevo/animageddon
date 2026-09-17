@@ -56,7 +56,12 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         getOrCreateTagBuilder(ModTags.Items.FISH_BAITS)
                 .add(Items.ROTTEN_FLESH)
                 .add(Items.SPIDER_EYE)
-                .add(ModItems.BAT_WING);
+                .add(ModItems.BAT_WING)
+                .add(ModItems.WITCH_WART);
+
+        getOrCreateTagBuilder(ModTags.Items.FISH_HOOKS)
+                .add(Items.IRON_NUGGET)
+                .add(ModItems.BONE_FISH_HOOK);
     }
 
     private void addToConventionalTags() {
