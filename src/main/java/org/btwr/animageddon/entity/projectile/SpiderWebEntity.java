@@ -1,5 +1,7 @@
 package org.btwr.animageddon.entity.projectile;
 
+import com.bwt.entities.HorizontalMechPowerSourceEntity;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
@@ -13,8 +15,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.btwr.animageddon.entity.ModEntities;
@@ -52,63 +53,104 @@ public class SpiderWebEntity extends ProjectileEntity implements FlyingItemEntit
 
     @Override
     protected void onCollision(HitResult hit) {
-        if (getWorld().isClient) return;
+        if (hit instanceof EntityHitResult ehr) {
+            Entity entityHit = ehr.getEntity();
 
-        switch (hit.getType()) {
-            case ENTITY -> {
-                EntityHitResult ehr = (EntityHitResult) hit;
-                Entity e = ehr.getEntity();
+            entityHit.damage(getWorld().getDamageSources().thrown(this, getOwner()), 0);
 
-                if (e instanceof LivingEntity living) {
-                    handleEntityImpact(living);
+            if (!getWorld().isClient) {
+                if (isMechanicalEntity(entityHit)) {
+                    onMechanicalImpact(entityHit);
                 } else {
-                    spawnTangledWebItem(e.getBlockPos());
+                    BlockPos pos = entityHit.getBlockPos();
+
+                    // attempt to place at feet of entity first
+                    if (!attemptToPlaceWebInBlock(pos.down()) && !attemptToPlaceWebInBlock(pos)) {
+                        spawnTangledWebItem(pos);
+                    }
                 }
             }
+        } else {
+            if (!getWorld().isClient) {
+                BlockHitResult bhr = (BlockHitResult) hit;
+                BlockPos targetPos = bhr.getBlockPos().offset(bhr.getSide());
 
-            case BLOCK -> handleBlockImpact((BlockHitResult) hit);
+                if (!attemptToPlaceWebInBlock(targetPos)) {
+                    spawnTangledWebItem(targetPos);
+                }
+            }
         }
+
         discard();
     }
 
-    private void spawnTangledWebItem(BlockPos pos) {
-        ItemStack stack = new ItemStack(ModItems.TANGLED_WEB);
-        getWorld().spawnEntity(new ItemEntity(getWorld(),
-                pos.getX() + getWorld().random.nextFloat() * 0.7 + 0.15,
-                pos.getY() + getWorld().random.nextFloat() * 0.7 + 0.15,
-                pos.getZ() + getWorld().random.nextFloat() * 0.7 + 0.15,
-                stack
-        ));
-    }
-
-    private void handleEntityImpact(LivingEntity target) {
-        BlockPos posBody = target.getBlockPos();
-
-        if (!attemptToPlaceWebInBlock(posBody.down()) && !attemptToPlaceWebInBlock(posBody)) {
-            spawnTangledWebItem(posBody);
-        }
-    }
-
     private boolean attemptToPlaceWebInBlock(BlockPos pos) {
-        World world = this.getWorld();
+        if (!canWebReplaceBlock(pos)) return false;
 
-        if (!world.getBlockState(pos).isAir()) return false;
-
-        BlockPos below = pos.down();
-        BlockState belowState = world.getBlockState(below);
-
-        if (!belowState.isSideSolidFullSquare(world, below, Direction.UP)) return false;
-
-        world.setBlockState(pos, Blocks.COBWEB.getDefaultState());
+        getWorld().setBlockState(pos, Blocks.COBWEB.getDefaultState());
         return true;
     }
 
-    private void handleBlockImpact(BlockHitResult hit) {
-        BlockPos pos = hit.getBlockPos().offset(hit.getSide());
+    private boolean canWebReplaceBlock(BlockPos pos) {
+        BlockState state = getWorld().getBlockState(pos);
+        return state.isAir() || state.isReplaceable();
+    }
 
-        if (!attemptToPlaceWebInBlock(pos)) {
-            this.spawnTangledWebItem(pos);
+    public boolean isMechanicalEntity(Entity entity) {
+        if (!FabricLoader.getInstance().isModLoaded("bwt")) return false;
+        return entity instanceof HorizontalMechPowerSourceEntity;
+    }
+
+    private void onMechanicalImpact(Entity entityHit) {
+        Vec3d velocity = getVelocity();
+        Vec3d placeVec = getPos().add(velocity);
+        BlockPos originalPos = BlockPos.ofFloored(placeVec);
+
+        if (isPointInsideBoundingBox(placeVec, entityHit.getBoundingBox()) || !canWebReplaceBlock(BlockPos.ofFloored(placeVec))) {
+            // if the impact is within the bounding box of the mechanical entity, get 1 block in opposite direction
+            placeVec = placeVec.add(
+                    -Math.signum(Math.round(velocity.x)),
+                    -Math.signum(Math.round(velocity.y)),
+                    -Math.signum(Math.round(velocity.z))
+            );
+
+            if (isPointInsideBoundingBox(placeVec, entityHit.getBoundingBox()) || !canWebReplaceBlock(BlockPos.ofFloored(placeVec))) {
+                placeVec = placeVec.add(0, -1, 0); // if still inside, move down one block once
+                if (isPointInsideBoundingBox(placeVec, entityHit.getBoundingBox()) || !canWebReplaceBlock(BlockPos.ofFloored(placeVec))) {
+                    spawnTangledWebItem(originalPos); // if still inside, just spawn the item and return
+                    return;
+                }
+            }
         }
+
+        BlockPos finalPos = BlockPos.ofFloored(placeVec);
+        if (!attemptToPlaceWebInBlock(finalPos)) { // already tried going down one block with earlier check
+            spawnTangledWebItem(finalPos);
+        }
+    }
+
+    private boolean isPointInsideBoundingBox(Vec3d hitVec, Box entityBoundingBox) {
+        BlockPos pos = BlockPos.ofFloored(hitVec);
+        Box fullBlockBox = new Box(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1);
+        return fullBlockBox.intersects(entityBoundingBox);
+    }
+
+    private void spawnTangledWebItem(BlockPos pos) {
+        float f1 = 0.7F;
+
+        double d = (getWorld().random.nextFloat() * f1) + (1.0F - f1) * 0.5D;
+        double d1 = (getWorld().random.nextFloat() * f1) + (1.0F - f1) * 0.5D;
+        double d2 = (getWorld().random.nextFloat() * f1) + (1.0F - f1) * 0.5D;
+
+        ItemEntity itemEntity = new ItemEntity(getWorld(),
+                pos.getX() + d,
+                pos.getY() + d1,
+                pos.getZ() + d2,
+                new ItemStack(ModItems.TANGLED_WEB)
+        );
+        itemEntity.setPickupDelay(10);
+
+        getWorld().spawnEntity(itemEntity);
     }
 
     @Override

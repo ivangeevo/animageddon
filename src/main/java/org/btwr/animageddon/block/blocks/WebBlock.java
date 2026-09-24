@@ -53,6 +53,12 @@ public class WebBlock extends CobwebBlock {
     public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack tool) {
         if (player.getMainHandStack() != null) {
 
+            // Shears harvest the web block instantly
+            if (tool.isIn(ConventionalItemTags.SHEAR_TOOLS)) {
+                ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), ModBlocks.WEB_BLOCK.asItem().getDefaultStack());
+                return;
+            }
+
             boolean isTELoaded = FabricLoader.getInstance().isModLoaded("tough_environment");
             boolean canSwordHarvest = !isTELoaded && tool.isIn(ItemTags.SWORDS);
 
@@ -67,10 +73,6 @@ public class WebBlock extends CobwebBlock {
                     world.removeBlock(pos, false);
                     ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), Items.STRING.getDefaultStack());
                 }
-
-                // Shears harvest the web block instantly
-            } else if (tool.isIn(ConventionalItemTags.SHEAR_TOOLS)) {
-                ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), ModBlocks.WEB_BLOCK.asItem().getDefaultStack());
             }
         }
     }
