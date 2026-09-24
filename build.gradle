@@ -58,6 +58,9 @@ dependencies {
     //modImplementation "maven.modrinth:vegehenna:${project.vegehenna_version}"
     modApi "com.terraformersmc:modmenu:${project.mod_menu_version}"
 
+    // Better With Time (for spider web entity hitting a mechanical source compatibility)
+    modCompileOnly "maven.modrinth:better-with-time:${project.bwt_version}"
+    modLocalRuntime "maven.modrinth:better-with-time:${project.bwt_version}"
 
     // EMI
     modCompileOnly "dev.emi:emi-fabric:${emi_version}:api"
