@@ -1,7 +1,7 @@
 ## UNUSED CURRENTLY:
 + [WIP] Added jungle spiders!
 
-### v???(dev)
+### v0.6
 + Added two new items: "Bone carving" and "Fish hook". Bone carving is crafted with bones and is used to make a fish hook
 + Added a new mod item tag "fish_hooks". By default, those are the new fish hook item and an iron nugget
 + Added a missing recipe change for the fishing rod since last update's changes to fishing. The fishing rod recipe can now be crafted in 2x2, with two strings, a stick, and an item from the new "fish_hooks" item tag
