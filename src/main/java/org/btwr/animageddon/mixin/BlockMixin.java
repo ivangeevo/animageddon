@@ -34,7 +34,7 @@ public abstract class BlockMixin extends AbstractBlock {
 
     @Unique
     private void afterBreakCobweb(World world, PlayerEntity player, BlockPos pos) {
-        // if shears item drop the whole block
+        // if shears item - drop the whole block
         // if another tool that's set viable for the block - break in stages (like swords and chisels)
         if (!world.isClient()) {
             player.incrementStat(Stats.MINED.getOrCreateStat((Block)(Object)this));

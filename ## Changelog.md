@@ -7,6 +7,8 @@
 + Added a missing recipe change for the fishing rod since last update's changes to fishing. The fishing rod recipe can now be crafted in 2x2, with two strings, a stick, and an item from the new "fish_hooks" item tag
 + Added witch wart as valid bait for fishing
 + Fixed witch wart missing from the creative inventory tabs
++ Fixed cobwebs shot from spiders not properly placing on replaceable blocks like grass/tall grass and dropping tangled web instead
++ Made cobwebs have compatibility with "Better With Time"'s Windmill/Water Wheel entities to drop tangled web when the cobweb shot by spiders hits it
 
 ### v0.5.1
 + Added witch wart as a drop from witches. They don't have a use in the mod itself, but will be used in the BTWR modpack
