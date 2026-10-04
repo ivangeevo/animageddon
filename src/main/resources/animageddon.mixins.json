@@ -13,6 +13,7 @@
     "entity.EntityMixin",
     "entity.EntityTypeMixin",
     "entity.FishingBobberEntityMixin",
+    "entity.LivingEntityMixin",
     "entity.PigEntityMixin",
     "entity.SheepEntityMixin",
     "entity.SlimeEntityMixin",
@@ -26,6 +27,7 @@
     "entity.ai.WanderAroundGoalAccessor",
     "entity.ai.WanderAroundGoalMixin",
     "entity.ai.ZombieAttackGoalMixin",
+    "entity.kicking.AnimalEntityKickingMixin",
     "item.ItemEntryAccessor",
     "item.ItemMixin",
     "item.SwordItemMixin"

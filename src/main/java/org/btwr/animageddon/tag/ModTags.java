@@ -40,6 +40,8 @@ public class ModTags {
 
         public static final TagKey<EntityType<?>> GRAZING_ANIMALS = createTag("grazing_animals");
 
+        public static final TagKey<EntityType<?>> KICKING_ANIMALS = createTag("kicking_animals");
+
         private static TagKey<EntityType<?>> createTag (String name) {
             return TagKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(AnimageddonMod.MOD_ID, name));
         }

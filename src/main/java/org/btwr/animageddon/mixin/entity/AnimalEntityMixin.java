@@ -29,6 +29,7 @@ import java.util.function.Consumer;
 @Mixin(AnimalEntity.class)
 public abstract class AnimalEntityMixin extends PassiveEntity {
 
+
     protected AnimalEntityMixin(EntityType<? extends PassiveEntity> entityType, World world) {
         super(entityType, world);
     }

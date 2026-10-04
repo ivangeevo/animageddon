@@ -3,6 +3,8 @@
   "package": "org.btwr.animageddon.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "HorseEntityModelMixin",
+    "QuadrupedEntityModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

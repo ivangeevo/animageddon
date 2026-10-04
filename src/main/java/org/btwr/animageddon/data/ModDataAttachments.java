@@ -53,6 +53,10 @@ public class ModDataAttachments {
                     .syncWith(SpiderWebData.PACKET_CODEC, AttachmentSyncPredicate.all())
     );
 
+    public static final AttachmentType<Long> ANIMAL_KICK_DATA = AttachmentRegistry.createPersistent(
+            Identifier.of(AnimageddonMod.MOD_ID, "animal_kick_data"), Codec.LONG
+    );
+
     public static void register() {
         AnimageddonMod.LOGGER.info("Registering {} attachments", AnimageddonMod.MOD_ID);
         // Technically this method can stay empty, but some developers like to notify
