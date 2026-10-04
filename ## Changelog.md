@@ -2,6 +2,9 @@
 + [WIP] Added jungle spiders!
 
 ### v???(dev)
++ Added animals kicking! Cows, Horses(all types), Donkeys & Mules now kick other entities when panicking. Works exactly like in BTW
++ Added/fixed witch wart as valid bait for fishing (again, this time actually adding it lol)
++ Fixed fishing rod recipe to require two strings instead of one since last version's changes
 + Fixed the LICENSE file in the source code to show the proper license
 
 ### v0.6
