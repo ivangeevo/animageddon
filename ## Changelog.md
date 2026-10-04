@@ -1,6 +1,9 @@
 ## UNUSED CURRENTLY:
 + [WIP] Added jungle spiders!
 
+### v???(dev)
++ Fixed the LICENSE file in the source code to show the proper license
+
 ### v0.6
 + Added two new items: "Bone carving" and "Fish hook". Bone carving is crafted with bones and is used to make a fish hook
 + Added a new mod item tag "fish_hooks". By default, those are the new fish hook item and an iron nugget
